@@ -1,8 +1,8 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {Link, NavLink} from "react-router";
 import {Sidebar, Menu, MenuItem} from "react-pro-sidebar";
 import {Box, IconButton, Typography, useTheme} from "@mui/material";
-// import {Link} from "react-router-dom";
-// import "react-pro-sidebar/dist/css/styles.css";
+
 import {tokens} from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -16,7 +16,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import {Link} from "react-router";
+
 
 
 const Item = ( {title, to, icon, selected, setSelected} ) => {
@@ -30,9 +30,10 @@ const Item = ( {title, to, icon, selected, setSelected} ) => {
       }}
       onClick={() => setSelected( title )}
       icon={icon}
+      component={<Link to={to} />}
     >
+      {/* <NavLink to={to} /> */}
       <Typography>{title}</Typography>
-      <Link to={to} />
     </MenuItem>
   );
 };
@@ -40,53 +41,45 @@ const Item = ( {title, to, icon, selected, setSelected} ) => {
 const SideNav = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
-  const [ isCollapsed, setIsCollapsed ] = useState( false );
   const [ selected, setSelected ] = useState( "Dashboard" );
+  const [ isCollapsed, setIsCollapsed ] = useState( false );
+
+  useEffect( () => {
+    const handleResize = () => {
+      if ( window.innerWidth < 768 ) {
+        setIsCollapsed( true );
+      } else {
+        setIsCollapsed( false );
+      }
+    };
+    window.addEventListener( 'resize', handleResize );
+    return () => {
+      window.removeEventListener( 'resize', handleResize );
+    };
+  }, [] );
+
 
   return (
-
-
-    // <Box
-    //   sx={{
-    //     "& .pro-sidebar-inner": {
-    //       background: `${ colors.primary[ 400 ] } !important`,
-    //     },
-    //     "& .pro-icon-wrapper": {
-    //       backgroundColor: "transparent !important",
-    //     },
-    //     "& .pro-inner-item": {
-    //       padding: "5px 35px 5px 20px !important",
-    //     },
-    //     "& .pro-inner-item:hover": {
-    //       color: "#ed3e3e !important",
-    //     },
-    //     "& .pro-menu-item.active": {
-    //       color: "#ff0000 !important",
-    //     },
-    //   }}
-    // >
-    <Sidebar collapsed={isCollapsed}
-      // rootStyles={{
-      //   "& .ps-sidebar-container": {
-      //     background: `${ colors.primary[ 600 ] } !important`,
-      //   },
-      //   "& .pro-icon-wrapper": {
-      //     backgroundColor: "transparent !important",
-      //   },
-      //   "& css-1uxv2v4": {
-      //     border: "0",
-      //   },
-      //   "& .pro-inner-item": {
-      //     padding: "5px 35px 5px 20px !important",
-      //   },
-      //   "& .pro-inner-item:hover": {
-      //     color: "#ed3e3e !important",
-      //   },
-      //   "& .pro-menu-item.active": {
-      //     color: "#ff0000 !important",
-      //   },
-      // }}
-      className='bg-blue-600 dark:bg-blue-900'
+    <Sidebar
+      collapsed={isCollapsed}
+      rootStyles={{
+        border: "0",
+        "& .ps-sidebar-container": {
+          background: `${ colors.primary[ 400 ] } !important`,
+          height: "auto"
+        },
+        "& .ps-menu-button:hover": {
+          color: "#6575b7 !important",
+          backgroundColor: "transparent !important",
+        },
+        "& .ps-menu-button.ps-active": {
+          color: "red !important",
+        },
+        "& .MuiTypography-h6": {
+          margin: "10px 5px",
+        },
+      }}
+    // className="h-screen"
     >
       <h1 className="text"></h1>
       <Menu iconShape="square">
@@ -100,14 +93,8 @@ const SideNav = () => {
           }}
         >
           {!isCollapsed && (
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              ml="15px"
-              className=''
-            >
-              <Typography variant="h3" color={colors.grey[ 100 ]}>
+            <Box className='flex justify-between items-center ml-3.5'>
+              <Typography variant="h3" color={colors.grey[ 200 ]}>
                 CASTDEVEL
               </Typography>
               <IconButton onClick={() => setIsCollapsed( !isCollapsed )}>
@@ -121,12 +108,12 @@ const SideNav = () => {
           <Box mb="25px">
             <Box display="flex" justifyContent="center" alignItems="center">
               <img
-                // alt="profile-user"
+                alt="profile-user"
                 // width="100px"
                 // height="100px"
-                // src={'logo.jpg'}
-                // style={{cursor: "pointer", borderRadius: "50%"}}
-                className="w-7"
+                src={'logo.jpg'}
+                style={{cursor: "pointer", borderRadius: "50%"}}
+                className="w-20"
               />
             </Box>
             <Box textAlign="center">
@@ -161,6 +148,14 @@ const SideNav = () => {
         )}
 
         <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          {/* <MenuItem
+            component={<Link to="/" />}
+            icon={<HomeOutlinedIcon />}
+            active={selected}
+            setSelected={setSelected}
+          > Dashboard
+          </MenuItem> */}
+
           <Item
             title="Dashboard"
             to="/"

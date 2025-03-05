@@ -1,5 +1,8 @@
 import {useState} from "react";
-// import { Routes, Route } from "react-router-dom";
+import {Route, Routes} from "react-router";
+import {CssBaseline, ThemeProvider} from "@mui/material";
+import {ColorModeContext, useMode} from "./theme";
+
 import Topbar from "./pages/global/Topbar";
 import SideNav from "./pages/global/SideNav";
 import Dashboard from "./pages/dashboard";
@@ -13,9 +16,6 @@ import Pie from "./pages/pie";
 import FAQ from "./pages/faq";
 import Geography from "./pages/geography";
 import Calendar from "./pages/calendar/calendar";
-import {CssBaseline, ThemeProvider} from "@mui/material";
-import {ColorModeContext, useMode} from "./theme";
-import {Route, Routes} from "react-router";
 
 function App() {
   const [ theme, colorMode ] = useMode();
@@ -30,6 +30,11 @@ function App() {
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
+              {/* <Route element={<AuthLayout />}>
+                <Route path="login" element={<Login />} />
+                <Route path="register" element={<Register />} />
+              </Route> */}
+              {/* <Route path="/" element={<Home />} /> */}
               <Route path="/" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
