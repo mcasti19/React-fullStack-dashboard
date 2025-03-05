@@ -1,7 +1,6 @@
 @import "tailwindcss";
 /* @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap"); */
 
-@custom-variant dark (&:where(.dark, .dark *));
 
 html,
 body,
@@ -11,6 +10,7 @@ body,
   height: 100%;
   width: 100%;
   font-family: "Source Sans Pro", sans-serif;
+  overflow: hidden;
 }
 
 .app {
@@ -19,7 +19,6 @@ body,
 }
 
 ::-webkit-scrollbar {
-  /* width: 1px; */
   display: none;
 }
 
@@ -37,4 +36,14 @@ body,
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+@layer utilities {
+  .grid-cols-auto {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  /* .grid-cols-auto {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  } */
 }

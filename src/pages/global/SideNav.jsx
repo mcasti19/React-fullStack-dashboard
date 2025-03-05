@@ -66,7 +66,7 @@ const SideNav = () => {
         border: "0",
         "& .ps-sidebar-container": {
           background: `${ colors.primary[ 400 ] } !important`,
-          height: "auto"
+          height: "100%"
         },
         "& .ps-menu-button:hover": {
           color: "#6575b7 !important",
