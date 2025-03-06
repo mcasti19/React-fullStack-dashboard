@@ -16,6 +16,7 @@ import Pie from "./pages/pie";
 import FAQ from "./pages/faq";
 import Geography from "./pages/geography";
 import Calendar from "./pages/calendar/calendar";
+import {Home} from "./pages/home";
 
 function App() {
   const [ theme, colorMode ] = useMode();
@@ -26,16 +27,21 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
+          {/*  <Routes>
+            <Route>
+              <Route path="/" element={<Home />} />
+               <Route element={<AuthLayout />}>
+                <Route path="login" element={<Login />} />
+                <Route path="register" element={<Register />} />
+              </Route> 
+            </Route>
+          </Routes>*/}
           <SideNav isSidebar={isSidebar} />
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
-              {/* <Route element={<AuthLayout />}>
-                <Route path="login" element={<Login />} />
-                <Route path="register" element={<Register />} />
-              </Route> */}
-              {/* <Route path="/" element={<Home />} /> */}
-              <Route path="/" element={<Dashboard />} />
+
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />

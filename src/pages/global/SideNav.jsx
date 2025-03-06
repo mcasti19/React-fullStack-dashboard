@@ -158,7 +158,7 @@ const SideNav = () => {
 
           <Item
             title="Dashboard"
-            to="/"
+            to="/dashboard"
             icon={<HomeOutlinedIcon />}
             selected={selected}
             setSelected={setSelected}
