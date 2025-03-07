@@ -1,4 +1,4 @@
-import {Fragment, useContext, useEffect} from 'react';
+import {Fragment} from 'react';
 import {Box, Typography, useTheme} from "@mui/material";
 import {DataGrid, GridToolbar} from "@mui/x-data-grid";
 import {tokens} from "../../../theme";
@@ -12,43 +12,20 @@ import useFetchData from '../../../hooks/useFetchData';
 export const TeamPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
-  const {data, error} = useFetchData( 'users' );
+  const {data, error, loading} = useFetchData( 'users' );
+
+  console.log( "DATA DESDE TEAM PAGE", data );
 
   const getRowId = ( row ) => row._id;
 
   const columns = [
     {field: '_id', headerName: "ID"},
+    {field: 'name', headerName: "Name", flex: 1, cellClassName: "name-column--cell", },
+    {field: 'username', headerName: "User", type: "number", headerAlign: "left", align: "left", },
+    {field: 'email', headerName: "Email", flex: 1, },
+    {field: "phone", headerName: "Phone Number", flex: 1, },
     {
-      field: 'name',
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: 'username',
-      headerName: "User",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-
-    {
-      field: 'email',
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "roles",
-      headerName: "Roles",
-      flex: 1,
-      align: "center",
-      justify: "center",
-      renderCell: ( {row: {roles}} ) => {
+      field: "roles", headerName: "Roles", flex: 1, align: "center", justify: "center", renderCell: ( {row: {roles}} ) => {
         return (
           <Box className='flex justify-center my-2 mx-auto p-1.5'
             width="50%"
@@ -77,11 +54,15 @@ export const TeamPage = () => {
     },
   ];
 
-
-  if ( !user ) {
-    return <p>No estas Logueado {error}</p>
+  if ( loading ) {
+    return <div className='h-screen flex justify-center items-center'>
+      Loading...
+    </div>; // Muestra un mensaje de carga
   }
 
+  if ( error ) {
+    return <div>Error: {error}</div>; // Muestra un mensaje de error
+  }
   return (
     <Box m="20px">
       <Header title="TEAM" subtitle="Managing the Team Members" />
@@ -114,12 +95,15 @@ export const TeamPage = () => {
           },
         }}
       >
+
         <DataGrid
           checkboxSelection
           rows={data}
           columns={columns}
           getRowId={getRowId}
-          components={{Toolbar: GridToolbar}}
+          components={{
+            Toolbar: GridToolbar
+          }}
         />
       </Box>
     </Box>
