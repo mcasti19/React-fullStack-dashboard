@@ -8,8 +8,8 @@ export const DashboardLayout = ( {children} ) => {
         <Box sx={{display: 'flex'}} className="animate__animated animate__fadeIn">
             {/* <Topbar drawerWidth={drawerWidth} />
             <SideNav drawerWidth={drawerWidth} /> */}
-            <Topbar />
-            <SideNav />
+            {/* <Topbar />
+            <SideNav /> */}
 
             <Box
                 component='main'

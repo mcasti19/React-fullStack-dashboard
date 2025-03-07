@@ -6,32 +6,25 @@ import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import {AuthLayout} from "../layout/AuthLayout";
-import {NavLink, useNavigate} from "react-router";
+import {NavLink} from "react-router";
 import {useState} from 'react';
-import {useAuth} from '../../store/auth/authContext';
-import axios from 'axios';
-import useAuthActions from '../../hooks/useAuthActions';
+import {useAuthActions} from '../../hooks/useAuthActions';
+
 
 export const LoginPage = () => {
   const {handleLogin} = useAuthActions();
-
   const [ credentials, setCredentials ] = useState( {email: '', password: ''} );
   const [ errorMessage, setErrorMessage ] = useState( '' );
-  const navigate = useNavigate(); // Inicializa useNavigate
+
 
   const handleSubmit = async ( e ) => {
     e.preventDefault();
     setErrorMessage( '' );
 
     try {
-      const response = await axios.post( `${ import.meta.env.VITE_API_URL }/auth/login`, credentials );
-      const token = response.data.token;
-      console.log( "TOKEN RECIBIDO: >>>", token );
-      handleLogin( token );
-      navigate( '/dashboard' );
-
+      await handleLogin( credentials.email, credentials.password ); // Llama al hook para manejar el login
     } catch ( error ) {
-      setErrorMessage( 'Error al iniciar sesión. Verifica tus credenciales.', error );
+      setErrorMessage( error.message ); // Maneja el error aquí
     }
   };
 
@@ -39,7 +32,6 @@ export const LoginPage = () => {
     const {name, value} = e.target;
     setCredentials( prev => ( {...prev, [ name ]: value} ) );
   };
-
 
   return (
     <AuthLayout title="Login">

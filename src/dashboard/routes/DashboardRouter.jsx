@@ -11,8 +11,6 @@ import {Topbar} from "../components/global/Topbar";
 import {CreateEmployeePage} from "../pages/employees/create/CreateEmployeePage";
 
 export const DashboardRouter = () => {
-    console.log( "NO ESTOY LLEGANDO NI AL DASHBOARD" );
-
     return (
         <div className="app">
             <SideNav />
