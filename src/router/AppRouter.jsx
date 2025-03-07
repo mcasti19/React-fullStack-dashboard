@@ -1,28 +1,23 @@
-import {Navigate, Route, Routes} from "react-router";
-import {DashboardRouter} from "../dashboard/routes/DashboardRouter";
-import {AuthRoutes} from "../auth/routes/AuthRoutes";
-import {useContext} from "react";
-import {AuthContext} from "../auth/authContext";
-
-// import {useCheckAuth} from '../hooks';
+import {Routes, Route, Navigate} from 'react-router';
+import {DashboardRouter} from '../dashboard/routes/DashboardRouter';
+import {AuthRoutes} from '../auth/routes/AuthRoutes';
+import {useAuth} from '../store/auth/authContext';
 
 export const AppRouter = () => {
-    // const { status } = useCheckAuth();
-    const { status } = useContext(AuthContext);
-    // const status = 'uthenticated'
+    const {isAuthenticated} = useAuth();
+    console.log( 'isAuthenticated:>>>', isAuthenticated );
 
-    // if ( status === 'checking' ) {
-    //     return <CheckingAuth />
-    // }
     return (
         <Routes>
-            {
-                ( status === 'authenticated' )
-                    ? <Route path="/*" element={<DashboardRouter />} />
-                    : <Route path="/auth/*" element={<AuthRoutes />} />
-            }
-
-            <Route path='/*' element={<Navigate to='/auth/login' />} />
+            {isAuthenticated ? (
+                <>
+                    <Route path="/*" element={<DashboardRouter />} />
+                    <Route path="/" element={<Navigate to="/dashboard" />} />
+                </>
+            ) : (
+                <Route path="/auth/*" element={<AuthRoutes />} />
+            )}
+            <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/auth/login'} />} />
         </Routes>
-    )
-}
+    );
+};

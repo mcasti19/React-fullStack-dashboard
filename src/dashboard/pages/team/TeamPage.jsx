@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef, Fragment} from 'react';
+import {Fragment, useContext, useEffect} from 'react';
 import {Box, Typography, useTheme} from "@mui/material";
 import {DataGrid, GridToolbar} from "@mui/x-data-grid";
 import {tokens} from "../../../theme";
@@ -6,27 +6,15 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
-import {fetchUser} from "../../../helpers/api";
+
+import useFetchData from '../../../hooks/useFetchData';
 
 export const TeamPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
-  const [ users, setUsers ] = useState( [] );
-  const mountedRef = useRef( false );
+  const {data, error} = useFetchData( 'users' );
 
-  console.log( users );
-
-  useEffect( () => {
-    fetchUser()
-      .then( ( response ) => {
-        setUsers( response );
-      } )
-      .catch( ( error ) => {
-        console.error( error );
-      } );
-    mountedRef.current = true;
-  }, [] );
-
+  const getRowId = ( row ) => row._id;
 
   const columns = [
     {field: '_id', headerName: "ID"},
@@ -88,7 +76,12 @@ export const TeamPage = () => {
       },
     },
   ];
-  const getRowId = ( row ) => row._id;
+
+
+  if ( !user ) {
+    return <p>No estas Logueado {error}</p>
+  }
+
   return (
     <Box m="20px">
       <Header title="TEAM" subtitle="Managing the Team Members" />
@@ -123,7 +116,7 @@ export const TeamPage = () => {
       >
         <DataGrid
           checkboxSelection
-          rows={users}
+          rows={data}
           columns={columns}
           getRowId={getRowId}
           components={{Toolbar: GridToolbar}}

@@ -1,0 +1,20 @@
+import { useContext } from 'react';
+import axios from 'axios';
+import {useAuth} from '../store/auth/authContext';
+
+const useAxios = () => {
+    const { token } = useContext(useAuth);
+
+    const axiosInstance = axios.create();
+
+    axiosInstance.interceptors.request.use((config) => {
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    });
+
+    return axiosInstance;
+};
+
+export default useAxios;

@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+request
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +23,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# Ignorar el archivo "nombre_del_archivo.txt"
+.env
+
+# Ignorar la carpeta "requests"
+requests

@@ -1,20 +1,22 @@
 // const API_URL = 'http://localhost:4000';
+
+import {useState} from 'react';
+import useAxios from '../hooks/useAxios';
+// import useAxios from './useAxios';
+
 const headers = {
     'Content-Type': 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzIxM2E4YTI4YWNmMTVjNzU3OGU4NiIsImVtYWlsIjoiYWRtaW5pc3RyYXRvckBhZG1pbi5jb20iLCJuYW1lIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTc0MTI4NzU5NiwiZXhwIjoxNzQxMjk4Mzk2fQ.fNCXxZ-XUJZwBk669j-vfP5WY_3ihPm-i8yf9Ks6yqs'
 }
 
 export const fetchUser = async () => {
-    console.log( "API URL: ", import.meta.env );
-    try {
-        // console.log( 'ENTRANDO' );
+    const axiosInstance = useAxios();
+    const [ data, setData ] = useState( [] );
 
-        const fetchUsers = await fetch( `${ import.meta.env.VITE_API_URL }/users`, {
+    try {
+        const response = await axiosInstance.get( `${ import.meta.env.VITE_API_URL }/users`, {
             headers
         } );
-        const resultGetUsers = await fetchUsers.json();
-        // console.log( resultGetUsers );
-
+        const resultGetUsers = await response.data;
         return resultGetUsers;
     } catch ( error ) {
         console.log( "error :>> ", error );
@@ -23,8 +25,6 @@ export const fetchUser = async () => {
 };
 
 export const fetchEmployees = async () => {
-    // console.log( "API URL: ", import.meta.env );
-
     try {
         const getEmployees = await fetch( `${ import.meta.env.VITE_API_URL }/employees`, {
             headers
