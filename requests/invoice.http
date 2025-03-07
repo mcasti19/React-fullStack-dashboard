@@ -1,0 +1,31 @@
+
+### GET INVOICES
+GET http://localhost:4000/invoices HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzIxM2E4YTI4YWNmMTVjNzU3OGU4NiIsImVtYWlsIjoiYWRtaW5pc3RyYXRvckBhZG1pbi5jb20iLCJuYW1lIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTc0MDkyMTQwNiwiZXhwIjoxNzQwOTI1MDA2fQ.Pqk0w18GPqDlf3TyZgTZcGknKeAY6CAhA6zGITdEhlY
+
+### GET INVOICES COUNT
+GET http://localhost:4000/invoices/count HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzIxM2E4YTI4YWNmMTVjNzU3OGU4NiIsImVtYWlsIjoiYWRtaW5pc3RyYXRvckBhZG1pbi5jb20iLCJuYW1lIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTc0MDkyMTQwNiwiZXhwIjoxNzQwOTI1MDA2fQ.Pqk0w18GPqDlf3TyZgTZcGknKeAY6CAhA6zGITdEhlY
+
+### GET INVOICES STATUS
+GET http://localhost:4000/invoices/status-count HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzIxM2E4YTI4YWNmMTVjNzU3OGU4NiIsImVtYWlsIjoiYWRtaW5pc3RyYXRvckBhZG1pbi5jb20iLCJuYW1lIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTc0MDkyMTQwNiwiZXhwIjoxNzQwOTI1MDA2fQ.Pqk0w18GPqDlf3TyZgTZcGknKeAY6CAhA6zGITdEhlY
+
+### GET CUSTOMERS
+GET http://localhost:4000/customer HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzIxM2E4YTI4YWNmMTVjNzU3OGU4NiIsImVtYWlsIjoiYWRtaW5pc3RyYXRvckBhZG1pbi5jb20iLCJuYW1lIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTc0MDkyMTQwNiwiZXhwIjoxNzQwOTI1MDA2fQ.Pqk0w18GPqDlf3TyZgTZcGknKeAY6CAhA6zGITdEhlY
+
+
+
+
+### CREATE INVOICE
+POST   http://localhost:4000/invoices HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzIxM2E4YTI4YWNmMTVjNzU3OGU4NiIsImVtYWlsIjoiYWRtaW5pc3RyYXRvckBhZG1pbi5jb20iLCJuYW1lIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTc0MDkyMTQwNiwiZXhwIjoxNzQwOTI1MDA2fQ.Pqk0w18GPqDlf3TyZgTZcGknKeAY6CAhA6zGITdEhlY
+
+{
+    "amount":10000,
+    "status":"pending",
+    "date":"2025-03-20",
+    "customer":"67ae8da8ae9dabe3aa81c4e7"
+}

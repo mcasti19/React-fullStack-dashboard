@@ -1,0 +1,25 @@
+###
+GET https://backend-node-express-mongo.vercel.app HTTP/1.1
+
+
+##################################################################### CREAR EMPLEADO
+POST  https://backend-node-express-mongo.vercel.app HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzIxM2E4YTI4YWNmMTVjNzU3OGU4NiIsImVtYWlsIjoiYWRtaW5pc3RyYXRvckBhZG1pbi5jb20iLCJuYW1lIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTc0MTI2OTczNCwiZXhwIjoxNzQxMjgwNTM0fQ.7rbbG6-uDFLg2LXbFs2r7p5-VPeehFgcjJaroCtz2sk
+
+{
+    "img_profile":"https://randomuser.me/api/portraits/men/73.jpg",
+    "name":"empleado2",
+    "last_name":"empleadoUser2",
+    "age":20,
+    "email":"empleado@gmail.com",
+    "phone":"04241926324",
+    "position":"empleado",
+    "department":"cualquiera",
+    "hireDate":"2025-03-02"
+}
+
+
+######################################################################## CONSULTAR EMPLEADOS
+GET https://backend-node-express-mongo.vercel.app/employees HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzIxM2E4YTI4YWNmMTVjNzU3OGU4NiIsImVtYWlsIjoiYWRtaW5pc3RyYXRvckBhZG1pbi5jb20iLCJuYW1lIjoiYWRtaW5pc3RyYXRvciIsImlhdCI6MTc0MTI2OTczNCwiZXhwIjoxNzQxMjgwNTM0fQ.7rbbG6-uDFLg2LXbFs2r7p5-VPeehFgcjJaroCtz2sk
