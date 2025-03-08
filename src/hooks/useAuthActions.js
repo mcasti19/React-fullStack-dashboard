@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useAuth} from '../store/auth/authContext'; // Ajusta la ruta según tu estructura de carpetas
 
 export const useAuthActions = () => {
-    const {login, logout} = useAuth();
+    const {login, logout, setError} = useAuth();
     const navigate = useNavigate();
 
     const handleLogin = async ( email, password ) => {
@@ -13,24 +13,20 @@ export const useAuthActions = () => {
             console.log( "TOKEN RECIBIDO: >>>", token );
             login( token ); // Llama a la función de login del contexto
             navigate( '/dashboard' ); // Redirige a la página de dashboard
+
         } catch ( error ) {
-            throw new Error( 'Error al iniciar sesión. Verifica tus credenciales.', error ); // Lanza un error para manejarlo en el componente
+            if ( error instanceof Error ) {
+                setError( error.message );
+            } else {
+                setError( 'Unknown Error' );
+            }
         }
     };
 
     const handleLogout = () => {
-        logout(); // Llama a la función de logout del contexto
-        navigate( '/auth/login' ); // Redirige a la página de login
+        logout();
+        navigate( '/auth/login' )
     };
-
-
-    // const logout = () => {
-    //     setUser( null );
-    //     setToken( null );
-    //     // Eliminar la sesión del localStorage
-    //     localStorage.removeItem( 'session' );
-    // };
-
     return {handleLogin, handleLogout};
 };
 
