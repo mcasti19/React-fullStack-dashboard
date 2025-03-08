@@ -7,7 +7,7 @@ import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
-// import LineChart from "../../components/LineChart";
+import LineChart from "../../components/LineChart";
 // import GeographyChart from "../../components/GeographyChart";
 // import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
@@ -92,7 +92,7 @@ export const DashboardPage = () => {
         {/*************************************** ROW 2 ***************************************/}
         <Grid2 container spacing={2}>
           <Grid2 size={{xs: 12, sm: 12, md: 12, lg: 8}}>
-            <Box backgroundColor={colors.primary[ 400 ]} className='h-72 flex justify-between items-center py-0 px-8'>
+            <Box backgroundColor={colors.primary[ 400 ]} className='flex flex-col h-72  py-0 px-8'>
               <Box className='flex justify-between items-center mt-6 py-0 px-7'>
                 <Box>
                   <Typography variant="h5" fontWeight="600" color={colors.grey[ 100 ]}> Revenue Generated </Typography>
@@ -104,8 +104,8 @@ export const DashboardPage = () => {
                   </IconButton>
                 </Box>
               </Box>
-              <Box height="250px" m="-20px 0 0 0">
-                {/* <LineChart isDashboard={true} /> */}
+              <Box className="">
+                <LineChart isDashboard={true} />
               </Box>
             </Box>
           </Grid2>
