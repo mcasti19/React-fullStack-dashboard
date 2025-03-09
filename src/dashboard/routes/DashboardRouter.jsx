@@ -9,6 +9,7 @@ import {FaqPage} from "../pages/faq/FaqPage";
 import {SideNav} from "../components/global/SideNav";
 import {Topbar} from "../components/global/Topbar";
 import {CreateEmployeePage} from "../pages/employees/create/CreateEmployeePage";
+import {CreateUserPage} from "../pages/team/create/CreateUserPage";
 
 export const DashboardRouter = () => {
     return (
@@ -19,6 +20,7 @@ export const DashboardRouter = () => {
                 <Routes>
                     <Route path="/dashboard" element={<DashboardPage />} />
                     <Route path="/team" element={<TeamPage />} />
+                    <Route path="/team/create" element={<CreateUserPage />} />
                     <Route path="/employees" element={<EmployeesPage />} />
                     <Route path="/employees/create" element={<CreateEmployeePage />} />
                     <Route path="/invoices" element={<InvoicesPage />} />

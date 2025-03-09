@@ -23,6 +23,8 @@ const AuthProvider = ( {children} ) => {
             return;
         }
         localStorage.setItem( 'token', token );
+        console.log( 'authContext >>> Token:', token );
+
         setIsAuthenticated( true );
     };
 

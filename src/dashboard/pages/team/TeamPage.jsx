@@ -1,18 +1,21 @@
 import {Fragment} from 'react';
-import {Box, Typography, useTheme} from "@mui/material";
+import {Box, Button, Typography, useTheme} from "@mui/material";
 import {DataGrid, GridToolbar} from "@mui/x-data-grid";
 import {tokens} from "../../../theme";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
+import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 
 import useFetchData from '../../../hooks/useFetchData';
+import {Navigate, useNavigate} from 'react-router';
 
 export const TeamPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
   const {data, error, loading} = useFetchData( 'users' );
+  const navigate = useNavigate();
 
   console.log( "DATA DESDE TEAM PAGE", data );
 
@@ -63,9 +66,25 @@ export const TeamPage = () => {
   if ( error ) {
     return <div>Error: {error}</div>; // Muestra un mensaje de error
   }
+
+  const newUser = () => {
+    navigate( '/team/create' );
+  }
+
+
   return (
     <Box m="20px">
       <Header title="TEAM" subtitle="Managing the Team Members" />
+      <Button className="text-sm font-bold flex justify-between items-center"
+          sx={{backgroundColor: colors.blueAccent[ 700 ], color: colors.grey[ 100 ], }}
+          onClick={newUser}
+        >
+          <GroupAddOutlinedIcon sx={{mr: "15px"}} />
+          New
+        </Button>
+
+
+
       <Box
         m="40px 0 0 0"
         height="75vh"
