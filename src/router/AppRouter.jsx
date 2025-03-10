@@ -5,18 +5,22 @@ import {AuthRoutes} from '../auth/routes/AuthRoutes';
 import {useAuth} from '../store/auth/authContext';
 
 export const AppRouter = () => {
-    const {isAuthenticated} = useAuth();
+    let {isAuthenticated} = useAuth();
+    // console.log( 'isAuthenticated:>>>', isAuthenticated );
 
     const token = localStorage.getItem( 'token' );
     const decodedToken = token ? jwtDecode( token ) : null;
     const expirationDate = decodedToken ? new Date( decodedToken.exp * 1000 ) : null;
     const currentDate = new Date();
 
-    if ( token && expirationDate < currentDate ) {
+    isAuthenticated = token && expirationDate > currentDate
+    // console.log( 'isAuthenticated:>>>', isAuthenticated );
+
+    if ( !isAuthenticated ) {
         localStorage.removeItem( 'token' );
     }
-    
-    console.log( 'isAuthenticated:>>>', isAuthenticated );
+
+    // console.log( 'isAuthenticated:>>>', isAuthenticated );
     return (
         <Routes>
             {isAuthenticated ? (

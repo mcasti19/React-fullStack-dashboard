@@ -1,90 +1,134 @@
-import {Fragment} from 'react';
-import {Box, Button, Typography, useTheme} from "@mui/material";
+import {useCallback, useMemo} from "react";
+import {Box, Button, Chip, CircularProgress, IconButton, Tooltip, Typography, useTheme} from "@mui/material";
 import {DataGrid, GridToolbar} from "@mui/x-data-grid";
 import {tokens} from "../../../theme";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+
 import Header from "../../components/Header";
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import useFetchData from '../../../hooks/useFetchData';
+import useFetchData from '../../../hooks/useApi';
 import {Navigate, useNavigate} from 'react-router';
+import {getRoleColor, getRoleIcon} from './helpers';
 
 export const TeamPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
-  const {data, error, loading} = useFetchData( 'users' );
+  const {data, error, loading, refetch, axiosInstance} = useFetchData( 'users' );
   const navigate = useNavigate();
 
   console.log( "DATA DESDE TEAM PAGE", data );
 
   const getRowId = ( row ) => row._id;
 
-  const columns = [
+  const handleDelete = useCallback( async ( id, name ) => {
+    try {
+      if ( window.confirm( `¿Eliminar a ${ name }?` ) ) {
+        await axiosInstance.delete( `users/${ id }` );
+        refetch();
+      }
+    } catch ( error ) {
+      console.error( 'Error eliminando:', error );
+      alert( error.response?.data?.message || 'Error al eliminar' );
+    }
+  }, [ axiosInstance, refetch ] );
+
+
+  //*******************************/ COLUMNS
+  const columns = useMemo( () => [
+
     {field: '_id', headerName: "ID"},
     {field: 'name', headerName: "Name", flex: 1, cellClassName: "name-column--cell", },
-    {field: 'username', headerName: "User", type: "number", headerAlign: "left", align: "left", },
+    {field: 'username', headerName: "User ", type: "number", headerAlign: "left", align: "left", },
     {field: 'email', headerName: "Email", flex: 1, },
     {field: "phone", headerName: "Phone Number", flex: 1, },
     {
-      field: "roles", headerName: "Roles", flex: 1, align: "center", justify: "center", renderCell: ( {row: {roles}} ) => {
+      field: "roles", headerName: "Roles", flex: 1, align: "center", justify: "center",
+      renderCell: ( {row: {roles}} ) => {
+        return roles.map( role => (
+          <Chip
+            key={role._id}
+            label={role.name}
+            icon={getRoleIcon( role.name )}
+            size='medium'
+            sx={{backgroundColor: getRoleColor( role.name, colors )}}
+            className='m-2 w-20'
+          />
+        ) );
+      }
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      align: "center",
+      headerAlign: "center",
+      renderCell: ( {row} ) => {
+
+
         return (
-          <Box className='flex justify-center my-2 mx-auto p-1.5'
-            width="50%"
-            backgroundColor={
-              roles.some( role => role.name === "admin" )
-                ? colors.greenAccent[ 500 ]
-                : roles.some( role => role.name === "manager" )
-                  ? colors.blueAccent[ 500 ]
-                  : colors.redAccent[ 700 ]
-            }
-            borderRadius="4px"
-          >
-            {roles.map( role => (
-              <Fragment key={role._id}>
-                {role.name === "admin" && <AdminPanelSettingsOutlinedIcon />}
-                {role.name === "manager" && <SecurityOutlinedIcon />}
-                {role.name === "user" && <LockOpenOutlinedIcon />}
-                <Typography color={colors.grey[ 100 ]} sx={{ml: "5px"}}>
-                  {role.name}
-                </Typography>
-              </Fragment>
-            ) )}
+          <Box sx={{display: 'flex', gap: 1}}>
+            <Tooltip title="Editar usuario">
+              <IconButton
+                onClick={() => navigate( `/team/edit/${ row._id }` )}
+                sx={{color: colors.blueAccent[ 400 ]}}
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Eliminar">
+
+              <IconButton
+                onClick={() => handleDelete( row._id, row.name )}
+                sx={{color: colors.redAccent[ 600 ]}}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
         );
       },
     },
-  ];
+
+  ], [ colors, handleDelete, navigate ] );
 
   if ( loading ) {
-    return <div className='h-screen flex justify-center items-center'>
-      Loading...
-    </div>; // Muestra un mensaje de carga
+    return (
+      <Box className='h-screen flex justify-center items-center'>
+        <Typography variant="h6" component="div">
+          Cargando usuarios...
+        </Typography>
+        <CircularProgress />
+      </Box>
+    );
+  }
+  console.log( 'ERROR>>>', error );
+  if ( error ) {
+    return (
+      <Box className='h-screen flex justify-center items-center'>
+        <Typography variant="h6" component="div">
+          Error al cargar usuarios: {error.message}
+        </Typography>
+      </Box>
+    );
   }
 
-  if ( error ) {
-    return <div>Error: {error}</div>; // Muestra un mensaje de error
-  }
+
 
   const newUser = () => {
     navigate( '/team/create' );
   }
-
-
   return (
     <Box m="20px">
       <Header title="TEAM" subtitle="Managing the Team Members" />
       <Button className="text-sm font-bold flex justify-between items-center"
-          sx={{backgroundColor: colors.blueAccent[ 700 ], color: colors.grey[ 100 ], }}
-          onClick={newUser}
-        >
-          <GroupAddOutlinedIcon sx={{mr: "15px"}} />
-          New
-        </Button>
-
-
-
+        sx={{backgroundColor: colors.blueAccent[ 700 ], color: colors.grey[ 100 ], }}
+        onClick={newUser}
+      >
+        <GroupAddOutlinedIcon sx={{mr: "15px"}} />
+        New
+      </Button>
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -114,7 +158,6 @@ export const TeamPage = () => {
           },
         }}
       >
-
         <DataGrid
           checkboxSelection
           rows={data}
@@ -128,5 +171,3 @@ export const TeamPage = () => {
     </Box>
   );
 };
-
-// export default Team;

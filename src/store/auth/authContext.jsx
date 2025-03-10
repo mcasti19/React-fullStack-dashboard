@@ -8,14 +8,21 @@ const AuthProvider = ( {children} ) => {
     const [ token, setToken ] = useState( null );
     const [ error, setError ] = useState( null );
 
+
     useEffect( () => {
         const storedToken = localStorage.getItem( 'token' )
         if ( storedToken ) {
-            setToken( storedToken ); // Establece el token desde localStorage
+            setToken( storedToken );
             setIsAuthenticated( true );
         }
-        setLoading( false ); // Cambia a false después de verificar
-    }, [ token ] );
+        setLoading( false );
+        console.log( 'authContext >>> ', storedToken );
+    }, [] );
+
+    // Si está cargando, no renderices nada o muestra un componente de carga
+    if ( loading ) {
+        return <div>Loading...</div>; // O un componente de carga
+    }
 
     const login = ( token ) => {
         if ( typeof token !== 'string' || token.trim() === '' ) {
@@ -23,19 +30,16 @@ const AuthProvider = ( {children} ) => {
             return;
         }
         localStorage.setItem( 'token', token );
-        console.log( 'authContext >>> Token:', token );
-
+        setToken( token );
+        console.log( 'Token actualizado:', token );
         setIsAuthenticated( true );
     };
 
     const logout = () => {
         localStorage.removeItem( 'token' );
+        setToken( null );
         setIsAuthenticated( false );
     };
-    // Si está cargando, no renderices nada o muestra un componente de carga
-    if ( loading ) {
-        return <div>Loading...</div>; // O un componente de carga
-    }
     return (
         <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated, login, logout, token, error, setError}}>
             {children}
