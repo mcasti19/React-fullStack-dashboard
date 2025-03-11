@@ -1,5 +1,5 @@
 import React, {createContext, useState, useEffect, useContext} from 'react';
-
+import {jwtDecode} from 'jwt-decode';
 const AuthContext = createContext();
 
 const AuthProvider = ( {children} ) => {
@@ -7,6 +7,39 @@ const AuthProvider = ( {children} ) => {
     const [ loading, setLoading ] = useState( true );
     const [ token, setToken ] = useState( null );
     const [ error, setError ] = useState( null );
+
+    const checkTokenExpiration = () => {
+        const token = localStorage.getItem( 'token' );
+        if ( !token ) {
+            setIsAuthenticated( false );
+            return false;
+        }
+
+        try {
+            const decoded = jwtDecode( token );
+            const isExpired = decoded.exp * 1000 < Date.now();
+
+            if ( isExpired ) {
+                localStorage.removeItem( 'token' );
+                setIsAuthenticated( false );
+            }
+            return !isExpired;
+
+        } catch ( error ) {
+            console.log( "Error AuthProvider, ", error );
+            localStorage.removeItem( 'token' );
+            setIsAuthenticated( false );
+            return false;
+        }
+    };
+    // Chequeo periódico cada minuto
+    useEffect( () => {
+        const interval = setInterval( () => {
+            console.log( 'checkTokenExpiration' );
+            checkTokenExpiration();
+        }, 60000 ); // 60 segundos
+        return () => clearInterval( interval );
+    }, [] );
 
 
     useEffect( () => {
@@ -16,7 +49,7 @@ const AuthProvider = ( {children} ) => {
             setIsAuthenticated( true );
         }
         setLoading( false );
-        console.log( 'authContext >>> ', storedToken );
+        // console.log( 'authContext >>> ', storedToken );
     }, [] );
 
     // Si está cargando, no renderices nada o muestra un componente de carga
@@ -41,7 +74,7 @@ const AuthProvider = ( {children} ) => {
         setIsAuthenticated( false );
     };
     return (
-        <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated, login, logout, token, error, setError}}>
+        <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated, login, logout, token, error, setError, checkTokenExpiration}}>
             {children}
         </AuthContext.Provider>
     );

@@ -21,7 +21,7 @@ const useAxios = () => {
             ( error ) => Promise.reject( error )
         );
 
-        console.log( 'Token en axios:', token );
+        // console.log( 'Token en axios:', token );
         // Limpiar el interceptor al desmontar
         return () => {
             instance.interceptors.request.eject( requestInterceptor );

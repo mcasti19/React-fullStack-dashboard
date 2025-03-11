@@ -1,38 +1,52 @@
-import {Box, Button} from "@mui/material";
+import {useCallback, useMemo} from "react";
+import {Box, Button, CircularProgress, IconButton, Tooltip, Typography} from "@mui/material";
 import {DataGrid, GridToolbar} from "@mui/x-data-grid";
 import {tokens} from "../../../theme";
 import Header from "../../components/Header";
 import {useTheme} from "@mui/material";
-import {useEffect, useState} from "react";
-import {fetchEmployees} from "../../../helpers/api";
+
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
-import {Link, useNavigate} from "react-router";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {useNavigate} from "react-router";
+import useFetchData from "../../../hooks/useApi";
 
 export const EmployeesPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
+  const {data, error, loading, refetch, axiosInstance} = useFetchData( 'employees' );
+  const navigate = useNavigate();
 
-  const [ employees, setEmployees ] = useState( [] );
+  console.log( 'EMPLOYEES>>>: ', data );
 
-  // console.log( employees );
+  const getRowId = ( row ) => row._id;
 
-  useEffect( () => {
-    fetchEmployees()
-      .then( ( response ) => {
-        const employeesWithId = response.map( ( employee, index ) => ( {
-          ...employee,
-          id: index + 1,
-        } ) );
-        setEmployees( employeesWithId );
-      } )
-      .catch( ( error ) => {
-        console.error( error );
-      } );
+  const handleDelete = useCallback( async ( id, name ) => {
+    try {
+      if ( window.confirm( `¿Eliminar a ${ name }?` ) ) {
+        await axiosInstance.delete( `users/${ id }` );
+        refetch();
+      }
+    } catch ( error ) {
+      console.error( 'Error eliminando:', error );
+      alert( error.response?.data?.message || 'Error al eliminar' );
+    }
+  }, [ axiosInstance, refetch ] );
 
-  }, [] );
+  const columns = useMemo( () => [
+    // {field: "_id", headerName: "ID", flex: 0.5, },
+    {
+      field: "id",
+      headerName: "#",
+      flex: 0.5,
+      renderCell: ( params ) => {
+        // Obtiene el índice del registro en el array + 1
+        const rowIndex = data.findIndex( row => row._id === params.row._id ) + 1;
+        //* data.indexOf(row) es O(n), para grandes datasets (>1000 registros) es mejor usar:
+        return <span>{rowIndex}</span>;
+      }
 
-  const columns = [
-    {field: "id", headerName: "ID", flex: 0.5, },
+    },
     {field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell", },
     {field: "last_name", headerName: "Last Name", flex: 1, cellClassName: "name-column--cell", },
     {field: "age", headerName: "Age", type: "number", headerAlign: "left", align: "left", },
@@ -40,11 +54,60 @@ export const EmployeesPage = () => {
     {field: "email", headerName: "Email", flex: 1, },
     {field: "position", headerName: "Position", flex: 1, },
     {field: "department", headerName: "Department", flex: 1, },
-  ];
-  const navigate = useNavigate();
+    {
+      field: "actions",
+      headerName: "Actions",
+      align: "center",
+      headerAlign: "center",
+      renderCell: ( {row} ) => {
+
+        return (
+          <Box sx={{display: 'flex', gap: 1}}>
+            <Tooltip title="Editar usuario">
+              <IconButton
+                onClick={() => navigate( `/employee/edit/${ row._id }` )}
+                sx={{color: colors.blueAccent[ 400 ]}}
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Eliminar">
+              <IconButton
+                onClick={() => handleDelete( row._id, row.name )}
+                sx={{color: colors.redAccent[ 600 ]}}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
+  ], [ colors, handleDelete, navigate, data ] )
 
   const newEmployee = () => {
     navigate( '/employees/create' );
+  }
+
+  if ( loading ) {
+    return (
+      <Box className='h-screen flex justify-center items-center'>
+        <Typography variant="h6" component="div">
+          Cargando Empleados...
+        </Typography>
+        <CircularProgress />
+      </Box>
+    );
+  }
+  console.log( 'ERROR>>>', error );
+  if ( error ) {
+    return (
+      <Box className='h-screen flex justify-center items-center'>
+        <Typography variant="h6" component="div">
+          Error al cargar Empleados: {error.message}
+        </Typography>
+      </Box>
+    );
   }
 
   return (
@@ -52,7 +115,6 @@ export const EmployeesPage = () => {
       <Box className="flex justify-between items-center">
         <Header title="Employees" subtitle="List of Contacts for Future Reference" />
 
-        {/* <Link to="/create"> */}
         <Button className="text-sm font-bold flex justify-between items-center"
           sx={{backgroundColor: colors.blueAccent[ 700 ], color: colors.grey[ 100 ], }}
           onClick={newEmployee}
@@ -60,8 +122,6 @@ export const EmployeesPage = () => {
           <GroupAddOutlinedIcon sx={{mr: "15px"}} />
           New
         </Button>
-        {/* </Link> */}
-
 
       </Box>
       <Box className="overflow-x-scroll"
@@ -101,14 +161,21 @@ export const EmployeesPage = () => {
         }}
       >
         <DataGrid className="w-full"
-          rows={employees}
+          rows={data}
           columns={columns}
-          // getRowId={getRowId}
+          getRowId={getRowId}
           components={{Toolbar: GridToolbar}}
+          initialState={{
+            sorting: {
+              sortModel: [ {
+                field: 'id',
+                sort: 'asc'
+              } ]
+            }
+          }}
+
         />
       </Box>
     </Box>
   );
 };
-
-// export default Employees;

@@ -9,7 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import useFetchData from '../../../hooks/useApi';
-import {Navigate, useNavigate} from 'react-router';
+import {useNavigate} from 'react-router';
 import {getRoleColor, getRoleIcon} from './helpers';
 
 export const TeamPage = () => {

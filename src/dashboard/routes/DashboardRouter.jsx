@@ -1,7 +1,7 @@
 import {Navigate, Route, Routes} from "react-router";
 import {DashboardPage} from "../pages/dashboard/DashboardPage";
 import {TeamPage} from "../pages/team/TeamPage";
-import {EmployeesPage} from "../pages/employees/EmployeesPage";
+
 import {InvoicesPage} from "../pages/invoices/InvoicesPage";
 import {BarChartPage} from "../pages/bar/BarChartPage";
 import {CalendarPage} from "../pages/calendar/CalendarPage";
@@ -10,6 +10,7 @@ import {SideNav} from "../components/global/SideNav";
 import {Topbar} from "../components/global/Topbar";
 import {CreateEmployeePage} from "../pages/employees/create/CreateEmployeePage";
 import {CreateUserPage} from "../pages/team/create/CreateUserPage";
+import {EmployeesPage} from "../pages/employees/EmployeesPage";
 
 export const DashboardRouter = () => {
     return (

@@ -1,11 +1,12 @@
 import {jwtDecode} from 'jwt-decode';
-import {Routes, Route, Navigate} from 'react-router';
+import {Routes, Route, Navigate, useLocation} from 'react-router';
 import {DashboardRouter} from '../dashboard/routes/DashboardRouter';
 import {AuthRoutes} from '../auth/routes/AuthRoutes';
 import {useAuth} from '../store/auth/authContext';
+import {useEffect} from 'react';
 
 export const AppRouter = () => {
-    let {isAuthenticated} = useAuth();
+    let {isAuthenticated, checkTokenExpiration} = useAuth();
     // console.log( 'isAuthenticated:>>>', isAuthenticated );
 
     const token = localStorage.getItem( 'token' );
@@ -13,13 +14,20 @@ export const AppRouter = () => {
     const expirationDate = decodedToken ? new Date( decodedToken.exp * 1000 ) : null;
     const currentDate = new Date();
 
+    const location = useLocation();
+    console.log( location.pathname );
+
+    // Chequear en cada cambio de ruta
+    useEffect( () => {
+        checkTokenExpiration();
+        console.log( checkTokenExpiration() );
+    }, [ checkTokenExpiration, location.pathname ] ); // Necesitarás usar useLocation de react-router
+
     isAuthenticated = token && expirationDate > currentDate
     // console.log( 'isAuthenticated:>>>', isAuthenticated );
-
     if ( !isAuthenticated ) {
         localStorage.removeItem( 'token' );
     }
-
     // console.log( 'isAuthenticated:>>>', isAuthenticated );
     return (
         <Routes>
