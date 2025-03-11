@@ -10,7 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import useFetchData from '../../../hooks/useApi';
 import {useNavigate} from 'react-router';
-import {getRoleColor, getRoleIcon} from './helpers';
+import {getRoleColor, getRoleIcon} from './helper/helpers';
 
 export const TeamPage = () => {
   const theme = useTheme();
@@ -64,8 +64,6 @@ export const TeamPage = () => {
       align: "center",
       headerAlign: "center",
       renderCell: ( {row} ) => {
-
-
         return (
           <Box sx={{display: 'flex', gap: 1}}>
             <Tooltip title="Editar usuario">
