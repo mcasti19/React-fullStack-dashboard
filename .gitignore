@@ -27,6 +27,7 @@ request
 
 # Ignorar el archivo "nombre_del_archivo.txt"
 .env
+data.json
 
 # Ignorar la carpeta "requests"
 requests

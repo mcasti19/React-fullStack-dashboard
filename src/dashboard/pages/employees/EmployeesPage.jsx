@@ -91,11 +91,11 @@ export const EmployeesPage = () => {
 
   if ( loading ) {
     return (
-      <Box className='h-screen flex justify-center items-center'>
+      <Box className='h-screen flex flex-col gap-4 justify-center items-center'>
         <Typography variant="h6" component="div">
-          Cargando Empleados...
+          Loading Employees...
         </Typography>
-        <CircularProgress />
+        <CircularProgress color='info' />
       </Box>
     );
   }
@@ -124,14 +124,14 @@ export const EmployeesPage = () => {
         </Button>
 
       </Box>
-      <Box className="overflow-x-scroll"
-        minWidth={900}
-        overflow='auto' // Cambia a 'auto' para permitir scroll horizontal y vertical
-        m="20px 0 0 0"
+      <Box
+        m="40px 0 0 0"
+        width={`100%`}
         height="75vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
+            overflow:'auto'
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
@@ -156,8 +156,8 @@ export const EmployeesPage = () => {
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
             color: `${ colors.grey[ 100 ] } !important`,
           },
-          overflowX: 'auto', // Agrega esta propiedad para permitir scroll horizontal
-          overflowY: 'auto', // Agrega esta propiedad para permitir scroll vertical
+          // overflowX: 'auto', // Agrega esta propiedad para permitir scroll horizontal
+          // overflowY: 'auto', // Agrega esta propiedad para permitir scroll vertical
         }}
       >
         <DataGrid className="w-full"

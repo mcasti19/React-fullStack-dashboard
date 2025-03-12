@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import useFetchData from '../../../hooks/useApi';
 import {useNavigate} from 'react-router';
 import {getRoleColor, getRoleIcon} from './helper/helpers';
+import LoadingSpinner from "../../../globalUI/LoadingSpinner";
 
 export const TeamPage = () => {
   const theme = useTheme();
@@ -53,7 +54,7 @@ export const TeamPage = () => {
             icon={getRoleIcon( role.name )}
             size='medium'
             sx={{backgroundColor: getRoleColor( role.name, colors )}}
-            className='m-2 w-20'
+            className='m-2 w-28'
           />
         ) );
       }
@@ -93,15 +94,15 @@ export const TeamPage = () => {
 
   if ( loading ) {
     return (
-      <Box className='h-screen flex justify-center items-center'>
+      <Box className='h-screen flex flex-col gap-4 justify-center items-center'>
         <Typography variant="h6" component="div">
-          Cargando usuarios...
+          Loading Users...
         </Typography>
-        <CircularProgress />
+        <CircularProgress color='info' />
       </Box>
     );
   }
-  console.log( 'ERROR>>>', error );
+  // console.log( 'ERROR>>>', error );
   if ( error ) {
     return (
       <Box className='h-screen flex justify-center items-center'>
@@ -118,21 +119,29 @@ export const TeamPage = () => {
     navigate( '/team/create' );
   }
   return (
-    <Box m="20px">
-      <Header title="TEAM" subtitle="Managing the Team Members" />
-      <Button className="text-sm font-bold flex justify-between items-center"
-        sx={{backgroundColor: colors.blueAccent[ 700 ], color: colors.grey[ 100 ], }}
-        onClick={newUser}
-      >
-        <GroupAddOutlinedIcon sx={{mr: "15px"}} />
-        New
-      </Button>
+    <Box m="20px" width={`calc(100% - 60px)`} minWidth={900}>
+      <Box className='flex justify-between items-center'>
+        <Header title="TEAM" subtitle="Managing the Team Members" />
+        <Button className="text-sm font-bold flex justify-between items-center"
+          sx={{backgroundColor: colors.blueAccent[ 700 ], color: colors.grey[ 100 ], }}
+          onClick={newUser}
+        >
+          <GroupAddOutlinedIcon sx={{mr: "15px"}} />
+          New
+        </Button>
+
+      </Box>
+
+
+
       <Box
         m="40px 0 0 0"
+        width={`100%`}
         height="75vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
+            overflow: 'auto'
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",

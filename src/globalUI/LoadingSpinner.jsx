@@ -5,9 +5,9 @@ const LoadingSpinner = ({ size = 40, className = '' }) => {
   return (
     <Box 
       className={`flex justify-center items-center ${className}`}
-      role="status"
+      role="alert"
     >
-      <CircularProgress size={size} />
+      <CircularProgress size={size} color='primary' />
     </Box>
   );
 };

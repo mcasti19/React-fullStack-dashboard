@@ -18,6 +18,6 @@ export const getRoleColor = ( roleName, colors ) => {
         manager: colors.blueAccent[ 500 ],
         user: colors.redAccent[ 700 ]
     };
-    return colorsMap[ roleName ] || colors.grey[ 700 ];
+    return colorsMap[ roleName ] || colors.grey[ 900 ];
 };
 
