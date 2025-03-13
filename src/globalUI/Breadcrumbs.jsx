@@ -3,22 +3,23 @@ import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import {Box} from '@mui/material';
+import {NavLink} from 'react-router';
 
-function handleClick( event ) {
-    event.preventDefault();
-    console.info( 'You clicked a breadcrumb.' );
-}
+// function handleClick( event ) {
+//     event.preventDefault();
+//     console.info( 'You clicked a breadcrumb.' );
+// }
 
 export default function BreadcrumbsComponent( {breadcrumbs} ) {
     return (
-        <div role="presentation" onClick={handleClick}>
+        <div role="presentation">
             <Breadcrumbs aria-label="breadcrumb">
                 {breadcrumbs.map( ( breadcrumb, index ) => (
                     <Box key={index}>
-                        {breadcrumb.href ? (
-                            <Link underline="hover" color="inherit" href={breadcrumb.href}>
+                        {breadcrumb.to !== undefined ? (
+                            <NavLink underline="hover" color="inherit" to={breadcrumb.to}>
                                 {breadcrumb.label}
-                            </Link>
+                            </NavLink>
                         ) : (
                             <Typography sx={{color: 'text.primary'}}>
                                 {breadcrumb.label}
