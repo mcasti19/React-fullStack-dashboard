@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Box, Button, Checkbox, FormControlLabel, Grid2, Typography} from '@mui/material';
+import {Box, Button, Checkbox, FormControlLabel, Grid2, Typography, useTheme} from '@mui/material';
+import {tokens} from '../../../../theme';
 
 const categorias = [
     {id: 1, nombre: 'Users'},
@@ -15,37 +15,40 @@ const permisos = [
     {id: 4, nombre: 'Update', valor: '_update'},
 ];
 
-const PermisosComponent = () => {
-    const [ permisosSeleccionados, setPermisosSeleccionados ] = useState( [] );
+const PermisosComponent = ( {selectedPermissions, setSelectedPermissions} ) => {
+    const theme = useTheme();
+    const colors = tokens( theme.palette.mode );
 
     const handleCheckboxChange = ( categoria, permiso ) => {
         const nuevoPermiso = `${ categoria.toLowerCase() }${ permiso.valor }`;
-        const indice = permisosSeleccionados.indexOf( nuevoPermiso );
+        const indice = selectedPermissions.indexOf( nuevoPermiso );
         if ( indice === -1 ) {
-            setPermisosSeleccionados( [ ...permisosSeleccionados, nuevoPermiso ] );
+            setSelectedPermissions( [ ...selectedPermissions, nuevoPermiso ] );
         } else {
-            setPermisosSeleccionados( permisosSeleccionados.filter( ( p ) => p !== nuevoPermiso ) );
+            setSelectedPermissions( selectedPermissions.filter( ( p ) => p !== nuevoPermiso ) );
         }
     };
 
     return (
-        <Box>
-            <Grid2 container spacing={2} className="flex flex-col items-center justify-center bg-slate-600">
+        <Box mt={5} className='flex flex-col gap-10'>
+            <Typography variant='h2' align='center'>Permissions</Typography>
+            <Grid2 container spacing={2} className="flex flex-col items-center justify-center ">
                 {/* <Grid2 className="flex flex-col items-center bg-slate-600">
                     {categorias.map( ( categoria ) => (
                     ) )}
                 </Grid2> */}
-                <Grid2 className="flex flex-col">
+                <Grid2 className="flex flex-col gap-4">
                     {categorias.map( ( categoria ) => (
-                        <Box key={categoria.id} className="flex items-center gap-3">
+                        <Box key={categoria.id} className="flex flex-col  gap-1 sm:flex-row sm:items-center">
                             <Typography className='w-20'>{categoria.nombre}</Typography>
-                            <Box>
+                            <Box className='grid grid-cols-2 sm:grid-cols-4'>
                                 {permisos.map( ( permiso ) => (
                                     <FormControlLabel
                                         key={permiso.id}
                                         control={
                                             <Checkbox
-                                                checked={permisosSeleccionados.includes( `${ categoria.nombre.toLowerCase() }${ permiso.valor }` )}
+                                                color={`${ colors.redAccent[ 500 ] }`}
+                                                checked={selectedPermissions.includes( `${ categoria.nombre.toLowerCase() }${ permiso.valor }` )}
                                                 onChange={() => handleCheckboxChange( categoria.nombre, permiso )}
                                             />
                                         }
@@ -57,11 +60,11 @@ const PermisosComponent = () => {
                     ) )}
                 </Grid2>
             </Grid2>
-            <Box>
-                <Button onClick={() => console.log( permisosSeleccionados )}>
+            {/* <Box>
+                <Button onClick={() => console.log( selectedPermissions )}>
                     Obtener permisos seleccionados
                 </Button>
-            </Box>
+            </Box> */}
         </Box>
     );
 };

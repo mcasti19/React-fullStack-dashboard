@@ -34,14 +34,16 @@ export const CreateUserPage = () => {
 
   return (
     <>
-      <Box m="20px"
-        width={`calc(100% - 60px)`}
+      <Box
+        width={`calc(100% - 4%)`}
+        m="20px auto 0"
         // border={2}
         // borderColor={'yellow'}
-        height={"90%"}
+        // height={"100vh"}
         display={'flex'}
         flexDirection={'column'}
         gap={5}
+        overflow={'hidden'}
       >
         <BreadcrumbsComponent breadcrumbs={breadcrumbs} />
 
@@ -56,7 +58,7 @@ export const CreateUserPage = () => {
             // className="bg-amber-500"
           />
         </Box>
-        <PermisosComponent/>
+        {/* <PermisosComponent/> */}
       </Box>
 
     </>

@@ -73,7 +73,7 @@ export default function RegisterPage() {
     };
 
     return (
-        <AuthLayout title='Sing Up'>
+        <AuthLayout title='Sign Up'>
             <Box
                 component="form"
                 onSubmit={handleSubmit}

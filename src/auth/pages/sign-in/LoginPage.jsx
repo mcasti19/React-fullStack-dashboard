@@ -85,7 +85,7 @@ export default function LoginPage() {
   };
 
   return (
-    <AuthLayout title='Sing In' >
+    <AuthLayout title='Sign In' >
       <Box
         component="form"
         onSubmit={handleSubmit}
