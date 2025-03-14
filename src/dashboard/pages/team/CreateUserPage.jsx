@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Box, Button, Chip, CircularProgress, IconButton, Tooltip, Typography} from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // import {tokens} from "../../../theme";
 // import {useGoBack} from "../../../hooks/useGoBack";
 import BreadcrumbsComponent from '../../../globalUI/Breadcrumbs';
 import SelecteUsers from './components/SelecteUsers';
-import useFetchData from '../../../hooks/useApi';
+import {useFetchData} from '../../../hooks/useApi';
 import PermisosComponent from './components/PermisosComponent';
+import {useAuth} from '../../../store/auth/authContext';
 
 
 const breadcrumbs = [
@@ -27,10 +28,14 @@ export const CreateUserPage = () => {
   // const theme = useTheme();
   // const colors = tokens( theme.palette.mode );
   // const goBack = useGoBack( '/team' );
-
   const {data: employees, error: employeesError, loading: employeesLoading} = useFetchData( 'employees' );
   const {data: roles, error: rolesError, loading: rolesLoading} = useFetchData( 'roles' );
 
+  const {authenticatedUser} = useAuth();
+
+  useEffect( () => {
+    console.log( 'Estado authenticatedUser en CreateUserPage:', authenticatedUser );
+  }, [ authenticatedUser ] )
 
   return (
     <>
@@ -55,7 +60,7 @@ export const CreateUserPage = () => {
             employeesLoading={employeesLoading}
             rolesError={rolesError}
             rolesLoading={rolesLoading}
-            // className="bg-amber-500"
+          // className="bg-amber-500"
           />
         </Box>
         {/* <PermisosComponent/> */}

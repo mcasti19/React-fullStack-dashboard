@@ -15,12 +15,12 @@ export const AppRouter = () => {
     const currentDate = new Date();
 
     const location = useLocation();
-    console.log( location.pathname );
+    // console.log( location.pathname );
 
     // Chequear en cada cambio de ruta
     useEffect( () => {
         checkTokenExpiration();
-        console.log( checkTokenExpiration() );
+        // console.log( checkTokenExpiration() );
     }, [ checkTokenExpiration, location.pathname ] ); // Necesitarás usar useLocation de react-router
 
     isAuthenticated = token && expirationDate > currentDate

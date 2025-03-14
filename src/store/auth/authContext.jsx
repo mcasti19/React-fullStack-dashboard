@@ -7,6 +7,7 @@ const AuthProvider = ( {children} ) => {
     const [ loading, setLoading ] = useState( true );
     const [ token, setToken ] = useState( null );
     const [ error, setError ] = useState( null );
+    const [ authenticatedUser, setAuthenticatedUser ] = useState( null );
 
     const checkTokenExpiration = () => {
         const token = localStorage.getItem( 'token' );
@@ -52,29 +53,40 @@ const AuthProvider = ( {children} ) => {
         // console.log( 'authContext >>> ', storedToken );
     }, [] );
 
-    // Si está cargando, no renderices nada o muestra un componente de carga
-    if ( loading ) {
-        return <div>Loading...</div>; // O un componente de carga
-    }
 
-    const login = ( token ) => {
-        if ( typeof token !== 'string' || token.trim() === '' ) {
+    useEffect( () => {
+        console.log( 'Estado authenticatedUser  actualizaxxxdo:', authenticatedUser );
+    }, [ authenticatedUser ] );
+
+
+
+    const login = ( user ) => {
+        if ( typeof user.token !== 'string' || user.token.trim() === '' ) {
             setError( 'Token inválido' );
             return;
         }
-        localStorage.setItem( 'token', token );
-        setToken( token );
-        console.log( 'Token actualizado:', token );
+        localStorage.setItem( 'token', user.token );
+        setToken( user.token );
+        console.log( 'Token actualizado:', user.token );
         setIsAuthenticated( true );
+        setAuthenticatedUser( user )
+        console.log( 'Estado authenticatedUser actualizado:', authenticatedUser );
     };
 
     const logout = () => {
         localStorage.removeItem( 'token' );
         setToken( null );
         setIsAuthenticated( false );
+
     };
+
+    if ( loading ) {
+        return <div>Loading...</div>;
+    }
+
+
     return (
-        <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated, login, logout, token, error, setError, checkTokenExpiration}}>
+        <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated, login, logout, token, error, setError, checkTokenExpiration, authenticatedUser, setAuthenticatedUser}}>
             {children}
         </AuthContext.Provider>
     );

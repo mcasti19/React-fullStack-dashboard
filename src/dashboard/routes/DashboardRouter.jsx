@@ -8,7 +8,7 @@ import {CalendarPage} from "../pages/calendar/CalendarPage";
 import {FaqPage} from "../pages/faq/FaqPage";
 import {SideNav} from "../components/global/SideNav";
 import {Topbar} from "../components/global/Topbar";
-import {CreateEmployeePage} from "../pages/employees/create/CreateEmployeePage";
+import {CreateEmployeePage} from "../pages/employees/CreateEmployeePage";
 import {CreateUserPage} from "../pages/team/CreateUserPage";
 import {EmployeesPage} from "../pages/employees/EmployeesPage";
 import {EditUserPage} from "../pages/team/EditUserPage";

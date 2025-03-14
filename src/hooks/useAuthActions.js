@@ -9,10 +9,10 @@ export const useAuthActions = () => {
     const handleLogin = async ( email, password ) => {
         try {
             const response = await axios.post( `${ import.meta.env.VITE_API_URL }/auth/login`, {email, password} );
-            const token = response.data.token; // Asegúrate de que el token esté en la respuesta
-            console.log( "TOKEN RECIBIDO: >>>", token );
-            login( token ); // Llama a la función de login del contexto
-            navigate( '/dashboard' ); // Redirige a la página de dashboard
+            const user = response.data;
+            console.log( "TOKEN RECIBIDO: >>>", user.token );
+            login( user );
+            navigate( '/dashboard' );
 
         } catch ( error ) {
             if ( error instanceof Error ) {

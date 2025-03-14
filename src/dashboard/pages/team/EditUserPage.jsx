@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useParams} from "react-router";
-import useFetchData from "../../../hooks/useApi";
+import {useFetchData} from "../../../hooks/useApi";
 
 import {
     Container,

@@ -20,7 +20,7 @@ import {
 } from '@mui/material';
 import {Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon} from '@mui/icons-material';
 import roleService from '../../../../helpers/roleServices';
-import useFetchData from '../../../../hooks/useApi';
+import {useFetchData} from '../../../../hooks/useApi';
 
 const RolePermissionManager = () => {
     // State management

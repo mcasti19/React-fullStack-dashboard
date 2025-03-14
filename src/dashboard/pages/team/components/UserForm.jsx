@@ -3,6 +3,7 @@ import {Box, Typography, TextField, Select, MenuItem, Button, useTheme, FormCont
 import {tokens} from '../../../../theme';
 import PermisosComponent from './PermisosComponent';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import useAxios from '../../../../hooks/useAxios';
 
 export default function UserForm(
     {
@@ -14,27 +15,46 @@ export default function UserForm(
         rolesLoading
     }
 ) {
+    const axiosInstance = useAxios();
     const theme = useTheme();
     const colors = tokens( theme.palette.mode );
 
     const [ selectedEmployee, setSelectedEmployee ] = useState( employee );
     const [ username, setUsername ] = useState( '' );
+
+    const [ password, setPassword ] = useState( '' );
     const [ selectedRole, setSelectedRole ] = useState( null );
     const [ selectedPermissions, setSelectedPermissions ] = useState( [] );
 
     const [ selectedImage, setSelectedImage ] = useState( null );
 
+    // console.log(employee);
+
+
+    const onResetForm = () => {
+        setSelectedEmployee( '' );
+        setUsername( '' );
+        setPassword( '' );
+        setSelectedRole( null );
+        setSelectedImage( [] );
+        setSelectedImage( null );
+    }
+
 
     useEffect( () => {
-        // console.log( 'EmployeeSelected>>: ', selectedEmployee );
         setSelectedEmployee( employee )
-
     }, [ employee ] )
-
 
 
     const handleUsernameChange = ( event ) => {
         setUsername( event.target.value );
+    };
+    const handlePasswordChange = ( event ) => {
+        setPassword( event.target.value );
+    };
+
+    const handleImageChange = ( event ) => {
+        setSelectedImage( event.target.files[ 0 ] );
     };
 
     const handleRoleChange = ( event ) => {
@@ -42,25 +62,33 @@ export default function UserForm(
         setSelectedRole( selectedRole );
     };
 
-    const handleImageChange = ( event ) => {
-        console.log( event.target.files[ 0 ] );
-        setSelectedImage( event.target.files[ 0 ] );
-    };
-
     const handleSubmit = ( event ) => {
         event.preventDefault();
-        // Aquí debes agregar la logica para crear el usuario en la base de datos
-        console.log( 'Crear usuario:', {
-            email: selectedEmployee.email,
-            name: selectedEmployee.name,
-            username,
-            role: [ {
-                name: selectedRole.name,
-                _id: selectedRole._id
-            } ],
-            permissions: selectedPermissions,
-        } );
+        try {
+            const user = {
+                email: selectedEmployee.email,
+                name: selectedEmployee.name,
+                username,
+                password,
+                roles: [ selectedRole.name ],
+                permissions: selectedPermissions,
+                employeeId: employee._id
+            };
+            console.log(user);
+            axiosInstance.post( `${ import.meta.env.VITE_API_URL }/users`, user )
+                .then( ( respuesta ) => {
+                    console.log( 'Usuario creado con éxito:', respuesta );
+                } )
+                .catch( ( error ) => {
+                    console.error( 'Error al crear el usuario:', error );
+                } );
+            onResetForm();
+
+        } catch ( error ) {
+            console.error( 'Error al guardar el usuario:', error );
+        }
     };
+
 
     if ( employeesLoading || rolesLoading ) {
         return <Typography variant="h6" component="div">Cargando...</Typography>;
@@ -110,9 +138,6 @@ export default function UserForm(
                                     style={{display: 'none'}}
                                 />
                             </Box>
-
-
-                            
                         </Box>
                     </Grid2>
                     <Grid2 size={{xs: 12, md: 7}}>
@@ -125,6 +150,7 @@ export default function UserForm(
                                         value={selectedEmployee ? selectedEmployee.email : ''}
                                         disabled
                                         className='grow sm:w-1/2'
+                                        required
                                     />
                                 </Box>
                             </Grid2>
@@ -136,6 +162,7 @@ export default function UserForm(
                                         value={selectedEmployee ? selectedEmployee.name : ''}
                                         disabled
                                         className='grow sm:w-1/2'
+                                        required
                                     />
                                 </Box>
                             </Grid2>
@@ -147,6 +174,20 @@ export default function UserForm(
                                         value={username || ''}
                                         onChange={handleUsernameChange}
                                         className='grow sm:w-1/2'
+                                        required
+                                    />
+                                </Box>
+                            </Grid2>
+                            <Grid2 size={{xs: 12}}>
+                                <Box className='flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-0'>
+                                    <Typography className='w-20'>Password:</Typography>
+                                    <TextField
+                                        label="Password"
+                                        // type='password'
+                                        value={password || ''}
+                                        onChange={handlePasswordChange}
+                                        className='grow sm:w-1/2'
+                                        required
                                     />
                                 </Box>
                             </Grid2>
@@ -160,6 +201,7 @@ export default function UserForm(
                                             label="Role"
                                             value={selectedRole ? selectedRole._id : ''}
                                             onChange={handleRoleChange}
+                                            required
                                         >
                                             {roles.map( ( role ) => (
                                                 <MenuItem key={role._id} value={role._id}>
@@ -173,7 +215,6 @@ export default function UserForm(
                         </Grid2>
                     </Grid2>
                 </Grid2>
-
 
                 <PermisosComponent
                     selectedPermissions={selectedPermissions}

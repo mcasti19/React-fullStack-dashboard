@@ -8,7 +8,7 @@ import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import useFetchData from '../../../hooks/useApi';
+import {useFetchData} from '../../../hooks/useApi';
 import {useNavigate} from 'react-router';
 import {getRoleColor, getRoleIcon} from './helper/helpers';
 import LoadingSpinner from "../../../globalUI/LoadingSpinner";

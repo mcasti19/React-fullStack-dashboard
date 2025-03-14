@@ -9,7 +9,7 @@ import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useNavigate} from "react-router";
-import useFetchData from "../../../hooks/useApi";
+import {useFetchData} from "../../../hooks/useApi";
 
 export const EmployeesPage = () => {
   const theme = useTheme();
