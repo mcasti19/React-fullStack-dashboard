@@ -1,0 +1,2 @@
+CREAR COMPONENTE DE FORMULARIO QUE RECIBA EL ARRAY CON 
+name, label, value y type

@@ -12,6 +12,7 @@ import {CreateEmployeePage} from "../pages/employees/CreateEmployeePage";
 import {CreateUserPage} from "../pages/team/CreateUserPage";
 import {EmployeesPage} from "../pages/employees/EmployeesPage";
 import {EditUserPage} from "../pages/team/EditUserPage";
+import {CreateInvoicePage} from "../pages/invoices/CreateInvoicePage";
 
 export const DashboardRouter = () => {
     return (
@@ -27,6 +28,7 @@ export const DashboardRouter = () => {
                     <Route path="/employees" element={<EmployeesPage />} />
                     <Route path="/employees/create" element={<CreateEmployeePage />} />
                     <Route path="/invoices" element={<InvoicesPage />} />
+                    <Route path="/invoices/create" element={<CreateInvoicePage />} />
                     <Route path="/" element={<Navigate to="/dashboard" />} />
                 </Routes>
             </main>
