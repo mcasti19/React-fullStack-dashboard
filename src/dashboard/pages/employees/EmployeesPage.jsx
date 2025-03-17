@@ -19,6 +19,11 @@ export const EmployeesPage = () => {
 
   console.log( 'EMPLOYEES>>>: ', data );
 
+  // data.map( ( employee ) => (
+  //   console.log( employee.userId?.username )
+  // ) )
+
+
   const getRowId = ( row ) => row._id;
 
   const handleDelete = useCallback( async ( id, name ) => {
@@ -34,15 +39,12 @@ export const EmployeesPage = () => {
   }, [ axiosInstance, refetch ] );
 
   const columns = useMemo( () => [
-    // {field: "_id", headerName: "ID", flex: 0.5, },
     {
       field: "id",
       headerName: "#",
       flex: 0.5,
       renderCell: ( params ) => {
-        // Obtiene el índice del registro en el array + 1
         const rowIndex = data.findIndex( row => row._id === params.row._id ) + 1;
-        //* data.indexOf(row) es O(n), para grandes datasets (>1000 registros) es mejor usar:
         return <span>{rowIndex}</span>;
       }
 
@@ -50,6 +52,10 @@ export const EmployeesPage = () => {
     {field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell", },
     {field: "last_name", headerName: "Last Name", flex: 1, cellClassName: "name-column--cell", },
     {field: "age", headerName: "Age", type: "number", headerAlign: "left", align: "left", },
+    {
+      field: 'userId', headerName: "UserName", headerAlign: "left", align: "left",
+      renderCell: ( params ) => params.value?.username || '-'
+    },
     {field: "phone", headerName: "Phone Number", flex: 1, },
     {field: "email", headerName: "Email", flex: 1, },
     {field: "position", headerName: "Position", flex: 1, },
@@ -131,7 +137,7 @@ export const EmployeesPage = () => {
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
-            overflow:'auto'
+            overflow: 'auto'
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
