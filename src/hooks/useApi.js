@@ -37,7 +37,7 @@ export const useFetchData = ( endpoint ) => {
     };
   }, [ fetchData ] );  // Dependencia del fetchData memoizado
 
-  return {data, error, loading, refetch: fetchData, axiosInstance};
+  return {data, setData, error, loading, refetch: fetchData, axiosInstance};
 };
 
 
@@ -53,7 +53,7 @@ export const useSendData = ( endpoint, data ) => {
       setLoading( true );
       setError( null );
 
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         `${ import.meta.env.VITE_API_URL }/${ endpoint }`,
         {signal}  // Usar signal para cancelación
       );

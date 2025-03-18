@@ -19,24 +19,21 @@ export const EmployeesPage = () => {
 
   console.log( 'EMPLOYEES>>>: ', data );
 
-  // data.map( ( employee ) => (
-  //   console.log( employee.userId?.username )
-  // ) )
-
-
-  const getRowId = ( row ) => row._id;
-
   const handleDelete = useCallback( async ( id, name ) => {
     try {
       if ( window.confirm( `¿Eliminar a ${ name }?` ) ) {
-        await axiosInstance.delete( `users/${ id }` );
+        await axiosInstance.delete( `${ import.meta.env.VITE_API_URL }/employees/${ id }`, id );
         refetch();
+
       }
     } catch ( error ) {
       console.error( 'Error eliminando:', error );
       alert( error.response?.data?.message || 'Error al eliminar' );
     }
   }, [ axiosInstance, refetch ] );
+
+  const getRowId = ( row ) => row._id;
+
 
   const columns = useMemo( () => [
     {

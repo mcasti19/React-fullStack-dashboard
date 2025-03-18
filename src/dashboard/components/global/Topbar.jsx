@@ -11,6 +11,7 @@ import {useAuthActions} from "../../../hooks/useAuthActions";
 
 import {Box, IconButton, useTheme} from "@mui/material";
 import {ColorModeContext, tokens} from "../../../theme";
+import Search from "../Search";
 
 export const Topbar = () => {
   const theme = useTheme();
@@ -32,6 +33,7 @@ export const Topbar = () => {
         <IconButton type="button" sx={{p: 1}}>
           <SearchIcon />
         </IconButton>
+        {/* <Search /> */}
       </Box>
 
       {/* ICONS */}

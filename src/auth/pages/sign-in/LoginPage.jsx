@@ -22,7 +22,7 @@ export default function LoginPage() {
   const [ passwordErrorMessage, setPasswordErrorMessage ] = useState( '' );
 
 
-  const [ credentials, setCredentials ] = useState( {email: '', password: ''} );
+  const [ credentials, setCredentials ] = useState( {email: 'administrator@admin.com', password: '123123'} );
 
 
   // const [ open, setOpen ] = React.useState( false );

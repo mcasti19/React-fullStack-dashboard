@@ -11,30 +11,28 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {useFetchData} from '../../../hooks/useApi';
 import {useNavigate} from 'react-router';
 import {getRoleColor, getRoleIcon} from './helper/helpers';
-import LoadingSpinner from "../../../globalUI/LoadingSpinner";
 
 export const TeamPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
-  const {data, error, loading, refetch, axiosInstance} = useFetchData( 'users' );
+  const {data: users, error, loading, refetch, axiosInstance} = useFetchData( 'users' );
+
   const navigate = useNavigate();
 
-  console.log( "DATA DESDE TEAM PAGE", data );
-
-  const getRowId = ( row ) => row._id;
+  console.log( "DATA DESDE TEAM PAGE", users );
 
   const handleDelete = useCallback( async ( id, name ) => {
     try {
       if ( window.confirm( `¿Eliminar a ${ name }?` ) ) {
-        await axiosInstance.delete( `users/${ id }` );
+        await axiosInstance.delete( `${ import.meta.env.VITE_API_URL }/users/${ id }`, id );
         refetch();
+
       }
     } catch ( error ) {
       console.error( 'Error eliminando:', error );
       alert( error.response?.data?.message || 'Error al eliminar' );
     }
   }, [ axiosInstance, refetch ] );
-
 
   //*******************************/ COLUMNS
   const columns = useMemo( () => [
@@ -80,6 +78,7 @@ export const TeamPage = () => {
 
               <IconButton
                 onClick={() => handleDelete( row._id, row.name )}
+
                 sx={{color: colors.redAccent[ 600 ]}}
               >
                 <DeleteIcon />
@@ -89,9 +88,12 @@ export const TeamPage = () => {
         );
       },
     },
-
   ], [ colors, handleDelete, navigate ] );
 
+  const getRowId = ( row ) => row._id;
+
+
+  //**************************************************/ LOADING
   if ( loading ) {
     return (
       <Box className='h-screen flex flex-col gap-4 justify-center items-center'>
@@ -102,7 +104,8 @@ export const TeamPage = () => {
       </Box>
     );
   }
-  // console.log( 'ERROR>>>', error );
+
+  //**************************************************/ ERROR
   if ( error ) {
     return (
       <Box className='h-screen flex justify-center items-center'>
@@ -114,10 +117,10 @@ export const TeamPage = () => {
   }
 
 
-
   const newUser = () => {
     navigate( '/team/create' );
   }
+
   return (
     <Box m="20px" width={`calc(100% - 60px)`} minWidth={900}>
       <Box className='flex justify-between items-center'>
@@ -131,13 +134,10 @@ export const TeamPage = () => {
         </Button>
 
       </Box>
-
-
-
       <Box
         m="40px 0 0 0"
         width={`100%`}
-        height="75vh"
+        height="70vh"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -166,8 +166,9 @@ export const TeamPage = () => {
         }}
       >
         <DataGrid
-          checkboxSelection
-          rows={data}
+          sx={{height: '100%'}}
+          // checkboxSelection
+          rows={users}
           columns={columns}
           getRowId={getRowId}
           components={{
