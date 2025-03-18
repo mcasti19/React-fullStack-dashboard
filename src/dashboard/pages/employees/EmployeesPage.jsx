@@ -39,24 +39,25 @@ export const EmployeesPage = () => {
     {
       field: "id",
       headerName: "#",
-      flex: 0.5,
+      flex: 1,
+      maxWidth: 50,
       renderCell: ( params ) => {
         const rowIndex = data.findIndex( row => row._id === params.row._id ) + 1;
         return <span>{rowIndex}</span>;
       }
 
     },
-    {field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell", },
-    {field: "last_name", headerName: "Last Name", flex: 1, cellClassName: "name-column--cell", },
-    {field: "age", headerName: "Age", type: "number", headerAlign: "left", align: "left", },
+    {field: "name", headerName: "Name", cellClassName: "name-column--cell", flex: 1, minWidth: 100},
+    {field: "last_name", headerName: "Last Name", cellClassName: "name-column--cell", flex: 1, minWidth: 100},
+    {field: "age", headerName: "Age", type: "number", headerAlign: "left", align: "left", flex: 1, maxWidth: 50, },
     {
-      field: 'userId', headerName: "UserName", headerAlign: "left", align: "left",
+      field: 'userId', headerName: "UserName", headerAlign: "left", align: "left", flex: 1, maxWidth: 100,
       renderCell: ( params ) => params.value?.username || '-'
     },
-    {field: "phone", headerName: "Phone Number", flex: 1, },
-    {field: "email", headerName: "Email", flex: 1, },
-    {field: "position", headerName: "Position", flex: 1, },
-    {field: "department", headerName: "Department", flex: 1, },
+    {field: "phone", headerName: "Phone Number", },
+    {field: "email", headerName: "Email", flex: 1, minWidth: 180, },
+    {field: "position", headerName: "Position", flex: 1, minWidth: 180},
+    {field: "department", headerName: "Department", },
     {
       field: "actions",
       headerName: "Actions",
@@ -114,10 +115,10 @@ export const EmployeesPage = () => {
   }
 
   return (
-    <Box m="0 20px">
+    // <Box m="0 20px">
+    <Box>
       <Box className="flex justify-between items-center">
         <Header title="Employees" subtitle="List of Contacts for Future Reference" />
-
         <Button className="text-sm font-bold flex justify-between items-center"
           sx={{backgroundColor: colors.blueAccent[ 700 ], color: colors.grey[ 100 ], }}
           onClick={newEmployee}
@@ -140,7 +141,7 @@ export const EmployeesPage = () => {
             borderBottom: "none",
           },
           "& .name-column--cell": {
-            color: colors.greenAccent[ 300 ],
+            // color: colors.greenAccent[ 300 ],
           },
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: colors.blueAccent[ 700 ],

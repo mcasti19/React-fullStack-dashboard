@@ -37,13 +37,13 @@ export const TeamPage = () => {
   //*******************************/ COLUMNS
   const columns = useMemo( () => [
 
-    {field: '_id', headerName: "ID"},
-    {field: 'name', headerName: "Name", flex: 1, cellClassName: "name-column--cell", },
+    {field: '_id', headerName: "ID", flex: 1, },
+    {field: 'name', headerName: "Name", cellClassName: "name-column--cell", flex: 1, width: 125, minWidth: 100, maxWidth: 150 },
     {field: 'username', headerName: "User ", type: "number", headerAlign: "left", align: "left", },
-    {field: 'email', headerName: "Email", flex: 1, },
-    {field: "phone", headerName: "Phone Number", flex: 1, },
+    {field: 'email', headerName: "Email", width: 125, minWidth: 180, maxWidth: 200},
+    {field: "phone", headerName: "Phone Number", flex: 1},
     {
-      field: "roles", headerName: "Roles", flex: 1, align: "center", justify: "center",
+      field: "roles", headerName: "Roles", align: "center", justify: "center",
       renderCell: ( {row: {roles}} ) => {
         return roles.map( role => (
           <Chip
@@ -122,7 +122,8 @@ export const TeamPage = () => {
   }
 
   return (
-    <Box m="20px" width={`calc(100% - 60px)`} minWidth={900}>
+    // <Box m="20px" width={`calc(100% - 60px)`} minWidth={900}>
+    <Box >
       <Box className='flex justify-between items-center'>
         <Header title="TEAM" subtitle="Managing the Team Members" />
         <Button className="text-sm font-bold flex justify-between items-center"
@@ -141,17 +142,24 @@ export const TeamPage = () => {
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
-            overflow: 'auto'
+            // overflow: 'auto'
           },
-          "& .MuiDataGrid-cell": {
+          "& .MuiDataGrid-cell, .MuiDataGrid-columnHeader": {
             borderBottom: "none",
+            // minWidth: "auto",
+            background: "transparent !important"
+
           },
+          // "& .MuiDataGrid-columnHeader": {
+          //   borderBottom: "none",
+          //   minWidth: "100px"
+          // },
           "& .name-column--cell": {
             color: colors.greenAccent[ 300 ],
           },
           "& .MuiDataGrid-container--top [role=row]": {
-            backgroundColor: colors.blueAccent[ 700 ],
-            borderBottom: "none",
+            // backgroundColor: colors.blueAccent[ 200 ],
+            backgroundColor: "transparent",
           },
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: colors.primary[ 400 ],

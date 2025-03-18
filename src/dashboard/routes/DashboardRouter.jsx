@@ -6,8 +6,7 @@ import {InvoicesPage} from "../pages/invoices/InvoicesPage";
 import {BarChartPage} from "../pages/bar/BarChartPage";
 import {CalendarPage} from "../pages/calendar/CalendarPage";
 import {FaqPage} from "../pages/faq/FaqPage";
-import {SideNav} from "../components/global/SideNav";
-import {Topbar} from "../components/global/Topbar";
+import {SideNav, Topbar} from "../../globalUI";
 import {CreateEmployeePage} from "../pages/employees/CreateEmployeePage";
 import {CreateUserPage} from "../pages/team/CreateUserPage";
 import {EmployeesPage} from "../pages/employees/EmployeesPage";
@@ -18,7 +17,7 @@ export const DashboardRouter = () => {
     return (
         <div className="app">
             <SideNav />
-            <main className="content">
+            <main className="content w-auto p-6 pb-0 overflow-x-hidden">
                 <Topbar />
                 <Routes>
                     <Route path="/dashboard" element={<DashboardPage />} />

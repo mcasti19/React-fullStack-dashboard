@@ -19,7 +19,7 @@ export const DashboardPage = () => {
 
   return (
 
-    <Box m="10px 20px">
+    <Box m="0">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center"
         className='flex flex-col mb-4 justify-between items-center sm:flex-row sm:mb-0'>
@@ -39,7 +39,7 @@ export const DashboardPage = () => {
       </Box>
 
       {/* GRID & CHARTS */}
-      <Box className="flex flex-col gap-4 h-dvh overflow-scroll">
+      <Box className="flex flex-col gap-4 overflow-scroll">
         {/* ROW 1 */}
         <Grid2 container spacing={2} className=''>
           <Grid2 size={{xs: 12, md: 6, lg: 3}}>
