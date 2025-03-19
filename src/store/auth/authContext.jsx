@@ -67,7 +67,7 @@ const AuthProvider = ( {children} ) => {
         }
         localStorage.setItem( 'token', user.token );
         setToken( user.token );
-        console.log( 'Token actualizado:', user.token );
+        // console.log( 'Token actualizado:', user.token );
         setIsAuthenticated( true );
         setAuthenticatedUser( user )
         console.log( 'Estado authenticatedUser actualizado:', authenticatedUser );

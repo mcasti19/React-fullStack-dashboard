@@ -1,4 +1,4 @@
-import {useCallback, useMemo} from "react";
+import {useMemo} from "react";
 import {Box, Button, Chip, CircularProgress, IconButton, Tooltip, Typography, useTheme} from "@mui/material";
 import {DataGrid, GridToolbar} from "@mui/x-data-grid";
 import {tokens} from "../../../theme";
@@ -8,37 +8,36 @@ import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import {useFetchData} from '../../../hooks/useApi';
+import useApi from '../../../hooks/useApi';
 import {useNavigate} from 'react-router';
 import {getRoleColor, getRoleIcon} from './helper/helpers';
 
 export const TeamPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
-  const {data: users, error, loading, refetch, axiosInstance} = useFetchData( 'users' );
+  const {data: users, error, loading, handleDelete, } = useApi( 'users' );
 
   const navigate = useNavigate();
 
   console.log( "DATA DESDE TEAM PAGE", users );
 
-  const handleDelete = useCallback( async ( id, name ) => {
-    try {
-      if ( window.confirm( `¿Eliminar a ${ name }?` ) ) {
-        await axiosInstance.delete( `${ import.meta.env.VITE_API_URL }/users/${ id }`, id );
-        refetch();
-
-      }
-    } catch ( error ) {
-      console.error( 'Error eliminando:', error );
-      alert( error.response?.data?.message || 'Error al eliminar' );
-    }
-  }, [ axiosInstance, refetch ] );
+  // const handleDelete = useCallback( async ( id, name ) => {
+  //   try {
+  //     if ( window.confirm( `¿Eliminar a ${ name }?` ) ) {
+  //       await axiosInstance.delete( `${ import.meta.env.VITE_API_URL }/users/${ id }`, id );
+  //       refetch();
+  //     }
+  //   } catch ( error ) {
+  //     console.error( 'Error eliminando:', error );
+  //     alert( error.response?.data?.message || 'Error al eliminar' );
+  //   }
+  // }, [ axiosInstance, refetch ] );
 
   //*******************************/ COLUMNS
   const columns = useMemo( () => [
 
     {field: '_id', headerName: "ID", flex: 1, },
-    {field: 'name', headerName: "Name", cellClassName: "name-column--cell", flex: 1, width: 125, minWidth: 100, maxWidth: 150 },
+    {field: 'name', headerName: "Name", cellClassName: "name-column--cell", flex: 1, width: 125, minWidth: 100, maxWidth: 150},
     {field: 'username', headerName: "User ", type: "number", headerAlign: "left", align: "left", },
     {field: 'email', headerName: "Email", width: 125, minWidth: 180, maxWidth: 200},
     {field: "phone", headerName: "Phone Number", flex: 1},

@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useParams} from "react-router";
-import {useFetchData} from "../../../hooks/useApi";
+import useApi from "../../../hooks/useApi";
 
 import {
     Container,
@@ -22,7 +22,7 @@ export const EditUserPage = () => {
     const theme = useTheme();
     const colors = tokens( theme.palette.mode );
     const {userId} = useParams();
-    const {data, error, loading} = useFetchData( `users/${ userId }` );
+    const {data, error, loading} = useApi( `users/${ userId }` );
 
     const [ formValues, setFormValues ] = useState( {
         name: '',

@@ -49,12 +49,11 @@ export const Topbar = () => {
   ];
 
   return (
-    <Box display="flex" border={0}>
-      {/* ICONS */}
-      <Box display="flex" marginLeft={'auto'} width={'auto'}>
+    <Box className="h-10 mb-4 flex justify-center sm:justify-end">
+      <Box className="flex justify-center items-center gap-7 ">
         {topIcons.map( ( topIcon, index ) => (
-          <IconButton key={index} onClick={topIcon.onClick}>
-            <Avatar sx={{bgcolor: colors.blueAccent[ 800 ], color: colors.greenAccent[ 100 ]}}>
+          <IconButton key={index} onClick={topIcon.onClick} className="border-2 w-5 h-5">
+            <Avatar sx={{bgcolor: colors.blueAccent[ 800 ], color: colors.greenAccent[ 100 ]}} className="">
               {typeof topIcon.icon === 'function' ? topIcon.icon() : topIcon.icon}
             </Avatar>
           </IconButton>

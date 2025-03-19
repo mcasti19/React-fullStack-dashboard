@@ -1,13 +1,13 @@
 import React from 'react';
-import { CircularProgress, Box } from '@mui/material';
+import {CircularProgress, Box, Typography} from '@mui/material';
 
-const LoadingSpinner = ({ size = 40, className = '' }) => {
+const LoadingSpinner = ( {title = ''} ) => {
   return (
-    <Box 
-      className={`flex justify-center items-center ${className}`}
-      role="alert"
-    >
-      <CircularProgress size={size} color='primary' />
+    <Box className='h-screen flex flex-col gap-4 justify-center items-center'>
+      <Typography variant="h6" component="div">
+        {title}
+      </Typography>
+      <CircularProgress color='primary' />
     </Box>
   );
 };

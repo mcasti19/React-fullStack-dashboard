@@ -1,40 +1,33 @@
-// // import { ResponsiveLine } from "@nivo/line";
-// import { useTheme } from "@mui/material";
-// import { tokens } from "../theme";
-
-// const LineChart = ( { isCustomLineColors = false, isDashboard = false } ) => {
-//   const theme = useTheme();
-//   const colors = tokens( theme.palette.mode );
-
-//   return (
-//     //
-//     <h1>LINECHART</h1>
-//   );
-// };
-
-// export default LineChart;
-
-
-import {mockLineData as data} from "../../data/mockData";
 import * as React from 'react';
 import {LineChart} from '@mui/x-charts/LineChart';
 
-export default function BasicLineChart() {
 
 
-  console.log( data );
 
+const uData = [ 4000, 3000, 2000, 2780, 1890, 2390, 3490 ];
+const pData = [ 2400, 1398, 9800, 3908, 4800, 3800, 4300 ];
+const xLabels = [
+  'Page A',
+  'Page B',
+  'Page C',
+  'Page D',
+  'Page E',
+  'Page F',
+  'Page G',
+];
+
+export const LinechartData = () => {
 
   return (
     <LineChart
-      xAxis={[ {data: [ 1, 2, 3, 5, 8 ]} ]}
+      // width={500}
+      // height={300}
+      margin={{top: 10, bottom: 30, left: 40, right: 10}}
       series={[
-        {
-          data: [ 2, 5.5, 2, 8.5, 1.5 ],
-        },
+        {data: pData, },
+        {data: uData, },
       ]}
-      width={1000}
-      height={200}
+      xAxis={[ {scaleType: 'point', data: xLabels} ]}
     />
   );
 }

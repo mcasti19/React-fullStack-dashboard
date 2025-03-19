@@ -5,7 +5,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // import {useGoBack} from "../../../hooks/useGoBack";
 import BreadcrumbsComponent from '../../../globalUI/Breadcrumbs';
 import SelecteUsers from './components/SelecteUsers';
-import {useFetchData} from '../../../hooks/useApi';
+import useApi from '../../../hooks/useApi';
 import PermisosComponent from './components/PermisosComponent';
 import {useAuth} from '../../../store/auth/authContext';
 
@@ -28,8 +28,8 @@ export const CreateUserPage = () => {
   // const theme = useTheme();
   // const colors = tokens( theme.palette.mode );
   // const goBack = useGoBack( '/team' );
-  const {data: employees, error: employeesError, loading: employeesLoading} = useFetchData( 'employees' );
-  const {data: roles, error: rolesError, loading: rolesLoading} = useFetchData( 'roles' );
+  const {data: employees, error: employeesError, loading: employeesLoading} = useApi( 'employees' );
+  const {data: roles, error: rolesError, loading: rolesLoading} = useApi( 'roles' );
 
   const {authenticatedUser} = useAuth();
 

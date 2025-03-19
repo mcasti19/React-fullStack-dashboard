@@ -20,19 +20,19 @@ import {
 } from '@mui/material';
 import {Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon} from '@mui/icons-material';
 import roleService from '../../../../helpers/roleServices';
-import {useFetchData} from '../../../../hooks/useApi';
+import useApi from '../../../../hooks/useApi';
 
 const RolePermissionManager = () => {
     // State management
-  // State management
-  const [roles, setRoles] = useState([]);
-  const [selectedRole, setSelectedRole] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [newRoleName, setNewRoleName] = useState('');
-    const {data} = useFetchData( `roles` );
+    // State management
+    const [ roles, setRoles ] = useState( [] );
+    const [ selectedRole, setSelectedRole ] = useState( null );
+    const [ loading, setLoading ] = useState( false );
+    const [ error, setError ] = useState( null );
+    const [ success, setSuccess ] = useState( null );
+    const [ openDialog, setOpenDialog ] = useState( false );
+    const [ newRoleName, setNewRoleName ] = useState( '' );
+    const {data} = useApi( `roles` );
 
     // Sample permissions - replace with your actual permissions
     const availablePermissions = [
