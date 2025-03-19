@@ -12,6 +12,7 @@ import {CreateUserPage} from "../pages/team/CreateUserPage";
 import {EmployeesPage} from "../pages/employees/EmployeesPage";
 import {EditUserPage} from "../pages/team/EditUserPage";
 import {CreateInvoicePage} from "../pages/invoices/CreateInvoicePage";
+import Pie from "../pages/pie/PieChart";
 
 export const DashboardRouter = () => {
     return (
@@ -28,6 +29,8 @@ export const DashboardRouter = () => {
                     <Route path="/employees/create" element={<CreateEmployeePage />} />
                     <Route path="/invoices" element={<InvoicesPage />} />
                     <Route path="/invoices/create" element={<CreateInvoicePage />} />
+                    <Route path="/bar" element={<BarChartPage />} />
+                    <Route path="/pie" element={<Pie />} />
                     <Route path="/" element={<Navigate to="/dashboard" />} />
                 </Routes>
             </main>
@@ -38,7 +41,7 @@ export const DashboardRouter = () => {
 
 
 {/* <Route path="/form" element={<FormPage />} /> */}
-{/* <Route path="/bar" element={<BarChartPage />} /> */}
+
 {/* <Route path="/pie" element={<Pie />} /> */}
 {/* <Route path="/line" element={<Line />} /> */}
 {/* <Route path="/faq" element={<FaqPage />} /> */}

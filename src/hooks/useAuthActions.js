@@ -10,7 +10,7 @@ export const useAuthActions = () => {
         try {
             const response = await axios.post( `${ import.meta.env.VITE_API_URL }/auth/login`, {email, password} );
             const user = response.data;
-            console.log( "TOKEN RECIBIDO: >>>", user.token );
+            // console.log( "TOKEN RECIBIDO: >>>", user.token );
             login( user );
             navigate( '/dashboard' );
 

@@ -12,6 +12,7 @@ import LineChart from "../../components/LineChart";
 // import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
+import {BarchartData} from "../../components/BarChart";
 
 export const DashboardPage = () => {
   const theme = useTheme();
@@ -171,12 +172,12 @@ export const DashboardPage = () => {
           </Grid2>
 
           <Grid2 size={{xs: 12, lg: 4}}>
-            <Box backgroundColor={colors.primary[ 400 ]} className='h-68 p-3.5'>
+            <Box backgroundColor={colors.primary[ 400 ]} className='h-68 p-3.5 flex flex-col justify-center items-center'>
               <Typography variant="h5" fontWeight="600">
                 Sales Quantity
               </Typography>
-              <Box className='h-60 -mt-5'>
-                {/* <BarChart isDashboard={true} /> */}
+              <Box sx={{width: '100%', height: 200}}>
+                <BarchartData />
               </Box>
             </Box>
           </Grid2>
