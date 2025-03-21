@@ -7,8 +7,9 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from '@mui/icons-material/Logout';
-import {useAuthActions} from "../hooks/useAuthActions";
 import Avatar from '@mui/material/Avatar';
+import Badge from '@mui/material/Badge';
+import {useAuthActions} from "../hooks/useAuthActions";
 
 import {Box, IconButton, useTheme} from "@mui/material";
 import {ColorModeContext, tokens} from "../theme";
@@ -30,7 +31,9 @@ export const Topbar = () => {
       onClick: colorMode.toggleColorMode,
     },
     {
-      icon: <NotificationsOutlinedIcon />,
+      icon: <Badge color="error" overlap="circular" badgeContent=" " variant="dot">
+        <NotificationsOutlinedIcon />
+      </Badge>
       // sx: {bgcolor: colors.blueAccent[ 700 ], color: colors.greenAccent[ 100 ]},
     },
     {

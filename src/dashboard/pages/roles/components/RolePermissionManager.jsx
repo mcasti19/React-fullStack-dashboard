@@ -22,9 +22,8 @@ import {Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon} from '@mui/icons
 import roleService from '../../../../helpers/roleServices';
 import useApi from '../../../../hooks/useApi';
 
-const RolePermissionManager = () => {
-    // State management
-    // State management
+const RolePermissionManager = (  ) => {
+    const {data} = useApi( `roles` );
     const [ roles, setRoles ] = useState( [] );
     const [ selectedRole, setSelectedRole ] = useState( null );
     const [ loading, setLoading ] = useState( false );
@@ -32,8 +31,7 @@ const RolePermissionManager = () => {
     const [ success, setSuccess ] = useState( null );
     const [ openDialog, setOpenDialog ] = useState( false );
     const [ newRoleName, setNewRoleName ] = useState( '' );
-    const {data} = useApi( `roles` );
-
+    
     // Sample permissions - replace with your actual permissions
     const availablePermissions = [
         {id: 'create_user', name: 'Create User'},
@@ -43,6 +41,11 @@ const RolePermissionManager = () => {
         {id: 'manage_settings', name: 'Manage Settings'},
         {id: 'approve_content', name: 'Approve Content'},
     ];
+
+    useEffect( () => {
+        console.log( roles );
+    }, [ roles ] )
+
 
     // Fetch roles on component mount
     useEffect( () => {
@@ -71,7 +74,7 @@ const RolePermissionManager = () => {
         try {
             await roleService.updateRolePermissions( selectedRole._id, selectedRole.permissions );
             setSuccess( 'Role permissions updated successfully' );
-            setRoles( data );
+            // setRoles( data );
         } catch ( err ) {
             console.log( err );
 
@@ -90,7 +93,7 @@ const RolePermissionManager = () => {
             setSuccess( 'Role created successfully' );
             setOpenDialog( false );
             setNewRoleName( '' );
-            setRoles( data );
+            // setRoles( data );
         } catch ( err ) {
             console.log( err );
 
@@ -108,7 +111,7 @@ const RolePermissionManager = () => {
             await roleService.deleteRole( roleId );
             setSuccess( 'Role deleted successfully' );
             setSelectedRole( null );
-            setRoles( data );
+            // setRoles( data );
         } catch ( err ) {
             console.log( err );
 
@@ -119,7 +122,7 @@ const RolePermissionManager = () => {
     };
 
     return (
-        <Box className="p-4">
+        <Box className="p-4 w-full">
             <Typography variant="h4" className="mb-4">
                 Role & Permission Management
             </Typography>
@@ -128,7 +131,7 @@ const RolePermissionManager = () => {
                 {/* Roles List */}
                 <Paper className="p-4">
                     <Box className="flex justify-between items-center mb-4">
-                        <Typography variant="h6">Roles</Typography>
+                        {/* <Typography variant="h6">Roles</Typography> */}
                         <Button
                             startIcon={<AddIcon />}
                             variant="contained"
@@ -143,10 +146,9 @@ const RolePermissionManager = () => {
                         {roles.map( ( role ) => (
                             <ListItem
                                 key={role._id}
-                                button
                                 selected={selectedRole?._id === role._id}
                                 onClick={() => handleRoleSelect( role )}
-                                className="hover:bg-gray-100"
+                                className="hover:bg-slate-900"
                             >
                                 <ListItemText primary={role.name} />
                                 <DeleteIcon

@@ -5,31 +5,19 @@ import PermisosComponent from './PermisosComponent';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import useAxios from '../../../../hooks/useAxios';
 
-export default function UserForm(
-    {
-        employee,
-        roles,
-        rolesError,
-        employeesError,
-        employeesLoading,
-        rolesLoading
-    }
-) {
+export default function UserForm( {employee, roles} ) {
     const axiosInstance = useAxios();
     const theme = useTheme();
     const colors = tokens( theme.palette.mode );
 
     const [ selectedEmployee, setSelectedEmployee ] = useState( employee );
     const [ username, setUsername ] = useState( '' );
-
     const [ password, setPassword ] = useState( '' );
     const [ selectedRole, setSelectedRole ] = useState( null );
     const [ selectedPermissions, setSelectedPermissions ] = useState( [] );
-
     const [ selectedImage, setSelectedImage ] = useState( null );
 
     // console.log(employee);
-
 
     const onResetForm = () => {
         setSelectedEmployee( '' );
@@ -38,6 +26,8 @@ export default function UserForm(
         setSelectedRole( null );
         setSelectedImage( [] );
         setSelectedImage( null );
+        // setSelectedPermissions( null );
+
     }
 
 
@@ -74,7 +64,8 @@ export default function UserForm(
                 permissions: selectedPermissions,
                 employeeId: employee._id
             };
-            console.log(user);
+
+            console.log("PERMISOS: ", selectedPermissions );
             axiosInstance.post( `${ import.meta.env.VITE_API_URL }/users`, user )
                 .then( ( respuesta ) => {
                     console.log( 'Usuario creado con éxito:', respuesta );
@@ -88,15 +79,6 @@ export default function UserForm(
             console.error( 'Error al guardar el usuario:', error );
         }
     };
-
-
-    if ( employeesLoading || rolesLoading ) {
-        return <Typography variant="h6" component="div">Cargando...</Typography>;
-    }
-
-    if ( employeesError || rolesError ) {
-        return <Typography variant="h6" component="div">Error al cargar datos</Typography>;
-    }
 
     return (
         <Box
@@ -119,7 +101,6 @@ export default function UserForm(
                             <Box className='flex items-center justify-center w-28 h-28 rounded-full bg-slate-700 cursor-pointer'
                                 bgcolor={`${ colors.grey[ 400 ] }`}
                                 onClick={() => document.getElementById( 'image-input' ).click()}
-
                             >
                                 {selectedImage ? (
                                     <img src={URL.createObjectURL( selectedImage )}
@@ -215,12 +196,10 @@ export default function UserForm(
                         </Grid2>
                     </Grid2>
                 </Grid2>
-
                 <PermisosComponent
                     selectedPermissions={selectedPermissions}
                     setSelectedPermissions={setSelectedPermissions}
                 />
-
                 <Box className='' marginTop={'auto'} marginInline={'auto'}>
                     <Button type="submit" variant="contained" >
                         Create

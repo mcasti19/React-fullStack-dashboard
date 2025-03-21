@@ -33,10 +33,6 @@ const PermisosComponent = ( {selectedPermissions, setSelectedPermissions} ) => {
         <Box mt={5} className='flex flex-col gap-10'>
             <Typography variant='h2' align='center'>Permissions</Typography>
             <Grid2 container spacing={2} className="flex flex-col items-center justify-center ">
-                {/* <Grid2 className="flex flex-col items-center bg-slate-600">
-                    {categorias.map( ( categoria ) => (
-                    ) )}
-                </Grid2> */}
                 <Grid2 className="flex flex-col gap-4">
                     {categorias.map( ( categoria ) => (
                         <Box key={categoria.id} className="flex flex-col  gap-1 sm:flex-row sm:items-center">
@@ -60,11 +56,6 @@ const PermisosComponent = ( {selectedPermissions, setSelectedPermissions} ) => {
                     ) )}
                 </Grid2>
             </Grid2>
-            {/* <Box>
-                <Button onClick={() => console.log( selectedPermissions )}>
-                    Obtener permisos seleccionados
-                </Button>
-            </Box> */}
         </Box>
     );
 };

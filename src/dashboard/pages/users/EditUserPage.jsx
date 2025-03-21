@@ -16,7 +16,7 @@ import {
     useTheme
 } from '@mui/material';
 import {tokens} from '../../../theme';
-import RolePermissionManager from './components/RolePermissionManager';
+// import RolePermissionManager from '../roles/components/RolePermissionManager';
 
 export const EditUserPage = () => {
     const theme = useTheme();
@@ -161,14 +161,18 @@ export const EditUserPage = () => {
                             Cancelar
                         </Button>
                     </Grid2>
-                    
+
                 </Grid2>
 
 
 
 
             </form>
-            <RolePermissionManager />
+            {/* <RolePermissionManager /> */}
+            {/* <PermisosComponent
+                    selectedPermissions={selectedPermissions}
+                    setSelectedPermissions={setSelectedPermissions}
+                /> */}
         </Container>
     );
 };

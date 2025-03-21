@@ -15,6 +15,7 @@ import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import HttpsIcon from '@mui/icons-material/Https';
 
 export const SideNav = () => {
   const theme = useTheme();
@@ -191,9 +192,9 @@ export const SideNav = () => {
             icon={<CalendarTodayOutlinedIcon />}
           />
           <Item
-            title="FAQ Page"
-            to="/faq"
-            icon={<HelpOutlineOutlinedIcon />}
+            title="Roles & Permissions"
+            to="/roles"
+            icon={<HttpsIcon />}
           />
           <Typography
             variant="h6"
