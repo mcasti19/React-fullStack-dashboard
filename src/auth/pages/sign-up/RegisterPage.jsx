@@ -63,13 +63,6 @@ export default function RegisterPage() {
             event.preventDefault();
             return;
         }
-        const data = new FormData( event.currentTarget );
-        // console.log( {
-        //     name: data.get( 'name' ),
-        //     lastName: data.get( 'lastName' ),
-        //     email: data.get( 'email' ),
-        //     password: data.get( 'password' ),
-        // } );
     };
 
     return (
@@ -166,4 +159,4 @@ export default function RegisterPage() {
             </Box>
         </AuthLayout>
     );
-}
+};

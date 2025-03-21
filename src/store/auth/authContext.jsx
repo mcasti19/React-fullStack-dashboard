@@ -27,7 +27,7 @@ const AuthProvider = ( {children} ) => {
             }
             return !isExpired;
         } catch ( error ) {
-            // console.log( "Error AuthProvider, ", error );
+            console.log( "Error AuthProvider, ", error );
             localStorage.removeItem( 'token' );
             setIsAuthenticated( false );
             return false;
@@ -36,9 +36,9 @@ const AuthProvider = ( {children} ) => {
     // Chequeo periódico cada minuto
     useEffect( () => {
         const interval = setInterval( () => {
-            // console.log( 'checkTokenExpiration' );
+            console.log( 'checkTokenExpiration' );
             checkTokenExpiration();
-        }, 60000 ); // 60 segundos
+        }, 60000 );
         return () => clearInterval( interval );
     }, [] );
 
@@ -49,11 +49,10 @@ const AuthProvider = ( {children} ) => {
             setIsAuthenticated( true );
         }
         setLoading( false );
-        // console.log( 'authContext >>> ', storedToken );
     }, [] );
 
     // useEffect( () => {
-        // console.log( 'Estado authenticatedUser  actualizaxxxdo:', authenticatedUser );
+    //     console.log( 'Estado authenticatedUser  actualizaxxxdo:', authenticatedUser );
     // }, [ authenticatedUser ] );
 
     const login = ( token ) => {
@@ -62,13 +61,10 @@ const AuthProvider = ( {children} ) => {
             return;
         }
         localStorage.setItem( 'token', token );
-        // console.log( 'USUARIO DESPUES DE LOGUEAR>>> ', token );
+        console.log( 'USUARIO DESPUES DE LOGUEAR>>> ', token );
 
         setToken( token );
-        // console.log( 'Token actualizado:', user.token );
         setIsAuthenticated( true );
-
-        // console.log( 'Estado authenticatedUser actualizado:', authenticatedUser );
     };
 
     //******************************************** */ CHECKING TOKEN

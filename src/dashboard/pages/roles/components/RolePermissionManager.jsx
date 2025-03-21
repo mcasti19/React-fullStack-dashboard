@@ -22,7 +22,7 @@ import {Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon} from '@mui/icons
 import roleService from '../../../../helpers/roleServices';
 import useApi from '../../../../hooks/useApi';
 
-const RolePermissionManager = (  ) => {
+const RolePermissionManager = () => {
     const {data} = useApi( `roles` );
     const [ roles, setRoles ] = useState( [] );
     const [ selectedRole, setSelectedRole ] = useState( null );
@@ -31,7 +31,7 @@ const RolePermissionManager = (  ) => {
     const [ success, setSuccess ] = useState( null );
     const [ openDialog, setOpenDialog ] = useState( false );
     const [ newRoleName, setNewRoleName ] = useState( '' );
-    
+
     // Sample permissions - replace with your actual permissions
     const availablePermissions = [
         {id: 'create_user', name: 'Create User'},
@@ -43,7 +43,7 @@ const RolePermissionManager = (  ) => {
     ];
 
     useEffect( () => {
-        // console.log( roles );
+        console.log( roles );
     }, [ roles ] )
 
 
@@ -76,7 +76,7 @@ const RolePermissionManager = (  ) => {
             setSuccess( 'Role permissions updated successfully' );
             // setRoles( data );
         } catch ( err ) {
-            // console.log( err );
+            console.log( err );
 
             setError( 'Failed to update role permissions' );
         } finally {
@@ -95,7 +95,7 @@ const RolePermissionManager = (  ) => {
             setNewRoleName( '' );
             // setRoles( data );
         } catch ( err ) {
-            // console.log( err );
+            console.log( err );
 
             setError( 'Failed to create role' );
         } finally {
@@ -113,7 +113,7 @@ const RolePermissionManager = (  ) => {
             setSelectedRole( null );
             // setRoles( data );
         } catch ( err ) {
-            // console.log( err );
+            console.log( err );
 
             setError( 'Failed to delete role' );
         } finally {
