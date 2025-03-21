@@ -20,7 +20,7 @@ export const EmployeesPage = () => {
 
 
   useEffect( () => {
-    console.log( 'EMPLOYEES>>>: ', employees );
+    // console.log( 'EMPLOYEES>>>: ', employees );
   }, [ employees ] )
 
 

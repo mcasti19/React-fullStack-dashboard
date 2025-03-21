@@ -43,7 +43,7 @@ export const EditEmployeePage = () => {
     // Actualizar el estado cuando los datos de la API lleguen
     useEffect( () => {
         if ( employee ) {
-            console.log( employee );
+            // console.log( employee );
             // setFormValues( {
             //     name: employee.name,
             //     last_name: employee.last_name,
@@ -57,7 +57,7 @@ export const EditEmployeePage = () => {
 
     const handleSubmit = async ( e ) => {
         e.preventDefault();
-        console.log( formValues );
+        // console.log( formValues );
     };
 
 

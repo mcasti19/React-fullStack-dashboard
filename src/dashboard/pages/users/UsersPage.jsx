@@ -19,19 +19,7 @@ export const UsersPage = () => {
 
   const navigate = useNavigate();
 
-  console.log( "DATA DESDE Users PAGE", users );
-
-  // const handleDelete = useCallback( async ( id, name ) => {
-  //   try {
-  //     if ( window.confirm( `¿Eliminar a ${ name }?` ) ) {
-  //       await axiosInstance.delete( `${ import.meta.env.VITE_API_URL }/users/${ id }`, id );
-  //       refetch();
-  //     }
-  //   } catch ( error ) {
-  //     console.error( 'Error eliminando:', error );
-  //     alert( error.response?.data?.message || 'Error al eliminar' );
-  //   }
-  // }, [ axiosInstance, refetch ] );
+  // console.log( "DATA DESDE Users PAGE", users );
 
   //*******************************/ COLUMNS
   const columns = useMemo( () => [

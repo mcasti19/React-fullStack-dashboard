@@ -43,11 +43,11 @@ export const CreateUserPage = () => {
   const [ selectedEmployee, setSelectedEmployee ] = useState( null );
   const {authenticatedUser} = useAuth();
 
-  console.log( "EMPLOYEES ", employees );
+  // console.log( "EMPLOYEES ", employees );
 
 
   useEffect( () => {
-    console.log( 'Estado authenticatedUser en CreateUserPage:', authenticatedUser );
+    // console.log( 'Estado authenticatedUser en CreateUserPage:', authenticatedUser );
   }, [ authenticatedUser ] )
 
 

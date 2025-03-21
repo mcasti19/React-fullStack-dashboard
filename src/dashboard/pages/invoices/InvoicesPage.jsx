@@ -21,7 +21,7 @@ export const InvoicesPage = () => {
 
         if ( response.status >= 200 && response.status < 300 ) {
           setInvoices( response.data );
-          console.log( response.data );
+          // console.log( response.data );
         } else {
           console.error( `Error ${ response.status }: ${ response.statusText }` );
         }

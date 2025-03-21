@@ -19,7 +19,7 @@ import {useAuth} from '../../store/auth/authContext';
 
 export const ProtectedRoute = ( {element} ) => {
     const {isAuthenticated} = useAuth();
-    console.log( 'isAuthenticated:>>>', isAuthenticated );
+    // console.log( 'isAuthenticated:>>>', isAuthenticated );
 
 
     // Si el usuario está autenticado, renderiza el componente; de lo contrario, redirige

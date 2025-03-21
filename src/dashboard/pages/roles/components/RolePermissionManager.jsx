@@ -43,7 +43,7 @@ const RolePermissionManager = (  ) => {
     ];
 
     useEffect( () => {
-        console.log( roles );
+        // console.log( roles );
     }, [ roles ] )
 
 
@@ -76,7 +76,7 @@ const RolePermissionManager = (  ) => {
             setSuccess( 'Role permissions updated successfully' );
             // setRoles( data );
         } catch ( err ) {
-            console.log( err );
+            // console.log( err );
 
             setError( 'Failed to update role permissions' );
         } finally {
@@ -95,7 +95,7 @@ const RolePermissionManager = (  ) => {
             setNewRoleName( '' );
             // setRoles( data );
         } catch ( err ) {
-            console.log( err );
+            // console.log( err );
 
             setError( 'Failed to create role' );
         } finally {
@@ -113,7 +113,7 @@ const RolePermissionManager = (  ) => {
             setSelectedRole( null );
             // setRoles( data );
         } catch ( err ) {
-            console.log( err );
+            // console.log( err );
 
             setError( 'Failed to delete role' );
         } finally {
