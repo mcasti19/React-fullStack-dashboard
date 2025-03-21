@@ -9,4 +9,7 @@ export default defineConfig( {
     sourcemap: true,
     minify: true,
   },
+  server: {
+    historyApiFallback: true,
+  },
 } );
