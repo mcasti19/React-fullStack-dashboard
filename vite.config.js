@@ -6,5 +6,7 @@ export default defineConfig( {
   plugins: [ react(), tailwindcss() ],
   build: {
     outDir: 'build',
+    mode: 'production',
+    minify: true,
   },
 } );
