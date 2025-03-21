@@ -24,17 +24,6 @@ export default function LoginPage() {
 
   const [ credentials, setCredentials ] = useState( {email: 'administrator@admin.com', password: '123123'} );
 
-
-  // const [ open, setOpen ] = React.useState( false );
-
-  // const handleClickOpen = () => {
-  //   setOpen( true );
-  // };
-
-  // const handleClose = () => {
-  //   setOpen( false );
-  // };
-
   const handleSubmit = async ( event ) => {
     event.preventDefault();
     if ( emailError || passwordError ) {

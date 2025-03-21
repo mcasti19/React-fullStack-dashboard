@@ -46,7 +46,6 @@ export default function SelecteUsers( {
         );
     }
 
-
     return (
         <>
             <Box sx={{minWidth: 120}} bgcolor={`${ colors.primary[ 400 ] }`}>
@@ -59,16 +58,23 @@ export default function SelecteUsers( {
                         label="Please choose one employee"
                         onChange={handleChange}
                     >
-                        {employees.map( ( user, index ) => (
-                            <MenuItem key={index} value={user.email}>
-                                {user.name}   /   {user.email}
-                            </MenuItem>
+                        {employees.map( ( employee, index ) => (
+                            ( employee.userId ) ? null : ( <MenuItem key={index} value={employee.email}>
+                                {employee.name}   /   {employee.email}
+                            </MenuItem> )
                         ) )}
                     </Select>
                 </FormControl>
-
             </Box>
-            <UserForm employee={employee} roles={roles} employeesError={employeesError} employeesLoading={employeesLoading} rolesError={rolesError} rolesLoading={rolesLoading} />
+
+            <UserForm
+                employee={employee}
+                roles={roles}
+                employeesError={employeesError}
+                employeesLoading={employeesLoading}
+                rolesError={rolesError}
+                rolesLoading={rolesLoading}
+            />
         </>
     );
 }

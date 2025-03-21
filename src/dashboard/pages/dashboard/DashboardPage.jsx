@@ -7,7 +7,7 @@ import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import {BarchartData} from "../../components/BarChart";
-import {LinechartData} from "../../components/LineChart";
+import {LinechartData} from "../../components/LinechartData";
 import {PiechartData} from "../pie/components/PiechartData";
 import {StatsBox} from "./components/Stats";
 

@@ -12,20 +12,20 @@ const AuthProvider = ( {children} ) => {
     const checkTokenExpiration = () => {
         const token = localStorage.getItem( 'token' );
         if ( !token ) {
+            setError( 'Token not available' )
             setIsAuthenticated( false );
             return false;
         }
-
         try {
             const decoded = jwtDecode( token );
             const isExpired = decoded.exp * 1000 < Date.now();
 
             if ( isExpired ) {
                 localStorage.removeItem( 'token' );
+                setError( 'Expired Token' )
                 setIsAuthenticated( false );
             }
             return !isExpired;
-
         } catch ( error ) {
             console.log( "Error AuthProvider, ", error );
             localStorage.removeItem( 'token' );
@@ -42,7 +42,6 @@ const AuthProvider = ( {children} ) => {
         return () => clearInterval( interval );
     }, [] );
 
-
     useEffect( () => {
         const storedToken = localStorage.getItem( 'token' )
         if ( storedToken ) {
@@ -53,37 +52,36 @@ const AuthProvider = ( {children} ) => {
         // console.log( 'authContext >>> ', storedToken );
     }, [] );
 
+    // useEffect( () => {
+    //     console.log( 'Estado authenticatedUser  actualizaxxxdo:', authenticatedUser );
+    // }, [ authenticatedUser ] );
 
-    useEffect( () => {
-        console.log( 'Estado authenticatedUser  actualizaxxxdo:', authenticatedUser );
-    }, [ authenticatedUser ] );
-
-
-
-    const login = ( user ) => {
-        if ( typeof user.token !== 'string' || user.token.trim() === '' ) {
+    const login = ( token ) => {
+        if ( typeof token !== 'string' || token.trim() === '' ) {
             setError( 'Token inválido' );
             return;
         }
-        localStorage.setItem( 'token', user.token );
-        setToken( user.token );
+        localStorage.setItem( 'token', token );
+        console.log( 'USUARIO DESPUES DE LOGUEAR>>> ', token );
+
+        setToken( token );
         // console.log( 'Token actualizado:', user.token );
         setIsAuthenticated( true );
-        setAuthenticatedUser( user )
+
         console.log( 'Estado authenticatedUser actualizado:', authenticatedUser );
     };
+
+    //******************************************** */ CHECKING TOKEN
 
     const logout = () => {
         localStorage.removeItem( 'token' );
         setToken( null );
         setIsAuthenticated( false );
-
     };
 
     if ( loading ) {
         return <div>Loading...</div>;
     }
-
 
     return (
         <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated, login, logout, token, error, setError, checkTokenExpiration, authenticatedUser, setAuthenticatedUser}}>
@@ -95,6 +93,5 @@ const AuthProvider = ( {children} ) => {
 const useAuth = () => {
     return useContext( AuthContext );
 };
-
 // eslint-disable-next-line react-refresh/only-export-components
 export {AuthProvider, useAuth};

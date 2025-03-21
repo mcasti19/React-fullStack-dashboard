@@ -1,4 +1,4 @@
-import {useMemo} from "react";
+import {useEffect, useMemo} from "react";
 import {Box, Button, CircularProgress, IconButton, Tooltip, Typography} from "@mui/material";
 import {DataGrid, GridToolbar} from "@mui/x-data-grid";
 import {tokens} from "../../../theme";
@@ -18,7 +18,12 @@ export const EmployeesPage = () => {
   const {data: employees, error, loading, handleDelete} = useApi( 'employees' );
   const navigate = useNavigate();
 
-  // console.log( 'EMPLOYEES>>>: ', data );
+
+  useEffect( () => {
+    console.log( 'EMPLOYEES>>>: ', employees );
+  }, [ employees ] )
+
+
   const getRowId = ( row ) => row._id;
   const columns = useMemo( () => [
     {
@@ -86,16 +91,17 @@ export const EmployeesPage = () => {
   //     </Box>
   //   );
   // }
-  console.log( 'ERROR>>>', error );
-  // if ( error === 'No Employees Found.' ) {
-  //   return (
-  //     <Box className='h-screen flex justify-center items-center'>
-  //       <Typography variant="h6" component="div">
-  //         No hay empleados registrados: {error.message}
-  //       </Typography>
-  //     </Box>
-  //   );
-  // }
+  // console.log( 'ERROR>>>', error );
+
+  if ( error === 'No Employees Found.' ) {
+    return (
+      <Box className='h-screen flex justify-center items-center'>
+        <Typography variant="h6" component="div">
+          No hay empleados registrados: {error.message}
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     // <Box m="0 20px">
@@ -121,67 +127,67 @@ export const EmployeesPage = () => {
         //   </Box>
         // ) :
 
-          <Box
-            m="40px 0 0 0"
-            width={`100%`}
-            height="75vh"
-            sx={{
-              "& .MuiDataGrid-root": {
-                border: "none",
-                overflow: 'auto'
-              },
-              "& .MuiDataGrid-cell": {
-                borderBottom: "none",
-              },
-              "& .name-column--cell": {
-                // color: colors.greenAccent[ 300 ],
-              },
-              "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: colors.blueAccent[ 700 ],
-                borderBottom: "none",
-              },
-              "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: colors.primary[ 400 ],
-              },
-              "& .MuiDataGrid-footerContainer": {
-                borderTop: "none",
-                backgroundColor: colors.blueAccent[ 700 ],
-              },
-              "& .MuiCheckbox-root": {
-                color: `${ colors.greenAccent[ 200 ] } !important`,
-              },
-              "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                color: `${ colors.grey[ 100 ] } !important`,
-              },
-            }}
-          >
+        <Box
+          m="40px 0 0 0"
+          width={`100%`}
+          height="75vh"
+          sx={{
+            "& .MuiDataGrid-root": {
+              border: "none",
+              overflow: 'auto'
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+            },
+            "& .name-column--cell": {
+              // color: colors.greenAccent[ 300 ],
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: colors.blueAccent[ 700 ],
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: colors.primary[ 400 ],
+            },
+            "& .MuiDataGrid-footerContainer": {
+              borderTop: "none",
+              backgroundColor: colors.blueAccent[ 700 ],
+            },
+            "& .MuiCheckbox-root": {
+              color: `${ colors.greenAccent[ 200 ] } !important`,
+            },
+            "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+              color: `${ colors.grey[ 100 ] } !important`,
+            },
+          }}
+        >
 
-            {
-              loading ? (
-                // <LoadingSpinner title="Loading Employees" color='primary'/>
-                <Box className='h-screen -mt-32 flex flex-col gap-4 justify-center items-center'>
-                  <Typography variant="h6" component="div">
-                    Loading Employees...
-                  </Typography>
-                  <CircularProgress color='info' />
-                </Box>
-              ) : (
-                <DataGrid className="w-full"
-                  rows={employees.length > 0 ? employees : []}
-                  columns={columns}
-                  getRowId={getRowId}
-                  components={{Toolbar: GridToolbar}}
-                  initialState={{
-                    sorting: {
-                      sortModel: [ {
-                        field: 'id',
-                        sort: 'asc'
-                      } ]
-                    }
-                  }}
-                />
-              )}
-          </Box>
+          {
+            loading ? (
+              // <LoadingSpinner title="Loading Employees" color='primary'/>
+              <Box className='h-screen -mt-32 flex flex-col gap-4 justify-center items-center'>
+                <Typography variant="h6" component="div">
+                  Loading Employees...
+                </Typography>
+                <CircularProgress color='info' />
+              </Box>
+            ) : (
+              <DataGrid className="w-full"
+                rows={employees.length > 0 ? employees : []}
+                columns={columns}
+                getRowId={getRowId}
+                components={{Toolbar: GridToolbar}}
+                initialState={{
+                  sorting: {
+                    sortModel: [ {
+                      field: 'id',
+                      sort: 'asc'
+                    } ]
+                  }
+                }}
+              />
+            )}
+        </Box>
       }
     </Box>
   );

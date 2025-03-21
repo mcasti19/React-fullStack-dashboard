@@ -12,14 +12,14 @@ import useApi from '../../../hooks/useApi';
 import {useNavigate} from 'react-router';
 import {getRoleColor, getRoleIcon} from './helper/helpers';
 
-export const TeamPage = () => {
+export const UsersPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
   const {data: users, error, loading, handleDelete, } = useApi( 'users' );
 
   const navigate = useNavigate();
 
-  console.log( "DATA DESDE TEAM PAGE", users );
+  console.log( "DATA DESDE Users PAGE", users );
 
   // const handleDelete = useCallback( async ( id, name ) => {
   //   try {
@@ -66,7 +66,7 @@ export const TeamPage = () => {
           <Box sx={{display: 'flex', gap: 1}}>
             <Tooltip title="Editar usuario">
               <IconButton
-                onClick={() => navigate( `/team/edit/${ row._id }` )}
+                onClick={() => navigate( `/users/edit/${ row._id }` )}
                 sx={{color: colors.blueAccent[ 400 ]}}
               >
                 <EditIcon />
@@ -117,14 +117,14 @@ export const TeamPage = () => {
 
 
   const newUser = () => {
-    navigate( '/team/create' );
+    navigate( '/users/create' );
   }
 
   return (
     // <Box m="20px" width={`calc(100% - 60px)`} minWidth={900}>
     <Box >
       <Box className='flex justify-between items-center'>
-        <Header title="TEAM" subtitle="Managing the Team Members" />
+        <Header title="Users" subtitle="Managing the Team Members" />
         <Button className="text-sm font-bold flex justify-between items-center"
           sx={{backgroundColor: colors.blueAccent[ 700 ], color: colors.grey[ 100 ], }}
           onClick={newUser}

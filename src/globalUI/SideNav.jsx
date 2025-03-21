@@ -165,7 +165,7 @@ export const SideNav = () => {
           </Typography>
           <Item
             title="Manage Team"
-            to="/team"
+            to="/users"
             icon={<PeopleOutlinedIcon />}
             selected={selected}
             setSelected={setSelected}
@@ -242,13 +242,13 @@ export const SideNav = () => {
             selected={selected}
             setSelected={setSelected}
           />
-          <Item
+          {/* <Item
             title="Geography Chart"
             to="/geography"
             icon={<MapOutlinedIcon />}
             selected={selected}
             setSelected={setSelected}
-          />
+          /> */}
         </Box>
       </Menu>
     </Sidebar >

@@ -16,7 +16,7 @@ const breadcrumbs = [
     to: '/',
   },
   {
-    label: 'Team',
+    label: 'Users',
     to: -1,
   },
   {
@@ -32,6 +32,9 @@ export const CreateUserPage = () => {
   const {data: roles, error: rolesError, loading: rolesLoading} = useApi( 'roles' );
 
   const {authenticatedUser} = useAuth();
+
+  console.log("EMPLOYEES ",employees);
+
 
   useEffect( () => {
     console.log( 'Estado authenticatedUser en CreateUserPage:', authenticatedUser );

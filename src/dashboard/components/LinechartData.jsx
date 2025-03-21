@@ -19,9 +19,10 @@ const xLabels = [
 export const LinechartData = () => {
 
   return (
-    <LineChart
+    <LineChart className=''
       // width={500}
       // height={300}
+      sx={{width: '100%', height: '100%'}}
       margin={{top: 10, bottom: 30, left: 40, right: 10}}
       series={[
         {data: pData, },
