@@ -28,32 +28,17 @@ export const EditEmployeePage = () => {
         name,
         last_name,
         email,
-        age,
-        country,
-        city,
-        phone,
-        position,
-        status,
-        img_profile,
+        // age,
+        // country,
+        // city,
+        // phone,
+        // position,
+        // status,
+        // img_profile,
         hireDate
     } = employee;
 
-    const [ formValues, setFormValues ] = useState( employee
-        // {
-        //     name: '',
-        //     last_name: '',
-        //     email: '',
-        //     age: 0,
-        //     country: '',
-        //     city: '',
-        //     phone: 0,
-        //     position: '',
-        //     status: '',
-        //     img_profile: '',
-        //     _id,
-        //     createdDate: ''
-        // }
-    );
+    const [ formValues, setFormValues ] = useState( employee );
 
     // Actualizar el estado cuando los datos de la API lleguen
     useEffect( () => {
