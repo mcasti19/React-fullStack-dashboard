@@ -5,8 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig( {
   plugins: [ react(), tailwindcss() ],
   build: {
-    outDir: 'build',
-    mode: 'production',
+    outDir: 'public',
+    sourcemap: true,
     minify: true,
   },
 } );
