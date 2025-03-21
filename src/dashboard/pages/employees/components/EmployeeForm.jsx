@@ -24,7 +24,7 @@ export default function EmployeeForm( {employeesError, employeesLoading, } ) {
     const colors = tokens( theme.palette.mode );
 
     const axiosInstance = useAxios();
-    const [ formSubmitted, setFormSubmitted ] = useState( false );
+    // const [ formSubmitted, setFormSubmitted ] = useState( false );
     const [ selectedImage, setSelectedImage ] = useState( null );
 
     const {
@@ -49,22 +49,20 @@ export default function EmployeeForm( {employeesError, employeesLoading, } ) {
 
     const handleSubmit = ( event ) => {
         event.preventDefault();
-        setFormSubmitted( true );
-        // console.log( formSubmitted );
+        // setFormSubmitted( true );
 
         try {
-            // console.log( formState );
             axiosInstance.post( `${ import.meta.env.VITE_API_URL }/employees`, formState )
                 .then( ( respuesta ) => {
-                    // console.log( 'Employee creado con éxito:', respuesta );
+                    console.log( 'Employee creado con éxito:', respuesta );
                 } )
                 .catch( ( error ) => {
-                    // console.error( 'Error al crear el Employee:', error );
+                    console.error( 'Error al crear el Employee:', error );
                 } );
             // onResetForm();
 
         } catch ( error ) {
-            // console.error( 'Error al guardar el Employee:', error );
+            console.error( 'Error al guardar el Employee:', error );
         }
     };
 

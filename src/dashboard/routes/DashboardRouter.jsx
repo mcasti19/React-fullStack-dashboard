@@ -16,7 +16,8 @@ import Pie from "../pages/pie/PieChart";
 
 import LineChartPage from "../pages/line/LineChartPage";
 import {EditEmployeePage} from "../pages/employees/EditEmployeePage";
-import {RolesAndPermissions} from "../pages/roles/RolesAndPermissions";
+import {RolesAndPermissionsPage} from "../pages/roles/RolesAndPermissions";
+
 // import {useEffect} from "react";
 // import {useAuthActions} from "../../hooks/useAuthActions";
 
@@ -42,7 +43,8 @@ export const DashboardRouter = () => {
                     <Route path="/employee/edit/:_id" element={<EditEmployeePage />} />
                     <Route path="/invoices" element={<InvoicesPage />} />
                     <Route path="/invoices/create" element={<CreateInvoicePage />} />
-                    <Route path="/roles" element={<RolesAndPermissions />} />
+                    <Route path="/roles" element={<RolesAndPermissionsPage />} />
+                    <Route path="/calendar" element={<CalendarPage />} />
                     <Route path="/bar" element={<BarChartPage />} />
                     <Route path="/pie" element={<Pie />} />
                     <Route path="/line" element={<LineChartPage />} />
@@ -60,4 +62,3 @@ export const DashboardRouter = () => {
 
 {/* <Route path="/faq" element={<FaqPage />} /> */}
 {/* <Route path="/geography" element={<Geography />} /> */}
-{/* <Route path="/calendar" element={<CalendarPage />} /> */}
