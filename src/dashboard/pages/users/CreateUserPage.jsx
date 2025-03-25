@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {Box, Button, Chip, CircularProgress, FormControl, IconButton, InputLabel, MenuItem, Select, Tooltip, Typography, useTheme} from "@mui/material";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import React, {useState} from 'react';
+import {Box, FormControl, InputLabel, MenuItem, Select, useTheme} from "@mui/material";
+
 // import {tokens} from "../../../theme";
 // import {useGoBack} from "../../../hooks/useGoBack";
 import BreadcrumbsComponent from '../../../globalUI/Breadcrumbs';
-import SelecteUsers from './components/APAGADO-SelecteUsers';
 import useApi from '../../../hooks/useApi';
 import PermisosComponent from './components/PermisosComponent';
-import {useAuth} from '../../../store/auth/authContext';
 import {tokens} from '../../../theme';
 import UserForm from './components/UserForm';
 
@@ -41,14 +39,9 @@ export const CreateUserPage = () => {
     // loading: rolesLoading
   } = useApi( 'roles' );
   const [ selectedEmployee, setSelectedEmployee ] = useState( null );
-  const {authenticatedUser} = useAuth();
+
 
   // console.log( "EMPLOYEES ", employees );
-
-
-  useEffect( () => {
-    // console.log( 'Estado authenticatedUser en CreateUserPage:', authenticatedUser );
-  }, [ authenticatedUser ] )
 
 
   const EmployeeSelector = ( {employees, onSelect, selectedEmployee} ) => {

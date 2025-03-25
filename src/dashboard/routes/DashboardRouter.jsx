@@ -18,15 +18,8 @@ import LineChartPage from "../pages/line/LineChartPage";
 import {EditEmployeePage} from "../pages/employees/EditEmployeePage";
 import {RolesAndPermissionsPage} from "../pages/roles/RolesAndPermissions";
 
-// import {useEffect} from "react";
-// import {useAuthActions} from "../../hooks/useAuthActions";
-
 export const DashboardRouter = () => {
-    // const {checkAuthToken} = useAuthActions();
-
-    // useEffect( () => {
-    //     checkAuthToken();
-    // }, [ checkAuthToken ] )
+    console.log('ENTRE AL DASHBOARD');
 
     return (
         <div className="app">

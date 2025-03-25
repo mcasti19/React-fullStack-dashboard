@@ -1,6 +1,6 @@
 import {useState, useEffect, useCallback} from 'react';
-import useAxios from './useAxios';
 import axios from 'axios';
+import dashboardApi from '../api/dashboardApi';
 
 const initialState = {
   data: [],
@@ -9,20 +9,19 @@ const initialState = {
 };
 
 const useApi = ( endpoint ) => {
-  const axiosInstance = useAxios();
   const [ state, setState ] = useState( initialState );
 
   const fetchData = useCallback( async ( signal ) => {
     try {
       setState( ( prev ) => ( {...prev, loading: true, error: null} ) );
-      const response = await axiosInstance.get( `${ import.meta.env.VITE_API_URL }/${ endpoint }`, {signal} );
+      const response = await dashboardApi.get( `/${ endpoint }`, {signal} );
       setState( ( prev ) => ( {...prev, data: response.data, loading: false} ) );
     } catch ( error ) {
       if ( !axios.isCancel( error ) ) {
         setState( ( prev ) => ( {...prev, error: error.response?.data?.message || error.message || 'Error desconocido', loading: false} ) );
       }
     }
-  }, [ axiosInstance, endpoint ] );
+  }, [ endpoint ] );
 
   const refetch = useCallback( async () => {
     await fetchData();
@@ -31,32 +30,27 @@ const useApi = ( endpoint ) => {
   const sendData = useCallback( async ( data, signal ) => {
     try {
       setState( ( prev ) => ( {...prev, loading: true, error: null} ) );
-      await axiosInstance.post( `${ import.meta.env.VITE_API_URL }/${ endpoint }`, data, {signal} );
+      await dashboardApi.post( `/${ endpoint }`, data, {signal} );
       setState( ( prev ) => ( {...prev, loading: false} ) );
     } catch ( error ) {
       if ( !axios.isCancel( error ) ) {
         setState( ( prev ) => ( {...prev, error: error.response?.data?.message || error.message || 'Error desconocido', loading: false} ) );
       }
     }
-  }, [ axiosInstance, endpoint ] );
+  }, [ endpoint ] );
 
   const handleDelete = useCallback( async ( id, name, signal ) => {
     try {
       if ( window.confirm( `¿Eliminar a ${ name }?` ) ) {
-        await axiosInstance.delete( `${ import.meta.env.VITE_API_URL }/${ endpoint }/${ id }`, {signal} );
+        await dashboardApi.delete( `/${ endpoint }/${ id }`, {signal} );
         refetch();
-        // setState( ( prev ) => ( {
-        //   ...prev,
-        //   data: prev.data.filter( ( item ) => item.id !== id ),
-        //   loading: false,
-        // } ) );
       }
     } catch ( error ) {
       if ( !axios.isCancel( error ) ) {
         setState( ( prev ) => ( {...prev, error: error.response?.data?.message || error.message || 'Error desconocido'} ) );
       }
     }
-  }, [ axiosInstance, endpoint, refetch ] );
+  }, [ endpoint, refetch ] );
 
   useEffect( () => {
     if ( endpoint && typeof endpoint === 'string' ) {
@@ -68,9 +62,6 @@ const useApi = ( endpoint ) => {
     }
   }, [ fetchData, endpoint ] );
 
-
-
-
   return {
     data: state.data,
     error: state.error,
@@ -78,7 +69,7 @@ const useApi = ( endpoint ) => {
     refetch,
     sendData,
     handleDelete,
-    axiosInstance,
+    dashboardApi,
   };
 };
 

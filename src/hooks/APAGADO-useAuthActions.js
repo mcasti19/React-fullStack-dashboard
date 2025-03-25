@@ -33,33 +33,37 @@ export const useAuthActions = () => {
         }
     };
 
-    const checkAuthToken = async () => {
-        const token = localStorage.getItem( 'token' );
-        if ( !token ) return logout();
+    // const checkAuthToken = async () => {
+    //     const token = localStorage.getItem( 'token' );
+    //     if ( !token ) return logout();
 
-        try {
-            const {data} = await axiosInstance.get( `${ import.meta.env.VITE_API_URL }/auth/renew`, {
-                params: {
-                    id: authenticatedUser.id,
-                    name: authenticatedUser.name,
-                    email: authenticatedUser.email,
-                },
-            } );
+    //     try {
+    //         const {data} = await axiosInstance.get( `${ import.meta.env.VITE_API_URL }/auth/renew`, {
+    //             params: {
+    //                 id: authenticatedUser.id,
+    //                 name: authenticatedUser.name,
+    //                 email: authenticatedUser.email,
+    //             },
+    //         } );
 
-            localStorage.setItem( 'token', data.token );
-            localStorage.setItem( 'token-init-date', new Date().getTime() );
-            login( data.token );
+    //         localStorage.setItem( 'token', data.token );
+    //         localStorage.setItem( 'token-init-date', new Date().getTime() );
+    //         login( data.token );
 
-        } catch ( error ) {
-            localStorage.clear();
-            logout();
-            throw new Error( error );
-        }
-    }
+    //     } catch ( error ) {
+    //         localStorage.clear();
+    //         logout();
+    //         throw new Error( error );
+    //     }
+    // }
 
     const handleLogout = () => {
         logout();
         navigate( '/auth/login' )
     };
-    return {handleLogin, checkAuthToken, handleLogout};
+    return {
+        handleLogin,
+        // checkAuthToken,
+        handleLogout
+    };
 };

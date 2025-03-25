@@ -9,10 +9,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from '@mui/icons-material/Logout';
 import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
-import {useAuthActions} from "../hooks/useAuthActions";
 
 import {Box, IconButton, useTheme} from "@mui/material";
 import {ColorModeContext, tokens} from "../theme";
+import {useAuthStore} from "../hooks/useAuthStore";
 
 export const Topbar = () => {
   const theme = useTheme();
@@ -22,7 +22,8 @@ export const Topbar = () => {
   const getThemeIcon = () => {
     return theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />;
   };
-  const {handleLogout} = useAuthActions();
+
+  const {startLogout} = useAuthStore();
 
 
   const topIcons = [
@@ -46,7 +47,7 @@ export const Topbar = () => {
     },
     {
       icon: <LogoutIcon />,
-      onClick: handleLogout,
+      onClick: startLogout,
       // sx: {bgcolor: colors.blueAccent[ 700 ], color: colors.greenAccent[ 100 ]},
     },
   ];

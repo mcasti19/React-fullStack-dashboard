@@ -1,41 +1,34 @@
-import {jwtDecode} from 'jwt-decode';
-import {Routes, Route, Navigate, useLocation} from 'react-router';
+import {Routes, Route, Navigate} from 'react-router';
 import {DashboardRouter} from '../dashboard/routes/DashboardRouter';
-import {AuthRoutes} from '../auth/routes/AuthRoutes';
-import {useAuth} from '../store/auth/authContext';
 import {useEffect} from 'react';
+import {useAuthStore} from '../hooks/useAuthStore';
+import {AuthRoutes} from '../auth/routes/AuthRoutes';
+import LoadingSpinner from '../globalUI/LoadingSpinner';
+import {Box, CircularProgress, Typography} from '@mui/material';
 
 export const AppRouter = () => {
-    let {isAuthenticated, checkTokenExpiration} = useAuth();
+    const {status, checkAuthToken} = useAuthStore();
 
-    // console.log( 'isAuthenticated:>>>', isAuthenticated );
-
-    const token = localStorage.getItem( 'token' );
-    const decodedToken = token ? jwtDecode( token ) : null;
-    const expirationDate = decodedToken ? new Date( decodedToken.exp * 1000 ) : null;
-    const currentDate = new Date();
-
-    const location = useLocation();
-    // console.log( location.pathname );
-
-
-    // Chequear en cada cambio de ruta
     useEffect( () => {
-        checkTokenExpiration();
-        // console.log( checkTokenExpiration() );
-    }, [ checkTokenExpiration, location.pathname ] ); // Necesitarás usar useLocation de react-router
+        console.log( 'Chequeando', status );
+        checkAuthToken();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ status ] );
 
-    isAuthenticated = token && expirationDate > currentDate
-    // console.log( 'isAuthenticated:>>>', isAuthenticated );
-    if ( !isAuthenticated ) {
-        localStorage.removeItem( 'token' );
+    if ( status === 'checking' ) {
+        return (
+            <Box className='h-screen flex flex-col gap-4 justify-center items-center'>
+                <Typography variant="h2" component="div">
+                    Loading....
+                </Typography>
+                <CircularProgress color='info' />
+            </Box>
+        )
     }
 
-
-    // console.log( 'isAuthenticated:>>>', isAuthenticated );
     return (
         <Routes>
-            {isAuthenticated ? (
+            {status === 'authenticated' ? (
                 <>
                     <Route path="/*" element={<DashboardRouter />} />
                     <Route path="/" element={<Navigate to="/dashboard" />} />
@@ -43,7 +36,7 @@ export const AppRouter = () => {
             ) : (
                 <Route path="/auth/*" element={<AuthRoutes />} />
             )}
-            <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/auth/login'} />} />
+            <Route path="*" element={<Navigate to={status === 'authenticated' ? '/dashboard' : '/auth/login'} />} />
         </Routes>
     );
 };

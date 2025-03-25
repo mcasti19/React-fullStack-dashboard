@@ -3,10 +3,11 @@ import {Box, Typography, TextField, Select, MenuItem, Button, useTheme, FormCont
 import {tokens} from '../../../../theme';
 import PermisosComponent from './PermisosComponent';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import useAxios from '../../../../hooks/useAxios';
+import dashboardApi from '../../../../api/dashboardApi';
+
 
 export default function UserForm( {employee, roles} ) {
-    const axiosInstance = useAxios();
+
     const theme = useTheme();
     const colors = tokens( theme.palette.mode );
 
@@ -65,8 +66,8 @@ export default function UserForm( {employee, roles} ) {
                 employeeId: employee._id
             };
 
-            console.log("PERMISOS: ", selectedPermissions );
-            axiosInstance.post( `${ import.meta.env.VITE_API_URL }/users`, user )
+            console.log( "PERMISOS: ", selectedPermissions );
+            dashboardApi.post( `/users`, user )
                 .then( ( respuesta ) => {
                     console.log( 'Usuario creado con éxito:', respuesta );
                 } )
@@ -89,7 +90,7 @@ export default function UserForm( {employee, roles} ) {
             gap={5}
             className='p-2 sm:p-7'
         >
-            <Typography variant="h2" component="div" align=''>New User</Typography>
+            <Typography variant="h2" component="div">New User</Typography>
             <form onSubmit={handleSubmit} className='w-full flex flex-col gap-6 h-full '>
                 <Grid2 container spacing={5} className=' p-4 rounded-sm'>
                     <Grid2 size={{xs: 12, md: 5}}
