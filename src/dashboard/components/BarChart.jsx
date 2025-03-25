@@ -13,7 +13,7 @@ export const BarchartData = () => {
       ]}
       xAxis={[ {data: [ 'Quarter1', 'Quarter2', 'Quarter3', 'Quarter4' ], scaleType: 'band'} ]}
       margin={{top: 10, bottom: 30, left: 40, right: 10}}
-      // sx={{width: '100%', height: '100%'}}
+      sx={{width: '100%', height: '100%'}}
 
     />
   );

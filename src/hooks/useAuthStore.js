@@ -1,11 +1,14 @@
 import {useDispatch, useSelector} from "react-redux";
-import dashboardApi from "../api/dashboardApi";
-import {cleanErrorMessage, onChecking, onLogin, onLogout, } from "../store";
 import Swal from 'sweetalert2'
+import {useNavigate} from 'react-router';
+
+import {cleanErrorMessage, onChecking, onLogin, onLogout, } from "../store";
+import dashboardApi from "../api/dashboardApi";
 
 export const useAuthStore = () => {
     const {status, user, errorMessage, } = useSelector( state => state.auth )
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleErrors = ( error ) => {
         const {response} = error;
@@ -17,7 +20,6 @@ export const useAuthStore = () => {
             icon: 'error',
             confirmButtonText: 'Try again'
         } )
-
 
         dispatch( onLogout( 'Credenciales Incorrectas' ) );
         setTimeout( () => {
@@ -31,6 +33,8 @@ export const useAuthStore = () => {
         dispatch( onLogin( userData ) );
     };
 
+
+    // ************************************** ACTIONS 
     const startLogin = async ( {email, password} ) => {
         dispatch( onChecking() );
         try {
@@ -42,7 +46,8 @@ export const useAuthStore = () => {
                 title: 'Successful Login',
                 text: 'Wellcome to Application',
                 icon: 'success',
-            } )
+            } );
+            navigate( '/dashboard' );
 
         } catch ( error ) {
             handleErrors( error );
@@ -64,6 +69,7 @@ export const useAuthStore = () => {
         }
     };
 
+    // ********************************** CHECKING TOKEN
     const checkAuthToken = async () => {
         const Storedtoken = localStorage.getItem( 'token' )
         if ( !Storedtoken ) return dispatch( onLogout() );
@@ -94,7 +100,13 @@ export const useAuthStore = () => {
             text: 'Come back soon',
             icon: 'success',
         } )
-        // dispatch( onLogout( 'Ha salido exitosamente' ) ); //TODO MANEJAR EL MENSAJE AL SALIR DE SESION
+        dispatch( onLogout(
+            Swal.fire( {
+                title: 'Successful Logout',
+                text: 'Come back soon',
+                icon: 'success',
+            } ) ) ); //TODO MANEJAR EL MENSAJE AL SALIR DE SESION
+        
         dispatch( onLogout() );
     }
 

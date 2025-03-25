@@ -24,7 +24,7 @@ export const DashboardRouter = () => {
     return (
         <div className="app">
             <SideNav />
-            <main className="content w-auto p-6 pb-0 overflow-x-hidden">
+            <main className="w-full flex flex-col p-6 pb-0 overflow-x-hidden h-dvh">
                 <Topbar />
                 <Routes>
                     <Route path="/dashboard" element={<DashboardPage />} />
