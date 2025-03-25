@@ -19,12 +19,11 @@ import {EditEmployeePage} from "../pages/employees/EditEmployeePage";
 import {RolesAndPermissionsPage} from "../pages/roles/RolesAndPermissions";
 
 export const DashboardRouter = () => {
-    console.log('ENTRE AL DASHBOARD');
-
+    // console.log('ENTRE AL DASHBOARD');
     return (
         <div className="app">
             <SideNav />
-            <main className="w-full flex flex-col p-6 pb-0 overflow-x-hidden h-dvh">
+            <main className="w-full flex flex-col py-1 md:p-6 pb-0 overflow-x-hidden h-dvh">
                 <Topbar />
                 <Routes>
                     <Route path="/dashboard" element={<DashboardPage />} />

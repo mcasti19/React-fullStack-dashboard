@@ -11,9 +11,7 @@ export const useAuthStore = () => {
     const navigate = useNavigate();
 
     const handleErrors = ( error ) => {
-        const {response} = error;
-        console.log( response.data );
-
+        console.log( error );
         Swal.fire( {
             title: 'Invalid credentials!',
             text: 'Please verify your credentials and try again.',
@@ -76,7 +74,7 @@ export const useAuthStore = () => {
 
         try {
             const {data} = await dashboardApi.get( `/auth/renew` );
-            console.log( 'DATAAAAA>>>>>>, ', data );
+            // console.log( 'DATAAAAA>>>>>>, ', data );
 
             if ( data.token ) {
                 const {token, user} = data;
@@ -106,7 +104,7 @@ export const useAuthStore = () => {
                 text: 'Come back soon',
                 icon: 'success',
             } ) ) ); //TODO MANEJAR EL MENSAJE AL SALIR DE SESION
-        
+
         dispatch( onLogout() );
     }
 

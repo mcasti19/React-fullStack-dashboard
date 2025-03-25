@@ -24,13 +24,13 @@ export const UsersPage = () => {
   //*******************************/ COLUMNS
   const columns = useMemo( () => [
 
-    {field: '_id', headerName: "ID", flex: 1, },
-    {field: 'name', headerName: "Name", cellClassName: "name-column--cell", flex: 1, width: 125, minWidth: 100, maxWidth: 150},
-    {field: 'username', headerName: "User ", type: "number", headerAlign: "left", align: "left", },
-    {field: 'email', headerName: "Email", width: 125, minWidth: 180, maxWidth: 200},
-    {field: "phone", headerName: "Phone Number", flex: 1},
+    {field: '_id', headerName: "ID", flex:0.5, minWidth:100 },
+    {field: 'name', headerName: "Name", cellClassName: "name-column--cell", flex: 1, minWidth: 120},
+    {field: 'username', headerName: "User ", type: "number", headerAlign: "left", align: "left", flex: 1, minWidth: 120 },
+    {field: 'email', headerName: "Email", flex: 1.5, minWidth: 250},
+    {field: "phone", headerName: "Phone Number", flex: 1, minWidth: 100},
     {
-      field: "roles", headerName: "Roles", align: "center", justify: "center",
+      field: "roles", headerName: "Roles", align: "center", justify: "center", flex: 1, minWidth: 120,
       renderCell: ( {row: {roles}} ) => {
         return roles.map( role => (
           <Chip
@@ -47,11 +47,12 @@ export const UsersPage = () => {
     {
       field: "actions",
       headerName: "Actions",
+      justify: "center",
       align: "center",
-      headerAlign: "center",
+      // headerAlign: "center",
       renderCell: ( {row} ) => {
         return (
-          <Box sx={{display: 'flex', gap: 1}}>
+          <Box >
             <Tooltip title="Editar usuario">
               <IconButton
                 onClick={() => navigate( `/users/edit/${ row._id }` )}
@@ -110,8 +111,8 @@ export const UsersPage = () => {
 
   return (
     // <Box m="20px" width={`calc(100% - 60px)`} minWidth={900}>
-    <Box >
-      <Box className='flex justify-between items-center'>
+    <Box className='flex flex-col grow w-full md:w-[90%] m-auto'>
+      <Box className='flex flex-col justify-between items-center md:flex-row'>
         <Header title="Users" subtitle="Managing the Team Members" />
         <Button className="text-sm font-bold flex justify-between items-center"
           sx={{backgroundColor: colors.blueAccent[ 700 ], color: colors.grey[ 100 ], }}
@@ -122,10 +123,9 @@ export const UsersPage = () => {
         </Button>
 
       </Box>
+
       <Box
-        m="40px 0 0 0"
-        width={`100%`}
-        height="70vh"
+        className='border-1 border-slate-500 mt-10 w-full h-full rounded-sm'
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -133,16 +133,12 @@ export const UsersPage = () => {
           },
           "& .MuiDataGrid-cell, .MuiDataGrid-columnHeader": {
             borderBottom: "none",
-            // minWidth: "auto",
-            background: "transparent !important"
-
+            background: "transparent !important",
+            fontSize: '16px',
+            color: colors.greenAccent[ 200 ],
           },
-          // "& .MuiDataGrid-columnHeader": {
-          //   borderBottom: "none",
-          //   minWidth: "100px"
-          // },
           "& .name-column--cell": {
-            color: colors.greenAccent[ 300 ],
+            // color: colors.greenAccent[ 300 ],
           },
           "& .MuiDataGrid-container--top [role=row]": {
             // backgroundColor: colors.blueAccent[ 200 ],
@@ -153,7 +149,7 @@ export const UsersPage = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.blueAccent[ 700 ],
+            backgroundColor: colors.blueAccent[ 900 ],
           },
           "& .MuiCheckbox-root": {
             color: `${ colors.greenAccent[ 200 ] } !important`,
@@ -162,9 +158,11 @@ export const UsersPage = () => {
       >
         <DataGrid
           sx={{height: '100%'}}
-          // checkboxSelection
           rows={users}
           columns={columns}
+          disableColumnResize
+          disableColumnMenu
+          density='comfortable'
           getRowId={getRowId}
           components={{
             Toolbar: GridToolbar
