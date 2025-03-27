@@ -5,23 +5,27 @@ import {useAuthStore} from '../hooks/useAuthStore';
 import {AuthRoutes} from '../auth/routes/AuthRoutes';
 import LoadingSpinner from '../globalUI/LoadingSpinner';
 import {Box, CircularProgress, Typography} from '@mui/material';
+import Variants from '../dashboard/components/Skeleton';
+import {useLocation} from 'react-router';
 
 export const AppRouter = () => {
-    const {status, checkAuthToken} = useAuthStore();
+    const {status, revalidateToken} = useAuthStore();
+    const location = useLocation();
 
     useEffect( () => {
         console.log( 'Chequeando', status );
-        checkAuthToken();
+        revalidateToken();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ status ] );
+    }, [ status, location.pathname ] );
 
     if ( status === 'checking' ) {
         return (
-            <Box className='h-screen flex flex-col gap-4 justify-center items-center'>
-                <Typography variant="h2" component="div">
-                    Loading....
-                </Typography>
-                <CircularProgress color='info' />
+            <Box className='h-screen'>
+                {/* <Typography variant="h2" component="div"> */}
+                {/* Loading.... */}
+                <Variants />
+                {/* </Typography> */}
+                {/* <CircularProgress color='info' /> */}
             </Box>
         )
     }
@@ -34,9 +38,12 @@ export const AppRouter = () => {
                     <Route path="/" element={<Navigate to="/dashboard" />} />
                 </>
             ) : (
-                <Route path="/auth/*" element={<AuthRoutes />} />
+                <>
+                    <Route path="/auth/*" element={<AuthRoutes />} />
+                    <Route path="/*" element={<Navigate to={'/auth/login'} />} />
+                </>
             )}
-            <Route path="*" element={<Navigate to={status === 'authenticated' ? '/dashboard' : '/auth/login'} />} />
+            {/* <Route path="*" element={<Navigate to={status === 'authenticated' ? '/dashboard' : '/auth/login'} />} /> */}
         </Routes>
     );
 };

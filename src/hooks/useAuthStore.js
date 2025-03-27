@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router';
 
 import {cleanErrorMessage, onChecking, onLogin, onLogout, } from "../store";
 import dashboardApi from "../api/dashboardApi";
+import {jwtDecode} from "jwt-decode";
 
 export const useAuthStore = () => {
     const {status, user, errorMessage, } = useSelector( state => state.auth )
@@ -68,7 +69,43 @@ export const useAuthStore = () => {
     };
 
     // ********************************** CHECKING TOKEN
-    const checkAuthToken = async () => {
+    const checkTokenExpiration = () => {
+        const token = localStorage.getItem( 'token' );
+        if ( !token ) {
+            dispatch( onLogout() );
+            return false;
+        }
+
+        try {
+            const decoded = jwtDecode( token );
+            // const isExpired = decoded.exp * 1000 < Date.now(); //! usar isExpired en el if mas abajo si se activa esta linea
+            const expirationTime = decoded.exp * 1000; // Convertir a milisegundos
+            const currentTime = Date.now();
+            const timeRemaining = expirationTime - currentTime;
+
+            // Mostrar tiempo restante en formato minutos:segundos
+            const minutes = Math.floor( timeRemaining / 60000 );
+            const seconds = Math.floor( ( timeRemaining % 60000 ) / 1000 );
+
+            console.log( `%cTiempo restante: ${ minutes }m ${ seconds }s`, 'color: #2ecc71; font-weight: bold;' );
+
+            if ( timeRemaining <= 0 ) {
+                console.log( 'Token expirado!' );
+                localStorage.removeItem( 'token' );
+                dispatch( onLogout( 'Sesión expirada' ) );
+                return false;
+            }
+            return true;
+
+        } catch ( error ) {
+            localStorage.removeItem( 'token' );
+            dispatch( onLogout( 'Token inválido' ) );
+            return false;
+        }
+    };
+
+
+    const revalidateToken = async () => {
         const Storedtoken = localStorage.getItem( 'token' )
         if ( !Storedtoken ) return dispatch( onLogout() );
 
@@ -117,7 +154,8 @@ export const useAuthStore = () => {
         //*Métodos
         startLogin,
         startRegister,
-        checkAuthToken,
+        revalidateToken,
         startLogout,
+        checkTokenExpiration,
     }
 }

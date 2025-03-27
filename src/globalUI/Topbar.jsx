@@ -53,7 +53,7 @@ export const Topbar = () => {
   ];
 
   return (
-    <Box className="h-10 mb-4 flex justify-center sm:justify-end">
+    <Box className="h-10 mb-4 mt-4 flex justify-center md:justify-end md:mt-0">
       <Box className="flex justify-center items-center gap-7 ">
         {topIcons.map( ( topIcon, index ) => (
           <IconButton key={index} onClick={topIcon.onClick} className="border-2 w-5 h-5">

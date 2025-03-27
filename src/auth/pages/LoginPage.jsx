@@ -7,9 +7,9 @@ import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import {AuthLayout} from '../../layout/AuthLayout';
-import {useAuthStore} from '../../../hooks/useAuthStore';
-import {useForm} from '../../../hooks/useForm';
+import {AuthLayout} from '../layout/AuthLayout';
+import {useAuthStore} from '../../hooks/useAuthStore';
+import {useForm} from '../../hooks/useForm';
 
 
 const loginFormFields = {
