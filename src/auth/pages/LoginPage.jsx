@@ -10,27 +10,82 @@ import Typography from '@mui/material/Typography';
 import {AuthLayout} from '../layout/AuthLayout';
 import {useAuthStore} from '../../hooks/useAuthStore';
 import {useForm} from '../../hooks/useForm';
-
+import {useState} from 'react';
 
 const loginFormFields = {
-  loginEmail: '',
-  loginPassword: '',
+  email: '',
+  password: '',
+}
+
+const formValidations = {
+  email: [ ( value ) => value.includes( '@' ), 'Email is required and must have an @' ],
+  password: [ ( value ) => value.length >= 6, 'The password is required and must have at least 6 characters.' ],
 }
 
 export default function LoginPage() {
-  const {startLogin} = useAuthStore();
+  const {startLogin, status} = useAuthStore();
   const {
-    loginEmail,
-    loginPassword,
-    onInputChange: onLoginInputChange
-  } = useForm( loginFormFields );
+    formState,
+    email,
+    emailValid,
+    password,
+    passwordValid,
+    onInputChange,
+    isFormValid,
+    formSubmitted,
+    setFormSubmitted
+  } = useForm( loginFormFields, formValidations );
+
+  const [ emailError, setEmailError ] = useState( false );
+  const [ emailErrorMessage, setEmailErrorMessage ] = useState( '' );
+  const [ passwordError, setPasswordError ] = useState( false );
+  const [ passwordErrorMessage, setPasswordErrorMessage ] = useState( '' );
+
+
+
+  console.log( status );
+
 
   const loginSubmit = ( event ) => {
     event.preventDefault();
-    console.log(loginEmail, loginPassword);
-    
-    startLogin( {email: loginEmail, password: loginPassword} );
+    console.log( emailValid, passwordValid );
+    setFormSubmitted( true );
+
+    if ( !isFormValid ) return
+    startLogin( formState );
   }
+
+  const validateInputs = () => {
+    const email = document.getElementById( 'email' );
+    const password = document.getElementById( 'password' );
+
+    let isValid = true;
+
+    if ( !email.value || !/\S+@\S+\.\S+/.test( email.value ) ) {
+      setEmailError( true );
+      setEmailErrorMessage( 'Please enter a valid email address.' );
+      isValid = false;
+    } else {
+      setEmailError( false );
+      setEmailErrorMessage( '' );
+    }
+
+    if ( !password.value || password.value.length < 6 ) {
+      setPasswordError( true );
+      setPasswordErrorMessage( 'Password must be at least 6 characters long.' );
+      isValid = false;
+    } else {
+      setPasswordError( false );
+      setPasswordErrorMessage( '' );
+    }
+
+    return isValid;
+  };
+
+
+
+
+
 
   return (
     <AuthLayout title='Sign In' >
@@ -49,46 +104,42 @@ export default function LoginPage() {
         <FormControl >
           <FormLabel htmlFor="email">Email</FormLabel>
           <TextField
-            type="text"
+            id="email"
+            required
+            type="email"
             className="form-control"
-            placeholder="Correo"
-            name='loginEmail'
-            value={loginEmail}
-            onChange={onLoginInputChange}
+            placeholder="Email"
+            autoFocus
+            name='email'
+            value={email}
+            onChange={onInputChange}
+            error={formSubmitted}
+            helperText={formSubmitted && emailValid}
           />
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="password">Password</FormLabel>
           <TextField
+            id="password"
+            error={formSubmitted}
             type="password"
             className="form-control"
-            placeholder="Contraseña"
-            name='loginPassword'
-            value={loginPassword}
-            onChange={onLoginInputChange}
-          />
+            placeholder="Password"
+            name='password'
+            value={password}
+            onChange={onInputChange}
+            required
+            helperText={formSubmitted && passwordValid} />
+
         </FormControl>
         <Button
           type="submit"
           fullWidth
           variant="contained"
+          onClick={validateInputs}
         >
           Sign in
         </Button>
-
-      </Box>
-      <Divider>or</Divider>
-      <Box sx={{display: 'flex', flexDirection: 'column', gap: 2}}>
-        <Typography sx={{textAlign: 'center'}}>
-          Don&apos;t have an account?{' '}
-          <Link
-            href="/auth/register"
-            variant="body2"
-            sx={{alignSelf: 'center'}}
-          >
-            Sign up
-          </Link>
-        </Typography>
       </Box>
     </AuthLayout>
   );

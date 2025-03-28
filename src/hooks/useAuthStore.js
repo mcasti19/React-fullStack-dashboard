@@ -36,6 +36,7 @@ export const useAuthStore = () => {
     // ************************************** ACTIONS 
     const startLogin = async ( {email, password} ) => {
         dispatch( onChecking() );
+        if ( !email || !password ) return null
         try {
             const {data} = await dashboardApi.post( `/auth/login`, {email, password} );
             const {token, ...userData} = data.user; // Extraer el token y el resto de los datos

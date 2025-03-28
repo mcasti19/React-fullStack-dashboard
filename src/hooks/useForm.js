@@ -4,9 +4,11 @@ export const useForm = ( initialForm = {}, formValidations = {} ) => {
 
     const [ formState, setFormState ] = useState( initialForm );
     const [ formValidation, setFormValidation ] = useState( {} );
+    const [ formSubmitted, setFormSubmitted ] = useState( false )
 
     useEffect( () => {
         createValidators();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ formState ] )
 
     useEffect( () => {
@@ -14,7 +16,6 @@ export const useForm = ( initialForm = {}, formValidations = {} ) => {
     }, [ initialForm ] )
 
     const isFormValid = useMemo( () => {
-
         for ( const formValue of Object.keys( formValidation ) ) {
             if ( formValidation[ formValue ] !== null ) return false;
         }
@@ -24,9 +25,9 @@ export const useForm = ( initialForm = {}, formValidations = {} ) => {
 
 
     const onInputChange = ( event ) => {
+        setFormSubmitted( false )
         const {name, value} = event.target;
         // console.log(event.target.value);
-        
         setFormState( {
             ...formState,
             [ name ]: value
@@ -51,6 +52,8 @@ export const useForm = ( initialForm = {}, formValidations = {} ) => {
         formState,
         onInputChange,
         onResetForm,
+        formSubmitted,
+        setFormSubmitted,
 
         ...formValidation,
         isFormValid
