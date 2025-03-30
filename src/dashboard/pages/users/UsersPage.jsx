@@ -1,4 +1,5 @@
 import {useMemo} from "react";
+import {useNavigate} from 'react-router';
 import {Box, Button, Chip, CircularProgress, IconButton, Tooltip, Typography, useTheme} from "@mui/material";
 import {DataGrid, GridToolbar} from "@mui/x-data-grid";
 import {tokens} from "../../../theme";
@@ -9,24 +10,26 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import useApi from '../../../hooks/useApi';
-import {useNavigate} from 'react-router';
 import {getRoleColor, getRoleIcon} from './helper/helpers';
 
 export const UsersPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
-  const {data: users, error, loading, handleDelete, } = useApi( 'users' );
-
+  const {data: users, error, isLoading, deleteData} = useApi( 'users' );
   const navigate = useNavigate();
 
-  // console.log( "DATA DESDE Users PAGE", users );
+  const handleDelete = ( id ) => {
+    if ( window.confirm( '¿Eliminar este usuario?' ) ) {
+      deleteData.mutate( id );
+    }
+  };
+
 
   //*******************************/ COLUMNS
   const columns = useMemo( () => [
-
-    {field: '_id', headerName: "ID", flex:0.5, minWidth:100 },
+    {field: '_id', headerName: "ID", flex: 0.5, minWidth: 100},
     {field: 'name', headerName: "Name", cellClassName: "name-column--cell", flex: 1, minWidth: 120},
-    {field: 'username', headerName: "User ", type: "number", headerAlign: "left", align: "left", flex: 1, minWidth: 120 },
+    {field: 'username', headerName: "User ", type: "number", headerAlign: "left", align: "left", flex: 1, minWidth: 120},
     {field: 'email', headerName: "Email", flex: 1.5, minWidth: 250},
     {field: "phone", headerName: "Phone Number", flex: 1, minWidth: 100},
     {
@@ -49,7 +52,6 @@ export const UsersPage = () => {
       headerName: "Actions",
       justify: "center",
       align: "center",
-      // headerAlign: "center",
       renderCell: ( {row} ) => {
         return (
           <Box >
@@ -61,12 +63,9 @@ export const UsersPage = () => {
                 <EditIcon />
               </IconButton>
             </Tooltip>
-
             <Tooltip title="Eliminar">
-
               <IconButton
                 onClick={() => handleDelete( row._id, row.name )}
-
                 sx={{color: colors.redAccent[ 600 ]}}
               >
                 <DeleteIcon />
@@ -76,13 +75,13 @@ export const UsersPage = () => {
         );
       },
     },
-  ], [ colors, handleDelete, navigate ] );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [ colors, navigate ] );
 
   const getRowId = ( row ) => row._id;
 
-
   //**************************************************/ LOADING
-  if ( loading ) {
+  if ( isLoading ) {
     return (
       <Box className='h-screen flex flex-col gap-4 justify-center items-center'>
         <Typography variant="h6" component="div">
@@ -104,7 +103,6 @@ export const UsersPage = () => {
     );
   }
 
-
   const newUser = () => {
     navigate( '/users/create' );
   }
@@ -121,15 +119,12 @@ export const UsersPage = () => {
           <GroupAddOutlinedIcon sx={{mr: "15px"}} />
           New
         </Button>
-
       </Box>
-
       <Box
         className='border-1 border-slate-500 mt-10 w-full h-full rounded-sm'
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
-            // overflow: 'auto'
           },
           "& .MuiDataGrid-cell, .MuiDataGrid-columnHeader": {
             borderBottom: "none",

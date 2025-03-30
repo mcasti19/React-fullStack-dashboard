@@ -15,9 +15,14 @@ import LoadingSpinner from "../../../globalUI/LoadingSpinner";
 export const EmployeesPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
-  const {data: employees, error, loading, handleDelete} = useApi( 'employees' );
+  const {data: employees, error, isLoading, deleteData} = useApi( 'employees' );
   const navigate = useNavigate();
 
+  const handleDelete = ( id ) => {
+    if ( window.confirm( '¿Eliminar este usuario?' ) ) {
+      deleteData.mutate( id );
+    }
+  };
 
   useEffect( () => {
     // console.log( 'EMPLOYEES>>>: ', employees );
@@ -75,22 +80,23 @@ export const EmployeesPage = () => {
         );
       },
     },
-  ], [ colors, handleDelete, navigate, employees ] )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  ], [ colors, navigate, employees ] )
 
   const newEmployee = () => {
     navigate( '/employees/create' );
   }
 
-  // if ( loading ) {
-  //   return (
-  //     <Box className='h-screen flex flex-col gap-4 justify-center items-center'>
-  //       <Typography variant="h6" component="div">
-  //         Loading Employees...
-  //       </Typography>
-  //       <CircularProgress color='info' />
-  //     </Box>
-  //   );
-  // }
+  if ( isLoading ) {
+    return (
+      <Box className='h-screen flex flex-col gap-4 justify-center items-center'>
+        <Typography variant="h6" component="div">
+          Loading Employees...
+        </Typography>
+        <CircularProgress color='info' />
+      </Box>
+    );
+  }
   // console.log( 'ERROR>>>', error );
 
   if ( error === 'No Employees Found.' ) {
@@ -163,7 +169,7 @@ export const EmployeesPage = () => {
         >
 
           {
-            loading ? (
+            isLoading ? (
               // <LoadingSpinner title="Loading Employees" color='primary'/>
               <Box className='h-screen -mt-32 flex flex-col gap-4 justify-center items-center'>
                 <Typography variant="h6" component="div">

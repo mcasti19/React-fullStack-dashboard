@@ -16,16 +16,15 @@ export const AppRouter = () => {
         console.log( 'Chequeando', status );
         revalidateToken();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ status, location.pathname ] );
+    }, [ location.pathname ] );
 
     if ( status === 'checking' ) {
         return (
-            <Box className='h-screen'>
-                {/* <Typography variant="h2" component="div"> */}
-                {/* Loading.... */}
-                <Variants />
-                {/* </Typography> */}
-                {/* <CircularProgress color='info' /> */}
+            <Box className='h-screen flex flex-col justify-center items-center'>
+                <Typography variant="h2" component="div">
+                    Loading....
+                </Typography>
+                <CircularProgress color='info' />
             </Box>
         )
     }

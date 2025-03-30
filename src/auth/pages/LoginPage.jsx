@@ -10,7 +10,8 @@ import Typography from '@mui/material/Typography';
 import {AuthLayout} from '../layout/AuthLayout';
 import {useAuthStore} from '../../hooks/useAuthStore';
 import {useForm} from '../../hooks/useForm';
-import {useState} from 'react';
+import {Backdrop, CircularProgress} from '@mui/material';
+import {useEffect} from 'react';
 
 const loginFormFields = {
   email: '',
@@ -36,59 +37,29 @@ export default function LoginPage() {
     setFormSubmitted
   } = useForm( loginFormFields, formValidations );
 
-  const [ emailError, setEmailError ] = useState( false );
-  const [ emailErrorMessage, setEmailErrorMessage ] = useState( '' );
-  const [ passwordError, setPasswordError ] = useState( false );
-  const [ passwordErrorMessage, setPasswordErrorMessage ] = useState( '' );
+  useEffect( () => {
+    console.log( status );
+  }, [ status ] )
 
-
-
-  console.log( status );
 
 
   const loginSubmit = ( event ) => {
     event.preventDefault();
-    console.log( emailValid, passwordValid );
+    // console.log( emailValid, passwordValid );
     setFormSubmitted( true );
 
     if ( !isFormValid ) return
     startLogin( formState );
   }
 
-  const validateInputs = () => {
-    const email = document.getElementById( 'email' );
-    const password = document.getElementById( 'password' );
-
-    let isValid = true;
-
-    if ( !email.value || !/\S+@\S+\.\S+/.test( email.value ) ) {
-      setEmailError( true );
-      setEmailErrorMessage( 'Please enter a valid email address.' );
-      isValid = false;
-    } else {
-      setEmailError( false );
-      setEmailErrorMessage( '' );
-    }
-
-    if ( !password.value || password.value.length < 6 ) {
-      setPasswordError( true );
-      setPasswordErrorMessage( 'Password must be at least 6 characters long.' );
-      isValid = false;
-    } else {
-      setPasswordError( false );
-      setPasswordErrorMessage( '' );
-    }
-
-    return isValid;
-  };
-
-
-
-
-
-
   return (
     <AuthLayout title='Sign In' >
+      <Backdrop
+        open={status === 'checking'}
+        sx={{color: '#fff', zIndex: ( theme ) => theme.zIndex.drawer + 1}}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Box
         component="form"
         onSubmit={loginSubmit}
@@ -115,6 +86,7 @@ export default function LoginPage() {
             onChange={onInputChange}
             error={formSubmitted}
             helperText={formSubmitted && emailValid}
+          // disabled={ }
           />
         </FormControl>
         <FormControl>
@@ -136,9 +108,11 @@ export default function LoginPage() {
           type="submit"
           fullWidth
           variant="contained"
-          onClick={validateInputs}
+          disabled={status === 'checking'}
         >
-          Sign in
+          {status === 'checking' ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : 'Sign in'}
         </Button>
       </Box>
     </AuthLayout>

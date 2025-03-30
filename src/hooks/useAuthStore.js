@@ -25,23 +25,19 @@ export const useAuthStore = () => {
             dispatch( cleanErrorMessage() );
         }, 1000 );
     };
-
     const storeToken = ( token, userData ) => {
         localStorage.setItem( 'token', token );
         localStorage.setItem( 'token-init-date', new Date().getTime() );
         dispatch( onLogin( userData ) );
     };
 
-
     // ************************************** ACTIONS 
     const startLogin = async ( {email, password} ) => {
         dispatch( onChecking() );
-        if ( !email || !password ) return null
         try {
             const {data} = await dashboardApi.post( `/auth/login`, {email, password} );
             const {token, ...userData} = data.user; // Extraer el token y el resto de los datos
             storeToken( token, userData );
-
             Swal.fire( {
                 title: 'Successful Login',
                 text: 'Wellcome to Application',
@@ -76,7 +72,6 @@ export const useAuthStore = () => {
             dispatch( onLogout() );
             return false;
         }
-
         try {
             const decoded = jwtDecode( token );
             // const isExpired = decoded.exp * 1000 < Date.now(); //! usar isExpired en el if mas abajo si se activa esta linea
@@ -104,7 +99,6 @@ export const useAuthStore = () => {
             return false;
         }
     };
-
 
     const revalidateToken = async () => {
         const Storedtoken = localStorage.getItem( 'token' )
