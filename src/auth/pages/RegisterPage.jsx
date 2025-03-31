@@ -9,7 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import {AuthLayout} from '../../layout/AuthLayout';
+import {AuthLayout} from '../layout/AuthLayout';
 import {useState} from 'react';
 
 export default function RegisterPage() {

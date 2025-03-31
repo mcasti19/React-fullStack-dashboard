@@ -2,8 +2,8 @@ import {useState} from 'react';
 import {Box, Typography, TextField, Select, MenuItem, Button, useTheme, FormControl, InputLabel, Grid2} from '@mui/material';
 import {tokens} from '../../../../theme';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import useAxios from '../../../../hooks/useAxios';
 import {useForm} from '../../../../hooks/useForm';
+import dashboardApi from '../../../../api/dashboardApi';
 
 const formData = {
     img_profile: '',
@@ -23,7 +23,7 @@ export default function EmployeeForm( {employeesError, employeesLoading, } ) {
     const theme = useTheme();
     const colors = tokens( theme.palette.mode );
 
-    const axiosInstance = useAxios();
+
     // const [ formSubmitted, setFormSubmitted ] = useState( false );
     const [ selectedImage, setSelectedImage ] = useState( null );
 
@@ -52,7 +52,7 @@ export default function EmployeeForm( {employeesError, employeesLoading, } ) {
         // setFormSubmitted( true );
 
         try {
-            axiosInstance.post( `${ import.meta.env.VITE_API_URL }/employees`, formState )
+            dashboardApi.post( `/employees`, formState )
                 .then( ( respuesta ) => {
                     console.log( 'Employee creado con éxito:', respuesta );
                 } )

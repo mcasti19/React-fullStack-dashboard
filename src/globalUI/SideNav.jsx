@@ -56,7 +56,7 @@ export const SideNav = () => {
 
   const SidebarHeader = ( {isCollapsed} ) => (
     <>
-      <Box display="flex" justifyContent="center" alignItems="center">
+      <Box className='flex justify-center items-center'>
         <img
           alt="profile-user"
           src='logo.jpg'
@@ -118,6 +118,7 @@ export const SideNav = () => {
           margin: "10px 5px",
         },
       }}
+      className="border-2 !important"
     >
 
       <Menu iconShape="square">

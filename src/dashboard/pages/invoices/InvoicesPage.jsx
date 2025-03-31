@@ -4,20 +4,20 @@ import {tokens} from "../../../theme";
 // import {mockDataInvoices} from "../../../data/mockData";
 import Header from "../../components/Header";
 import {useEffect, useState} from "react";
-import useAxios from "../../../hooks/useAxios";
 import {Image} from "@mui/icons-material";
+import dashboardApi from "../../../api/dashboardApi";
 
 
 export const InvoicesPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
-  const axiosInstance = useAxios();
+
   const [ invoices, setInvoices ] = useState( [] );
 
   useEffect( () => {
     async function obtenerInvoices() {
       try {
-        const response = await axiosInstance.get( `${ import.meta.env.VITE_API_URL }/invoices` );
+        const response = await dashboardApi.get( `/invoices` );
 
         if ( response.status >= 200 && response.status < 300 ) {
           setInvoices( response.data );
@@ -31,7 +31,7 @@ export const InvoicesPage = () => {
     }
     obtenerInvoices();
 
-  }, [ axiosInstance ] )
+  }, [] )
 
 
   const columns = [

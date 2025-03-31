@@ -1,54 +1,57 @@
-import React, {useEffect, useState} from 'react';
-import {Box, Button, Chip, CircularProgress, FormControl, IconButton, InputLabel, MenuItem, Select, Tooltip, Typography, useTheme} from "@mui/material";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import React, {useState} from 'react';
+import {Box, CircularProgress, FormControl, InputLabel, MenuItem, Select, Typography, useTheme} from "@mui/material";
+
 // import {tokens} from "../../../theme";
 // import {useGoBack} from "../../../hooks/useGoBack";
 import BreadcrumbsComponent from '../../../globalUI/Breadcrumbs';
-import SelecteUsers from './components/APAGADO-SelecteUsers';
 import useApi from '../../../hooks/useApi';
-import PermisosComponent from './components/PermisosComponent';
-import {useAuth} from '../../../store/auth/authContext';
 import {tokens} from '../../../theme';
 import UserForm from './components/UserForm';
 
-
 const breadcrumbs = [
-  {
-    label: 'Dashboard',
-    to: '/',
-  },
-  {
-    label: 'Users',
-    to: -1,
-  },
-  {
-    label: 'Create new User',
-  },
+  {label: 'Dashboard', to: '/'},
+  {label: 'Users', to: -1},
+  {label: 'Create new User'},
 ];
 
 export const CreateUserPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
-  // const goBack = useGoBack( '/team' );
-  const {
-    data: employees,
-    // error: employeesError,
-    // loading: employeesLoading
-  } = useApi( 'employees' );
-  const {
-    data: roles,
-    // error: rolesError,
-    // loading: rolesLoading
-  } = useApi( 'roles' );
   const [ selectedEmployee, setSelectedEmployee ] = useState( null );
-  const {authenticatedUser} = useAuth();
+  // eslint-disable-next-line no-unused-vars
+  const [ paginationModel, setPaginationModel ] = useState( {
+    page: 0,
+    pageSize: 100,
+  } );
+  // Cargar empleados
 
-  // console.log( "EMPLOYEES ", employees );
+  const {data: employeeData, error: employeeError, isLoading: employeeLoading} = useApi( 'employees', paginationModel.page, paginationModel.pageSize );
+  const employees = employeeData?.employees || [];
+  console.log( employees );
+
+  // Cargar roles
+  const {data: roleData, error: roleError, isLoading: roleLoading} = useApi( 'roles' );
+  const roles = roleData || [];
+  console.log( roles );
 
 
-  useEffect( () => {
-    // console.log( 'Estado authenticatedUser en CreateUserPage:', authenticatedUser );
-  }, [ authenticatedUser ] )
+
+  // Manejo de errores
+  if ( employeeLoading || roleLoading ) {
+    return <CircularProgress />;
+  }
+
+  if ( employeeError ) {
+    return <Typography color="error">Error al cargar empleados: {employeeError.message}</Typography>;
+  }
+
+  if ( roleError ) {
+    return <Typography color="error">Error al cargar roles: {roleError.message}</Typography>;
+  }
+
+
+
+
 
 
   const EmployeeSelector = ( {employees, onSelect, selectedEmployee} ) => {
@@ -83,13 +86,14 @@ export const CreateUserPage = () => {
   };
 
   return (
+
     <Box
       width={`calc(100% - 4%)`}
       m="20px auto 0"
       display={'flex'}
       flexDirection={'column'}
       gap={5}
-      overflow={'hidden'}
+      overflow={'auto'}
     >
       <BreadcrumbsComponent breadcrumbs={breadcrumbs} />
       <Box className='w-full flex flex-col gap-5'>
@@ -100,11 +104,6 @@ export const CreateUserPage = () => {
       </Box>
 
       <UserForm employee={selectedEmployee} roles={roles} />
-
-
-
-
-      {/* <PermisosComponent/> */}
     </Box>
   )
 }

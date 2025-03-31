@@ -49,7 +49,7 @@ export const StatsBox = () => {
             {
                 Stats.map( ( stat, index ) => (
                     <Grid2 key={index} size={{xs: 12, md: 6, lg: 3}}>
-                        <Box backgroundColor={colors.primary[ 400 ]} className='flex items-center justify-center h-32'>
+                        <Box backgroundColor={colors.primary[ 400 ]} className='flex items-center justify-center h-full'>
                             <StatBox
                                 title={stat.title}
                                 subtitle={stat.subtitle}

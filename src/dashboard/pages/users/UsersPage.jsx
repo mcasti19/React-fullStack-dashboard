@@ -1,176 +1,106 @@
-import {useMemo} from "react";
-import {Box, Button, Chip, CircularProgress, IconButton, Tooltip, Typography, useTheme} from "@mui/material";
-import {DataGrid, GridToolbar} from "@mui/x-data-grid";
-import {tokens} from "../../../theme";
-
-import Header from "../../components/Header";
-import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-
-import useApi from '../../../hooks/useApi';
+import {useMemo, useState} from 'react';
 import {useNavigate} from 'react-router';
+import {Button, Chip, useTheme} from '@mui/material';
+import {GroupAddOutlined, Edit, Delete} from '@mui/icons-material';
+
+
 import {getRoleColor, getRoleIcon} from './helper/helpers';
+import {TableActionButton, TableDataGrid} from '../../components/TableDataGrid';
+import useApi from '../../../hooks/useApi';
+import {tokens} from '../../../theme';
 
 export const UsersPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
-  const {data: users, error, loading, handleDelete, } = useApi( 'users' );
-
   const navigate = useNavigate();
+  const [ paginationModel, setPaginationModel ] = useState( {
+    page: 0,
+    pageSize: 5
+  } );
 
-  // console.log( "DATA DESDE Users PAGE", users );
+  const {data, error, isLoading, deleteData} = useApi(
+    'users',
+    paginationModel.page + 1,
+    paginationModel.pageSize
+  );
 
-  //*******************************/ COLUMNS
-  const columns = useMemo( () => [
-
-    {field: '_id', headerName: "ID", flex: 1, },
-    {field: 'name', headerName: "Name", cellClassName: "name-column--cell", flex: 1, width: 125, minWidth: 100, maxWidth: 150},
-    {field: 'username', headerName: "User ", type: "number", headerAlign: "left", align: "left", },
-    {field: 'email', headerName: "Email", width: 125, minWidth: 180, maxWidth: 200},
-    {field: "phone", headerName: "Phone Number", flex: 1},
-    {
-      field: "roles", headerName: "Roles", align: "center", justify: "center",
-      renderCell: ( {row: {roles}} ) => {
-        return roles.map( role => (
-          <Chip
-            key={role._id}
-            label={role.name}
-            icon={getRoleIcon( role.name )}
-            size='medium'
-            sx={{backgroundColor: getRoleColor( role.name, colors )}}
-            className='m-2 w-28'
-          />
-        ) );
-      }
-    },
-    {
-      field: "actions",
-      headerName: "Actions",
-      align: "center",
-      headerAlign: "center",
-      renderCell: ( {row} ) => {
-        return (
-          <Box sx={{display: 'flex', gap: 1}}>
-            <Tooltip title="Editar usuario">
-              <IconButton
-                onClick={() => navigate( `/users/edit/${ row._id }` )}
-                sx={{color: colors.blueAccent[ 400 ]}}
-              >
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title="Eliminar">
-
-              <IconButton
-                onClick={() => handleDelete( row._id, row.name )}
-
-                sx={{color: colors.redAccent[ 600 ]}}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        );
+  const columns = useMemo( () =>
+    [
+      {field: '_id', headerName: 'ID', flex: 0.5, minWidth: 100},
+      {field: 'name', headerName: 'Name', flex: 1, minWidth: 120},
+      {field: 'username', headerName: 'User', flex: 1, minWidth: 120},
+      {field: 'email', headerName: 'Email', flex: 1.5, minWidth: 250},
+      {field: 'phone', headerName: 'Phone', flex: 1, minWidth: 100},
+      {
+        field: 'roles',
+        headerName: 'Roles',
+        flex: 1,
+        minWidth: 120,
+        renderCell: ( {row: {roles}} ) =>
+          roles.map( ( role ) => (
+            <Chip
+              key={role._id}
+              label={role.name}
+              icon={getRoleIcon( role.name )}
+              size='medium'
+              sx={{backgroundColor: getRoleColor( role.name, colors )}}
+              className='m-2 w-28'
+            />
+          ) )
       },
-    },
-  ], [ colors, handleDelete, navigate ] );
+      {
+        field: 'actions',
+        headerName: 'Actions',
+        renderCell: ( {row} ) => (
+          <>
+            <TableActionButton
+              icon={<Edit />}
+              tooltip='Editar usuario'
+              color={colors.blueAccent[ 400 ]}
+              onClick={() => navigate( `/users/edit/${ row._id }` )}
+            />
 
-  const getRowId = ( row ) => row._id;
+            <TableActionButton
+              icon={<Delete />}
+              tooltip='Eliminar usuario'
+              color={colors.redAccent[ 500 ]}
+              onClick={() => {
+                if ( window.confirm( '¿Eliminar este usuario?' ) ) {
+                  deleteData.mutate( row._id );
+                }
+              }}
+            />
+          </>
+        )
+      }
+    ],
+    [ navigate, deleteData, colors ]
+  );
 
+  const createButton = (
+    <Button
+      variant='contained'
+      startIcon={<GroupAddOutlined />}
+      onClick={() => navigate( '/users/create' )}
+    >
+      New
+    </Button>
+  );
 
-  //**************************************************/ LOADING
-  if ( loading ) {
-    return (
-      <Box className='h-screen flex flex-col gap-4 justify-center items-center'>
-        <Typography variant="h6" component="div">
-          Loading Users...
-        </Typography>
-        <CircularProgress color='info' />
-      </Box>
-    );
-  }
-
-  //**************************************************/ ERROR
-  if ( error ) {
-    return (
-      <Box className='h-screen flex justify-center items-center'>
-        <Typography variant="h6" component="div">
-          Error al cargar usuarios: {error.message}
-        </Typography>
-      </Box>
-    );
-  }
-
-
-  const newUser = () => {
-    navigate( '/users/create' );
-  }
 
   return (
-    // <Box m="20px" width={`calc(100% - 60px)`} minWidth={900}>
-    <Box >
-      <Box className='flex justify-between items-center'>
-        <Header title="Users" subtitle="Managing the Team Members" />
-        <Button className="text-sm font-bold flex justify-between items-center"
-          sx={{backgroundColor: colors.blueAccent[ 700 ], color: colors.grey[ 100 ], }}
-          onClick={newUser}
-        >
-          <GroupAddOutlinedIcon sx={{mr: "15px"}} />
-          New
-        </Button>
-
-      </Box>
-      <Box
-        m="40px 0 0 0"
-        width={`100%`}
-        height="70vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-            // overflow: 'auto'
-          },
-          "& .MuiDataGrid-cell, .MuiDataGrid-columnHeader": {
-            borderBottom: "none",
-            // minWidth: "auto",
-            background: "transparent !important"
-
-          },
-          // "& .MuiDataGrid-columnHeader": {
-          //   borderBottom: "none",
-          //   minWidth: "100px"
-          // },
-          "& .name-column--cell": {
-            color: colors.greenAccent[ 300 ],
-          },
-          "& .MuiDataGrid-container--top [role=row]": {
-            // backgroundColor: colors.blueAccent[ 200 ],
-            backgroundColor: "transparent",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[ 400 ],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[ 700 ],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${ colors.greenAccent[ 200 ] } !important`,
-          },
-        }}
-      >
-        <DataGrid
-          sx={{height: '100%'}}
-          // checkboxSelection
-          rows={users}
-          columns={columns}
-          getRowId={getRowId}
-          components={{
-            Toolbar: GridToolbar
-          }}
-        />
-      </Box>
-    </Box>
+    <TableDataGrid
+      title='Users'
+      subtitle='Gestión de miembros del equipo'
+      rows={data?.users || []}
+      columns={columns}
+      rowCount={data?.metadata?.totalItems || 0}
+      loading={isLoading}
+      error={error}
+      paginationModel={paginationModel}
+      onPaginationModelChange={setPaginationModel}
+      createButton={createButton}
+      entityName='usuarios'
+    />
   );
 };
