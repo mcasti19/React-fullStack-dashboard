@@ -88,7 +88,7 @@ export default function UserForm( {employee, roles} ) {
             display={'flex'}
             flexDirection={'column'}
             gap={5}
-            className='p-2 sm:p-7'
+            className='p-2 sm:p-7 '
         >
             <Typography variant="h2" component="div">New User</Typography>
             <form onSubmit={handleSubmit} className='w-full flex flex-col gap-6 h-full '>
@@ -185,11 +185,11 @@ export default function UserForm( {employee, roles} ) {
                                             onChange={handleRoleChange}
                                             required
                                         >
-                                            {roles.map( ( role ) => (
+                                            {roles ? roles.map( ( role ) => (
                                                 <MenuItem key={role._id} value={role._id}>
                                                     {role.name}
                                                 </MenuItem>
-                                            ) )}
+                                            ) ) : null}
                                         </Select>
                                     </FormControl>
                                 </Box>
