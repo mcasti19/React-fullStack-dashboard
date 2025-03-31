@@ -18,6 +18,7 @@ export const CreateUserPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
   const [ selectedEmployee, setSelectedEmployee ] = useState( null );
+  // eslint-disable-next-line no-unused-vars
   const [ paginationModel, setPaginationModel ] = useState( {
     page: 0,
     pageSize: 100,
