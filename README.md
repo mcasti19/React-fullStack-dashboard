@@ -79,4 +79,3 @@ Si tienes alguna pregunta o sugerencia, no dudes en contactarme a través de [ca
 ---
 
 ¡Gracias por visitar el proyecto! 🚀
-```
