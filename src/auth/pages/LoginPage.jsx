@@ -14,8 +14,8 @@ import {Backdrop, CircularProgress} from '@mui/material';
 import {useEffect} from 'react';
 
 const loginFormFields = {
-  email: '',
-  password: '',
+  email: 'administrator@admin.com',
+  password: '123123',
 }
 
 const formValidations = {
@@ -38,14 +38,14 @@ export default function LoginPage() {
   } = useForm( loginFormFields, formValidations );
 
   useEffect( () => {
-    console.log( status );
+    console.log( 'STATUS: ',status );
   }, [ status ] )
 
 
 
   const loginSubmit = ( event ) => {
     event.preventDefault();
-    // console.log( emailValid, passwordValid );
+    console.log( formState );
     setFormSubmitted( true );
 
     if ( !isFormValid ) return
@@ -79,7 +79,7 @@ export default function LoginPage() {
             required
             type="email"
             className="form-control"
-            placeholder="Email"
+            placeholder="administrator@admin.com"
             autoFocus
             name='email'
             value={email}
@@ -96,7 +96,7 @@ export default function LoginPage() {
             error={formSubmitted}
             type="password"
             className="form-control"
-            placeholder="Password"
+            placeholder="123123"
             name='password'
             value={password}
             onChange={onInputChange}
