@@ -1,4 +1,3 @@
-```markdown
 # 🚀 MERN Dashboard
 
 Un **Dashboard** completo construido con el stack **MERN** (MongoDB, Express, React, Node.js) que permite gestionar usuarios, empleados y facturas con funcionalidades de CRUD.
