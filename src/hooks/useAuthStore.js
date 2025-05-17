@@ -80,10 +80,10 @@ export const useAuthStore = () => {
             const timeRemaining = expirationTime - currentTime;
 
             // Mostrar tiempo restante en formato minutos:segundos
-            const minutes = Math.floor( timeRemaining / 60000 );
-            const seconds = Math.floor( ( timeRemaining % 60000 ) / 1000 );
 
-            console.log( `%cTiempo restante: ${ minutes }m ${ seconds }s`, 'color: #2ecc71; font-weight: bold;' );
+            // const minutes = Math.floor( timeRemaining / 60000 );
+            // const seconds = Math.floor( ( timeRemaining % 60000 ) / 1000 );
+            // console.log( `%cTiempo restante: ${ minutes }m ${ seconds }s`, 'color: #2ecc71; font-weight: bold;' );
 
             if ( timeRemaining <= 0 ) {
                 console.log( 'Token expirado!' );

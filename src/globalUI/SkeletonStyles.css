@@ -1,0 +1,54 @@
+
+.skeleton-wrapper {
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .skeleton-line {
+    background: #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  
+  .skeleton-box {
+    background: #e0e0e0;
+    border-radius: 8px;
+    margin: 4px;
+  }
+  
+  .skeleton-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .grid-row {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+  }
+  
+  /* Animación de carga */
+  @keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+  }
+  
+  .skeleton-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(
+      90deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.4) 50%,
+      rgba(255,255,255,0) 100%
+    );
+    animation: shimmer 1.5s infinite;
+  }
+  

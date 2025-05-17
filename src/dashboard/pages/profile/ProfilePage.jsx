@@ -1,21 +1,51 @@
-import React, {useContext} from 'react';
-import {AuthContext} from './authContext';
+import {Label} from '@mui/icons-material';
+import {Avatar, Card, Grid2, Paper, Stack} from '@mui/material';
+import {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {SkeletonProfile} from '../../../globalUI/SkeletonProfile';
 
-const Profile = () => {
-    const {user} = useContext( AuthContext );
+export const ProfilePage = () => {
+    // const {user} = useSelector( state => state.auth );
 
-    if ( !user ) {
-        return <p>No estás autenticado.</p>;
-    }
+    // const [ isLoading, setIsLoading ] = useState( true )
+
+    // useEffect( () => {
+    //     if ( !user ) {
+    //         return null
+    //     }
+    //     setIsLoading( false );
+    // }, [ user ] )
+
+
+
 
     return (
-        <div>
-            <h2>Perfil de Usuario</h2>
-            <p>Email: {user.email}</p>
-            <p>Nombre: {user.name}</p>
-            {/* Agrega más campos según la información que tengas del usuario */}
+
+
+        <div className='bg-slate-200'>
+            <img src="./construccion.png" alt="Section_under_contruction" />
         </div>
+
+        // isLoading ? ( <SkeletonProfile /> )
+        //     : ( <Grid2 container border={1} height='100%'>
+        //         <Grid2>
+        //             <Paper className='border-1'>
+        //                 <Card>
+        //                     <Grid2 container border={1}>
+        //                         <Stack>
+        //                             <Avatar variant='circular'>
+        //                                 <img src="avatar.png" alt="profile-user" width={100} height={100} />
+        //                             </Avatar >
+        //                         </Stack >
+        //                     </Grid2 >
+        //                 </Card >
+        //             </Paper >
+        //         </Grid2 >
+
+
+        //         <Grid2>
+        //         </Grid2>
+        //     </Grid2 > )
+
     );
 };
-
-export default Profile;

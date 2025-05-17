@@ -1,27 +1,34 @@
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query';
 import dashboardApi from '../api/dashboardApi';
+import {useState} from 'react';
 
 const useApi = ( endpoint, page = 1, pageSize = 5 ) => {
   const queryClient = useQueryClient();
+  const [ fetchError, setFetchError ] = useState( null )
 
   const fetchData = async ( page, pageSize ) => {
-    const response = await dashboardApi.get( `/${ endpoint }`, {
-      params: {
-        page,
-        pageSize,
-      },
-    } );
-    return response.data;
+    try {
+      const response = await dashboardApi.get( `/${ endpoint }`, {
+        params: {
+          page,
+          pageSize,
+        },
+      } );
+
+      return response.data;
+    } catch ( error ) {
+      setFetchError( error )
+      console.log( "Entro en el error", error );
+    }
   };
 
   const {data, error, isLoading} = useQuery( {
-    queryKey: [ endpoint, page, pageSize ],
+    queryKey: [ endpoint, {'page': page, 'pageSize': pageSize} ],
     queryFn: () => fetchData( page, pageSize ),
-    staleTime: 1000 * 60 * 5,
-    cacheTime: 1000 * 60 * 10,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 60,
   } );
 
-  // Mutación para crear datos
   const createData = useMutation( {
     mutationFn: async ( newData ) => {
       await dashboardApi.post( `/${ endpoint }`, newData );
@@ -31,7 +38,6 @@ const useApi = ( endpoint, page = 1, pageSize = 5 ) => {
     },
   } );
 
-  // Mutación para actualizar datos
   const updateData = useMutation( {
     mutationFn: async ( updatedData ) => {
       await dashboardApi.put( `/${ endpoint }/${ updatedData.id }`, updatedData );
@@ -41,13 +47,14 @@ const useApi = ( endpoint, page = 1, pageSize = 5 ) => {
     },
   } );
 
-  // Mutación para eliminar datos
   const deleteData = useMutation( {
     mutationFn: async ( id ) => {
       await dashboardApi.delete( `/${ endpoint }/${ id }` );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries( [ endpoint ] );
+      queryClient.invalidateQueries(
+        [ endpoint, {'page': page, 'pageSize': pageSize} ]
+      );
     },
   } );
 
@@ -59,6 +66,7 @@ const useApi = ( endpoint, page = 1, pageSize = 5 ) => {
     updateData,
     deleteData,
     fetchData,
+    fetchError
   };
 };
 export default useApi;

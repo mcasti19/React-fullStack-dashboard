@@ -10,14 +10,14 @@ import {BarchartData} from "../../components/BarChart";
 import {LinechartData} from "../../components/LinechartData";
 import {PiechartData} from "../pie/components/PiechartData";
 import {StatsBox} from "./components/Stats";
-import {useSelector} from "react-redux";
+// import {useSelector} from "react-redux";
 
 export const DashboardPage = () => {
   const theme = useTheme();
   const colors = tokens( theme.palette.mode );
 
-  const {user} = useSelector( state => state.auth );
-  console.log( user );
+  // const {user} = useSelector( state => state.auth );
+  // console.log( user );
 
 
   return (

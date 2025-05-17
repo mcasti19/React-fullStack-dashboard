@@ -1,6 +1,6 @@
 import {Box} from '@mui/material'
 import React from 'react'
-import RolePermissionManager from './components/RolePermissionManager'
+import {RolePermissionManager} from './components/RolePermissionManager'
 import Header from '../../components/Header'
 // import useApi from '../../../hooks/useApi'
 

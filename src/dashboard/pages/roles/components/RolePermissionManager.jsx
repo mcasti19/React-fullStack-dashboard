@@ -5,32 +5,22 @@ import {
     Typography,
     Checkbox,
     FormControlLabel,
-    Button,
-    CircularProgress,
     Snackbar,
     Alert,
     List,
     ListItem,
     ListItemText,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    TextField,
+
 } from '@mui/material';
+
 import {Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon} from '@mui/icons-material';
-import roleService from '../../../../helpers/roleServices';
 import useApi from '../../../../hooks/useApi';
 
-const RolePermissionManager = () => {
-    const {data} = useApi( `roles` );
+export const RolePermissionManager = () => {
+    const {data, isLoading, error} = useApi( `roles` );
     const [ roles, setRoles ] = useState( [] );
     const [ selectedRole, setSelectedRole ] = useState( null );
-    const [ loading, setLoading ] = useState( false );
-    const [ error, setError ] = useState( null );
     const [ success, setSuccess ] = useState( null );
-    const [ openDialog, setOpenDialog ] = useState( false );
-    const [ newRoleName, setNewRoleName ] = useState( '' );
 
     // Sample permissions - replace with your actual permissions
     const availablePermissions = [
@@ -43,8 +33,12 @@ const RolePermissionManager = () => {
     ];
 
     useEffect( () => {
-        console.log( roles );
-    }, [ roles ] )
+        // console.log( isLoading );
+
+        if ( roles ) {
+            console.log( roles );
+        }
+    }, [ roles, isLoading ] )
 
 
     // Fetch roles on component mount
@@ -58,6 +52,8 @@ const RolePermissionManager = () => {
 
     const handlePermissionToggle = ( permissionId ) => {
         if ( !selectedRole ) return;
+        console.log( selectedRole );
+
 
         setSelectedRole( prev => ( {
             ...prev,
@@ -67,99 +63,31 @@ const RolePermissionManager = () => {
         } ) );
     };
 
-    const handleSave = async () => {
-        if ( !selectedRole ) return;
-
-        setLoading( true );
-        try {
-            await roleService.updateRolePermissions( selectedRole._id, selectedRole.permissions );
-            setSuccess( 'Role permissions updated successfully' );
-            // setRoles( data );
-        } catch ( err ) {
-            console.log( err );
-
-            setError( 'Failed to update role permissions' );
-        } finally {
-            setLoading( false );
-        }
-    };
-
-    const handleCreateRole = async () => {
-        if ( !newRoleName.trim() ) return;
-
-        setLoading( true );
-        try {
-            await roleService.createRole( {name: newRoleName, permissions: []} );
-            setSuccess( 'Role created successfully' );
-            setOpenDialog( false );
-            setNewRoleName( '' );
-            // setRoles( data );
-        } catch ( err ) {
-            console.log( err );
-
-            setError( 'Failed to create role' );
-        } finally {
-            setLoading( false );
-        }
-    };
-
-    const handleDeleteRole = async ( roleId ) => {
-        if ( !window.confirm( 'Are you sure you want to delete this role?' ) ) return;
-
-        setLoading( true );
-        try {
-            await roleService.deleteRole( roleId );
-            setSuccess( 'Role deleted successfully' );
-            setSelectedRole( null );
-            // setRoles( data );
-        } catch ( err ) {
-            console.log( err );
-
-            setError( 'Failed to delete role' );
-        } finally {
-            setLoading( false );
-        }
-    };
-
     return (
-        <Box className="p-4 w-full">
+        <Box className="p-4 w-full gap-3 flex flex-col">
             <Typography variant="h4" className="mb-4">
                 Role & Permission Management
             </Typography>
 
             <Box className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Roles List */}
-                <Paper className="p-4">
-                    <Box className="flex justify-between items-center mb-4">
-                        {/* <Typography variant="h6">Roles</Typography> */}
-                        <Button
-                            startIcon={<AddIcon />}
-                            variant="contained"
-                            onClick={() => setOpenDialog( true )}
-                            size="small"
-                        >
-                            New Role
-                        </Button>
-                    </Box>
-
-                    <List>
-                        {roles.map( ( role ) => (
-                            <ListItem
-                                key={role._id}
-                                selected={selectedRole?._id === role._id}
-                                onClick={() => handleRoleSelect( role )}
-                                className="hover:bg-slate-900"
-                            >
-                                <ListItemText primary={role.name} />
-                                <DeleteIcon
-                                    className="text-red-500 cursor-pointer"
-                                    onClick={( e ) => {
-                                        e.stopPropagation();
-                                        handleDeleteRole( role._id );
-                                    }}
-                                />
-                            </ListItem>
-                        ) )}
+                <Paper className="p-4 flex gap-3">
+                    <List className='w-full flex flex-col justify-between items-center'>
+                        {isLoading ? <h1>Loading</h1>
+                            : (
+                                roles?.map( ( role ) => (
+                                    role.name !== 'admin' &&
+                                    <ListItem
+                                        key={role._id}
+                                        selected={selectedRole?._id === role._id}
+                                        onClick={() => handleRoleSelect( role )}
+                                        className="flex justify-between items-center gap-2 hover:bg-slate-600"
+                                    >
+                                        <ListItemText primary={role.name} />
+                                    </ListItem>
+                                ) )
+                            )
+                        }
                     </List>
                 </Paper>
 
@@ -179,30 +107,13 @@ const RolePermissionManager = () => {
                                             <Checkbox
                                                 checked={selectedRole.permissions.includes( permission.id )}
                                                 onChange={() => handlePermissionToggle( permission.id )}
-                                                color="primary"
+                                                color="default"
                                             />
                                         }
                                         label={permission.name}
                                         className="m-2"
                                     />
                                 ) )}
-                            </Box>
-
-                            <Box className="mt-4 flex justify-end gap-2">
-                                <Button
-                                    variant="outlined"
-                                    onClick={() => setSelectedRole( null )}
-                                    disabled={loading}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    onClick={handleSave}
-                                    disabled={loading}
-                                >
-                                    {loading ? <CircularProgress size={24} /> : 'Save Changes'}
-                                </Button>
                             </Box>
                         </>
                     ) : (
@@ -212,27 +123,6 @@ const RolePermissionManager = () => {
                     )}
                 </Paper>
             </Box>
-
-            {/* Create Role Dialog */}
-            <Dialog open={openDialog} onClose={() => setOpenDialog( false )}>
-                <DialogTitle>Create New Role</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        label="Role Name"
-                        fullWidth
-                        value={newRoleName}
-                        onChange={( e ) => setNewRoleName( e.target.value )}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setOpenDialog( false )}>Cancel</Button>
-                    <Button onClick={handleCreateRole} variant="contained">
-                        Create
-                    </Button>
-                </DialogActions>
-            </Dialog>
 
             {/* Notifications */}
             <Snackbar
@@ -256,5 +146,3 @@ const RolePermissionManager = () => {
         </Box>
     );
 };
-
-export default RolePermissionManager;

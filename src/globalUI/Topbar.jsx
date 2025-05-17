@@ -57,9 +57,9 @@ export const Topbar = () => {
       <Box className="flex justify-center items-center gap-7 ">
         {topIcons.map( ( topIcon, index ) => (
           <IconButton key={index} onClick={topIcon.onClick} className="border-2 w-5 h-5">
-            <Avatar sx={{bgcolor: colors.blueAccent[ 800 ], color: colors.greenAccent[ 100 ]}} className="">
-              {typeof topIcon.icon === 'function' ? topIcon.icon() : topIcon.icon}
-            </Avatar>
+            {/* <Avatar sx={{bgcolor: colors.blueAccent[ 800 ], color: colors.greenAccent[ 100 ]}} className=""> */}
+            {typeof topIcon.icon === 'function' ? topIcon.icon() : topIcon.icon}
+            {/* </Avatar> */}
           </IconButton>
         ) )}
       </Box>
