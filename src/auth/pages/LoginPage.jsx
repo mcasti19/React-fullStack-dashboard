@@ -41,8 +41,6 @@ export default function LoginPage() {
     console.log( 'STATUS: ',status );
   }, [ status ] )
 
-
-
   const loginSubmit = ( event ) => {
     event.preventDefault();
     console.log( formState );

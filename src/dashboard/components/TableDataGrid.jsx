@@ -7,8 +7,11 @@ import {
     Typography,
     useTheme
 } from '@mui/material';
-import {DataGrid, GridToolbar} from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
+
 import {tokens} from '../../theme';
+
+// import {CustomToolbar} from "./ToolbarDataGrid";
 
 export const TableDataGrid = ( {
     title,
@@ -22,9 +25,9 @@ export const TableDataGrid = ( {
     onPaginationModelChange,
     pageSizeOptions = [ 5, 10, 15, 25, 100 ],
     createButton,
-    getRowId = ( row ) => row._id,
-    toolbar = GridToolbar,
+    getRowId = ( row ) => row._id || row.id,
     entityName = 'registros',
+    // density,
     // eslint-disable-next-line no-unused-vars
     getRowIndex // Nueva prop para calcular el índice de la fila
 } ) => {
@@ -67,20 +70,25 @@ export const TableDataGrid = ( {
             </Box>
 
             <Box
-                className='border-1 border-slate-500 mt-10 w-full h-full rounded-sm'
+                className=' mt-10 w-full h-full rounded-sm'
                 m="40px 0 0 0"
                 width={`100%`}
                 height="75vh"
                 sx={{
-                    '& .MuiDataGrid-root': {border: 'none'},
+                    '& .MuiDataGrid-root': {border: 'none', borderRadius: '20px', },
                     '& .MuiDataGrid-cell, .MuiDataGrid-columnHeader': {
                         borderBottom: 'none',
-                        background: 'transparent !important',
+                        // background: 'transparent !important',
                         fontSize: '16px',
-                        color: colors.greenAccent[ 200 ]
+                        color: colors.greenAccent[ 200 ],
+                        backgroundColor: colors.primary[ 400 ],
+                        display: 'flex',
+                        alignItems: 'center'
+                        // padding: '10px'
                     },
                     '& .MuiDataGrid-virtualScroller': {
-                        backgroundColor: colors.primary[ 400 ]
+                        backgroundColor: colors.primary[ 400 ],
+                        // padding:'0 20px'   
                     },
                     '& .MuiDataGrid-footerContainer': {
                         borderTop: 'none',
@@ -96,17 +104,18 @@ export const TableDataGrid = ( {
                     rows={rows}
                     columns={columns}
                     loading={loading}
-                    disableColumnResize
-                    disableColumnMenu
+                    // disableColumnResize
+                    // disableColumnMenu
+                    // density={density}
                     density='comfortable'
                     getRowId={getRowId}
-                    components={{Toolbar: toolbar}}
                     pagination
                     paginationMode='server'
                     rowCount={rowCount}
                     pageSizeOptions={pageSizeOptions}
                     paginationModel={paginationModel}
                     onPaginationModelChange={onPaginationModelChange}
+                    checkboxSelection
                 />
             </Box>
         </Box>

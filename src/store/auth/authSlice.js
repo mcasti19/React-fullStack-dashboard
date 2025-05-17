@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const authSlice = createSlice( {
     name: 'auth',
     initialState: {
-        status: 'checking',// 'authenticated' 'not-authenticated'
+        status: 'checking',// 'authenticated' 'not-authenticated' 'checking
         user: {},
         errorMessage: undefined,
     },
@@ -30,7 +30,6 @@ export const authSlice = createSlice( {
         cleanErrorMessage: ( state ) => {
             state.errorMessage = undefined;
         },
-
     }
 } );
 

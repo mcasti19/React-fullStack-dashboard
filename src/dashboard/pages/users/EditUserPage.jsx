@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import useApi from "../../../hooks/useApi";
 
 import {
@@ -23,6 +23,7 @@ export const EditUserPage = () => {
     const colors = tokens( theme.palette.mode );
     const {userId} = useParams();
     const {data, error, loading} = useApi( `users/${ userId }` );
+    const navigate = useNavigate();
 
     const [ formValues, setFormValues ] = useState( {
         name: '',
@@ -50,6 +51,9 @@ export const EditUserPage = () => {
     }, [ data ] );
 
 
+    const goBack = () => {
+        navigate( -1 )
+    }
 
     const handleSubmit = async ( e ) => {
         e.preventDefault();
@@ -153,9 +157,10 @@ export const EditUserPage = () => {
                         </Button>
 
                         <Button
+                            onClick={goBack}
                             variant="outlined"
                             color="error"
-                            href="/usuarios"
+                            // href="/users"
                             className="border-red-500 text-red-500 hover:border-red-700 hover:text-red-700"
                         >
                             Cancelar

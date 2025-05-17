@@ -19,13 +19,34 @@ import {EditEmployeePage} from "../pages/employees/EditEmployeePage";
 import {RolesAndPermissionsPage} from "../pages/roles/RolesAndPermissions";
 import {FormPage} from "../pages/form/FormPage";
 import {TokenExpirationChecker} from "../components/TokenExpirationChecker";
+import {useSelector} from "react-redux";
+import {ProfilePage} from "../pages/profile/ProfilePage";
+// import {useEffect} from "react";
 
 export const DashboardRouter = () => {
+    const {user, status} = useSelector( state => state.auth );
+
+    // useEffect( () => {
+    //     console.log( 'DashboardRouter : ', {user} );
+    // }, [ user ] )
+
+
+    if ( status === 'checking' ) {
+        return (
+            <Box className='h-screen flex flex-col justify-center items-center'>
+                <Typography variant="h2" component="div">
+                    Loading....
+                </Typography>
+                <CircularProgress color='info' />
+            </Box>
+        )
+    }
+
     return (
         <>
             <TokenExpirationChecker />
             <div className="app">
-                <SideNav />
+                <SideNav user={user} />
                 <main className="w-full flex flex-col py-1 md:p-6 px-1 overflow-x-hidden h-dvh">
                     <Topbar />
                     <Routes>
@@ -40,7 +61,7 @@ export const DashboardRouter = () => {
                         <Route path="/invoices/create" element={<CreateInvoicePage />} />
                         <Route path="/calendar" element={<CalendarPage />} />
                         <Route path="/roles" element={<RolesAndPermissionsPage />} />
-                        <Route path="/form" element={<FormPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/bar" element={<BarChartPage />} />
                         <Route path="/pie" element={<Pie />} />
                         <Route path="/line" element={<LineChartPage />} />

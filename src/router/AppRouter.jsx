@@ -9,11 +9,15 @@ import Variants from '../dashboard/components/Skeleton';
 import {useLocation} from 'react-router';
 
 export const AppRouter = () => {
-    const {status, revalidateToken} = useAuthStore();
+    const {
+        // user, 
+        status,
+        revalidateToken
+    } = useAuthStore();
     const location = useLocation();
 
     useEffect( () => {
-        console.log( 'Chequeando', status );
+        // console.log( 'AppRouter Chequeando', {status, user} );
         revalidateToken();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ location.pathname ] );
@@ -28,6 +32,8 @@ export const AppRouter = () => {
             </Box>
         )
     }
+
+    // console.log( "USER: ", user );
 
     return (
         <Routes>
